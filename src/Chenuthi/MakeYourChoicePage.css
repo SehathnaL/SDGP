@@ -1,0 +1,153 @@
+body {
+    font-family: 'Sora', sans-serif;
+    margin: 0;
+}
+
+.p {
+    color: black;
+    font-size: 56px;
+    text-align: center; /* Center the text */
+    margin: 160px auto 20px; /* Center the paragraph */
+    margin-top: 110px;
+    margin-left: 550px;
+    margin-right: -100px;
+}
+
+#span1 {
+    color: #EAC42D;
+}
+
+.choice {
+    width: 500px;/* Use percentage for responsiveness */
+    height: 320px;
+    max-width: 500px; /* Limit max width */
+    margin: 20px auto; /* Center the fieldset */
+    border-radius: 20px;
+    text-align: left;
+    padding: 40px;
+    border: 2px solid #EAC42D; /* Yellow border */
+    background-color: white; /* Light grey background */
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-top: -330px;
+    margin-left: 80px;
+}
+
+#label {
+    font-size: 30px;
+    line-height: 1.5;
+}
+
+.button {
+    margin-left: 10px;
+    width: 100%; /* Make buttons full width */
+    max-width: 400px; /* Limit max width */
+    height: 80px;
+    background-color: #EAC42D;
+    border: none; /* Remove border */
+    padding: 25px;
+    font-size: 25px;
+    border-radius : 20px;
+    margin-top: 20px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    display: flex;
+    align-items: center;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    margin-bottom: 20px; /* Space between buttons */
+}
+
+/* Change color on hover */
+.button:hover {
+    background-color: #ffebaf; /* Change to a lighter color on hover */
+    color: black; /* Maintain text color */
+}
+
+/* Section Styles */
+.section {
+    width: 100vw;
+    height: auto; /* Adjust height as needed */
+    background-color: #ffffff;
+    padding: 2rem 0;
+    display: flex;
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center content */
+}
+
+/* Navigation Container */
+.nav-container {
+    width: 85%;
+    background-color: #fff8e6;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Logo Styles */
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #000;
+    margin: 0;
+}
+
+/* Menu Styles */
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+/* Menu Item Styles */
+.menu-item {
+    margin: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: #f0c300; /* Change color on hover */
+}
+
+/* Login Button Styles */
+.login-button {
+    width: 150px;
+    height: 47px;
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: 40px;
+}
+
+.login-button:hover {
+    background-color: #333; /* Darker color on hover */
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .menu {
+        display: block; /* Show the menu on smaller screens */
+        text-align: center;
+        width: 100%;
+    }
+
+    .menu-item {
+        display: block;
+        margin: 0.5rem 0;
+    }
+}

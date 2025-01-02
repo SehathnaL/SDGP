@@ -5,7 +5,7 @@ import ServiceText from "../ServiceText";
 import Image1 from "../../assets/Person 1.png";
 import Image2 from "../../assets/Person 2.png";
 import { useNavigate } from "react-router-dom";
-// import TrainerSelection from "../../Chenuthi/TrainerSelection.js";
+
 
 const Section = styled.section`
   min-height: ${(props) => `calc(100vh - ${props.theme.navHeight})`};
@@ -164,6 +164,10 @@ const Roadmap = () =>{
     navigate("/trainer-selection"); // Navigate to the TrainerSelection page
   };
 
+  const handleInterviewClick = () => {
+    navigate('/upload-cv'); // Navigate to the TrainerSelection page
+  };
+
   return (
     <Section id="Roadmap">
       <Container>
@@ -179,7 +183,7 @@ const Roadmap = () =>{
                 <p>a Personal Trainer</p>
               </OptionText>
             </OptionBox>
-            <OptionBox>
+            <OptionBox onClick={handleInterviewClick}>
               <OptionImage src={Image2} alt="Virtual Interview" />
               <OptionText>
                 <h3>Continue</h3>
