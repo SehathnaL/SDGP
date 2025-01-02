@@ -4,6 +4,8 @@ import { keyframes } from "styled-components";
 import ServiceText from "../ServiceText";
 import Image1 from "../../assets/Person 1.png";
 import Image2 from "../../assets/Person 2.png";
+import { useNavigate } from "react-router-dom";
+// import TrainerSelection from "../../Chenuthi/TrainerSelection.js";
 
 const Section = styled.section`
   min-height: ${(props) => `calc(100vh - ${props.theme.navHeight})`};
@@ -155,6 +157,13 @@ const OptionText = styled.div`
 `;
 
 const Roadmap = () =>{
+
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleHireClick = () => {
+    navigate("/trainer-selection"); // Navigate to the TrainerSelection page
+  };
+
   return (
     <Section id="Roadmap">
       <Container>
@@ -163,8 +172,8 @@ const Roadmap = () =>{
         </Box>
         <Box>
         <OptionContainer>
-            <OptionBox>
-              <OptionImage src={Image1}alt="Personal Trainer" />
+            <OptionBox onClick={handleHireClick}> {/* Add onClick here */}
+              <OptionImage src={Image1} alt="Personal Trainer" />
               <OptionText>
                 <h3>Hire</h3>
                 <p>a Personal Trainer</p>
