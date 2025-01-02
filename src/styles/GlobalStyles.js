@@ -23,6 +23,9 @@ const GlobalStyles = createGlobalStyle`
   color: inherit;
   text-decoration: none;
  }
+ html {
+    scroll-behavior: smooth;
+  }
 `;
 
 export default GlobalStyles;
