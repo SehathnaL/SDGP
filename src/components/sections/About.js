@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import Carousel from "../Carousel";
-// import Button from "../Button";
+import Button from "../Button";
 import { ThemeProvider } from "styled-components";
 import { dark } from "../../styles/Themes";
 
@@ -40,28 +40,6 @@ const Container = styled.div`
     & > *:last-child {
       width: 90%;
     }
-  }
-`;
-
-const StyledButton = styled.button`
-  background-color: ${(props) => props.theme.text};
-  color: ${(props) => props.theme.body};
-  border: none;
-  padding: 1rem 2rem;
-  border-radius: 50px;
-  font-size: ${(props) => props.theme.fontsm};
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.3s ease;
-
-  &:hover {
-    background-color: ${(props) => props.theme.text};
-    color: ${(props) => props.theme.body};
-    transform: scale(1.1);
-  }
-
-  @media (max-width: 40em) {
-    font-size: ${(props) => props.theme.fontxs};
   }
 `;
 
@@ -169,10 +147,6 @@ const scrollToRoadmap = () => {
   element.scrollIntoView({ behavior: "smooth" });
 };
 
-const Button = ({ text }) => (
-  <button onClick={scrollToRoadmap}>{text}</button>
-);
-
 
 const About = () => {
   return (
@@ -194,9 +168,7 @@ const About = () => {
           </SubTextLight>
           <ButtonContainer>
             <ThemeProvider theme={dark}>
-              <StyledButton onClick={scrollToRoadmap}>
-                Get Started
-              </StyledButton>
+              <Button text="Get Started" onClick={scrollToRoadmap} />
             </ThemeProvider>
           </ButtonContainer>
         </Box>

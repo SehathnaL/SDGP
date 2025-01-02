@@ -67,6 +67,13 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const scrollToAbout = () => {
+  const element = document.getElementById("about");
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 const TypeWriterText = () => {
   return (
     <>
@@ -87,7 +94,7 @@ const TypeWriterText = () => {
         />
       </Title>
       <ButtonContainer>
-        <Button text="Explore" link="#about" />
+      <Button text="Explore" onClick={scrollToAbout} />
       </ButtonContainer>
     </>
   );
