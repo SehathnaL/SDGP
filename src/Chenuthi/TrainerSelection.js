@@ -1,6 +1,16 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import "./TrainerSelection.css"; // Import the CSS file
+import Trainer1 from "../assets/Trainer1.jpg";
+import Trainer2 from "../assets/Trainer2.jpg";
+import Trainer3 from "../assets/Trainer3.jpg";
+import Trainer4 from "../assets/Trainer4.jpg";
+import Trainer5 from "../assets/Trainer5.jpg";
+import Trainer6 from "../assets/Trainer6.jpg";
+import Trainer7 from "../assets/Trainer7.jpg";
+import Trainer8 from "../assets/Trainer8.jpg";
+
+
 
 const TrainerCard = ({ trainer, onViewClick }) => {
     return (
@@ -84,7 +94,7 @@ const TrainerSelection = () => {
             company: "ABC Corp",
             experience: "10 years",
             rating: 4.8,
-            imgSrc: "./Images/Trainer1.png",
+            imgSrc: Trainer1,
             description:
                 "James Carter is an experienced hiring manager with expertise in identifying talent and coaching candidates to excel in interviews. He has a proven track record of helping professionals secure their dream jobs.",
         },
@@ -94,7 +104,7 @@ const TrainerSelection = () => {
             company: "XYZ Ltd",
             experience: "8 years",
             rating: 4.7,
-            imgSrc: "./Images/Trainer2.png",
+            imgSrc:Trainer2,
             description:
                 "Michael Reed specializes in leadership development and career growth. With years of experience coaching executives, he brings insights that are invaluable to career progression.",
         },
@@ -104,7 +114,7 @@ const TrainerSelection = () => {
             company: "NextStep Careers",
             experience: "13 years",
             rating: 4.9,
-            imgSrc: "./Images/Trainer5.jpeg",
+            imgSrc: Trainer3,
             description:
                 "Sophia Taylor specializes in creating effective interview strategies tailored to individual strengths. With over a decade of experience, she has helped numerous candidates secure their dream roles.",
         },
@@ -114,7 +124,7 @@ const TrainerSelection = () => {
             company: "CareerAscend",
             experience: "10 years",
             rating: 4.8,
-            imgSrc: "./Images/Trainer6.jpeg",
+            imgSrc: Trainer4,
             description:
                 "Emily Davis is an expert in behavioral interview techniques. She helps candidates master the STAR method and other frameworks to excel in competency-based interviews.",
         },
@@ -124,7 +134,7 @@ const TrainerSelection = () => {
             company: "Elite Recruiters",
             experience: "9 years",
             rating: 4.9,
-            imgSrc: "./Images/Trainer3.png",
+            imgSrc: Trainer5,
             description:
                 "William Harris is a recruitment expert who has worked with top-tier companies to scout and develop talent. His sessions provide a comprehensive understanding of the hiring process.",
         },
@@ -134,7 +144,7 @@ const TrainerSelection = () => {
             company: "SkillsPro",
             experience: "7 years",
             rating: 4.5,
-            imgSrc: "./Images/Trainer4.png",
+            imgSrc: Trainer6,
             description:
                 "Ethan Blake focuses on enhancing interpersonal and communication skills, ensuring candidates present themselves effectively during interviews and in the workplace.",
         },
@@ -144,7 +154,7 @@ const TrainerSelection = () => {
             company: "TeamWorks",
             experience: "11 years",
             rating: 4.7,
-            imgSrc: "./Images/Trainer7.jpeg",
+            imgSrc: Trainer7,
             description:
                 "Olivia Brown brings years of experience in team management and organizational leadership. She helps candidates master collaborative and leadership skills to stand out.",
         },
@@ -154,7 +164,7 @@ const TrainerSelection = () => {
             company: "SpeakEasy",
             experience: "15 years",
             rating: 4.8,
-            imgSrc: "Images/Trainer8.jpeg",
+            imgSrc: Trainer8,
             description:
                 "Isabella Clark is an accomplished public speaking coach who empowers candidates to communicate with confidence and clarity in interviews and presentations.",
         },
