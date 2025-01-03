@@ -1,0 +1,129 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .container {
+    width: 700px;
+    background-color: #333333;
+    color: #ffffff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .register-form h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  .form-group {
+    flex: 1;
+  }
+  
+  .form-group label {
+    display: block;
+    margin-bottom: 5px;
+  }
+  
+  .form-group input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+  }
+  
+  .form-terms {
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  
+  .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .signup-btn {
+    width: 30%;
+    height: 35px;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    padding: 10px;
+    background-color: #f9b234;
+    border: none;
+    color: #ffffff;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+  
+  .signup-btn:hover {
+    background-color: #e1a72c;
+  }
+  
+  .social-login {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .social-icons a {
+    margin: 0 10px;
+    font-size: 24px;
+    text-decoration: none;
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+  
+  .social-icons a:nth-child(1) { /* Facebook */
+    color: #1877f2;
+  }
+  
+  .social-icons a:nth-child(2) { /* Google */
+    color: #db4437;
+  }
+  
+  .social-icons a:nth-child(3) { /* LinkedIn */
+    color: #0077b5;
+  }
+  
+  .social-icons a:hover {
+    color: #ffffff;
+    filter: brightness(1.2);
+  }
+  .google-btn {
+    background-color: #4285f4;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .google-btn:hover {
+    background-color: #357ae8;
+  }
+  
+  

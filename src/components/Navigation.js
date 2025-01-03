@@ -2,6 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import intXLogo from "../assets/Thasara.png";
+import { useNavigate } from "react-router-dom";
 
 // Styled Components
 const Section = styled.section`
@@ -78,6 +79,12 @@ const Navigation = () => {
   const scrollTo = (id) => {
        let element = document.getElementById(id);
   }
+
+  const navigate = useNavigate(); // Initialize navigate
+  
+  const handleLoginClick = () => {
+    navigate("/sign-up"); // Navigate to the TrainerSelection page
+  };
   
   return (
     <Section id="navigation">
@@ -96,7 +103,7 @@ const Navigation = () => {
         </Menu>
 
         {/* Login Button */}
-        <LoginButton>Log In</LoginButton>
+        <LoginButton onClick={handleLoginClick}>Log In</LoginButton>
       </NavContainer>
     </Section>
   );
