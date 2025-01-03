@@ -44,7 +44,8 @@
   }
   
   .logo {
-    width: 90px;
+    padding-top: 60px;
+    width: 40px; /* Reduced size of the logo */
     height: auto;
   }
   
@@ -53,10 +54,11 @@
   }
   
   .avatar {
-    margin: 20px 0;
+    margin: 10px 0;
     width: 120px;
     transform: scale(1.8);
     padding-top: 40px;
+    padding-bottom: 20px;
   }
   
   .right-panel {

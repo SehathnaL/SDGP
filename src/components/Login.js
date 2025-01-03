@@ -3,6 +3,8 @@ import { Link } from "react-router-dom"; // Import Link from react-router-dom
 import styles from "./Login.module.css"; // Import the CSS module
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import LoginPicture from "../assets/LoginPicture.png";
+import LogoPicture from "../assets/Thasara.png"
 
 const Login = () => {
     const navigate = useNavigate();
@@ -28,9 +30,9 @@ const Login = () => {
           <h2>Hi there,</h2>
           <h1>Welcome Back</h1>
         </div>
-        <img src="Avatar.jpg" alt="Avatar" className={styles.avatar} />
+        <img src={LoginPicture} alt="Avatar" className={styles.avatar} />
         <div className={styles["logo-container"]}>
-          <img src="logo.jpg" alt="intX Logo" className={styles.logo} />
+          <img src={LogoPicture} alt="intX Logo" className={styles.logo} />
         </div>
       </div>
       <div className={styles["right-panel"]}>
