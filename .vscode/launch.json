@@ -1,0 +1,14 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "msedge",
+            "request": "launch",
+            "name": "Open splashScreen.html",
+            "file": "g:\\Year 2 1 Sem\\SDGP\\SDGP-main\\SDGP\\Chenuthi\\splashScreen.html"
+        }
+    ]
+}
