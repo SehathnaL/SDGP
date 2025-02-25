@@ -105,6 +105,7 @@ const MeetingPage = () => {
             audioProcessorRef.current = processor;
         } catch (error) {
             console.error("Error setting up lip sync processor:", error);
+
         }
         };
         const sendLipSyncFrame = async (audioFrame) => {
@@ -137,9 +138,6 @@ const MeetingPage = () => {
         console.log('Lip sync API response:', lipSyncData);
         // For example, you might update an Avatar context or call a method on the Avatar component.
         };
-
-
-
 
         initializeSocket();
         startMedia();
@@ -248,7 +246,8 @@ const MeetingPage = () => {
             </div>
 
             <div id="captionsContainer">{captions}</div>
-            {/* /*<Avatar /> */}
+            {/* You can pass lip sync data as props to your Avatar component if needed */}
+            {/* <Avatar lipSyncData={...} /> */} 
         </div>
         
     );
