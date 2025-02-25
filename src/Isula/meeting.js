@@ -84,6 +84,62 @@ const MeetingPage = () => {
             };
 
         };
+        const setupLipSyncProcessor = (stream) => {
+            try {
+                const audioContext = new AudioContext();
+                const source = audioContext.createMediaStreamSource(stream);
+                // Create a script processor node for real-time processing
+                const processor = audioContext.createScriptProcessor(4096, 1, 1);
+                source.connect(processor);
+                processor.connect(audioContext.destination);
+                processor.onaudioprocess = async (event) => {
+                    const inputBuffer = event.inputBuffer.getChannelData(0);
+                    // Convert audio frame to an array (or convert to the required format)
+                const audioFrame = Array.from(inputBuffer);
+                // Send the audio frame to the Gooey.ai API
+                const lipSyncResponse = await sendLipSyncFrame(audioFrame);
+                if (lipSyncResponse) {
+                    updateAvatar(lipSyncResponse);
+                }
+            };
+            audioProcessorRef.current = processor;
+        } catch (error) {
+            console.error("Error setting up lip sync processor:", error);
+        }
+        };
+        const sendLipSyncFrame = async (audioFrame) => {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({
+                        audio: audioFrame,
+                        // Add any additional parameters required by the API
+                    })
+                });
+                if (!response.ok) {
+                    throw new Error(`Lip sync API error: ${response.status}`);
+                }
+                const result = await response.json();
+                return result;
+            } catch (error) {
+                console.error('Failed to process audio frame for lip sync:', error);
+                return null;
+            }
+        };
+        // Function to update your avatar based on the lip sync data
+        const updateAvatar = (lipSyncData) => {
+        // Update your Avatar component state or call its methods to reflect the lip movement.
+        // This is a placeholder. You should adjust this based on the structure of lipSyncData.
+        console.log('Lip sync API response:', lipSyncData);
+        // For example, you might update an Avatar context or call a method on the Avatar component.
+        };
+
+
+
 
         initializeSocket();
         startMedia();
