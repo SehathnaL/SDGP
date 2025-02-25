@@ -16,6 +16,73 @@ const MeetingPage = () => {
     const [peerConnection, setPeerConnection] = useState(null);
     const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
     const [captions, setCaptions] = useState('');
+    
+// Function to send audio data to the API
+async function sendAudioFrame(audioFrame) {
+  try {
+    const response = await fetch(API_URL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${API_KEY}`
+      },
+      body: JSON.stringify({
+        audio: audioFrame, // You may need to adjust based on API requirements
+        // Add any other parameters needed by the API
+      })
+    });
+    
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`);
+    }
+    
+    const result = await response.json();
+    return result;
+  } catch (error) {
+    console.error('Failed to process audio frame:', error);
+  }
+}
+
+// Example usage: capturing microphone input and sending audio frames
+async function startRealTimeLipSync() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    const audioContext = new AudioContext();
+    const mediaStreamSource = audioContext.createMediaStreamSource(stream);
+    const processor = audioContext.createScriptProcessor(4096, 1, 1);
+    
+    mediaStreamSource.connect(processor);
+    processor.connect(audioContext.destination);
+    
+    processor.onaudioprocess = async (event) => {
+      // Get audio data from the input buffer
+      const inputBuffer = event.inputBuffer.getChannelData(0);
+      // Optionally convert the audio data to a desired format here
+      
+      // Send the audio data frame to the API
+      const response = await sendAudioFrame(Array.from(inputBuffer));
+      
+      // Process the API response to update your avatar's lip-sync state
+      if (response) {
+        updateAvatar(response);
+      }
+    };
+    
+  } catch (error) {
+    console.error('Error accessing microphone:', error);
+  }
+}
+
+// Dummy function to update your avatar with the API response
+function updateAvatar(apiResponse) {
+  // Example: updating lip positions based on the API response
+  console.log('API Response:', apiResponse);
+  // You would integrate this with your avatar rendering logic
+}
+
+// Start the real-time lip sync process
+startRealTimeLipSync();
+
 
 
     useEffect(() => {
