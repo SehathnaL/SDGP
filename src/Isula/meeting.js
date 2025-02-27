@@ -8,6 +8,7 @@ const MeetingPage = () => {
     const mediaRecorderRef = useRef(null);
     const recordedChunksRef = useRef([]);
     const socketRef = useRef(null);
+
     const API_KEY = 'YOUR_API_KEY_HERE';
     const API_URL = 'https://api.gooey.ai/lip-sync';
 
@@ -21,38 +22,13 @@ const MeetingPage = () => {
     useEffect(() => {
         const initializeSocket = () => {
             socketRef.current = io();
-
             socketRef.current.on('connect', () => {
                 console.log('Connected to server');
-                const roomId = 'someRoomId'; // Replace with dynamic room ID
-                const userId = 'someUserId'; // Replace with dynamic user ID
-                socketRef.current.emit("join-room", roomId, userId);
+                socketRef.current.emit("join-room", "someRoomId", "someUserId");
             });
-
-            socketRef.current.on('disconnect', () => {
-                console.log('Disconnected from server');
-            });
-
-            socketRef.current.on("offer", async offer => {
-                await peerConnection.setRemoteDescription(offer);
-                const answer = await peerConnection.createAnswer();
-                await peerConnection.setLocalDescription(answer);
-                socketRef.current.emit("answer", answer);
-            });
-
-            socketRef.current.on("answer", async answer => {
-                await peerConnection.setRemoteDescription(answer);
-            });
-
-            socketRef.current.on("candidate", async candidate => {
-                try {
-                    await peerConnection.addIceCandidate(candidate);
-                } catch (error) {
-                    console.error("Error adding ICE candidate:", error);
-                }
-            });
+            socketRef.current.on('disconnect', () => console.log('Disconnected from server'));
         };
-
+        
         const startMedia = async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
