@@ -104,7 +104,7 @@ const MeetingPage = () => {
             }
         };
         // Function to update your avatar based on the lip sync data
-        const updateAvatar = (lipSyncData) => {
+        
         // Update your Avatar component state or call its methods to reflect the lip movement.
         // This is a placeholder. You should adjust this based on the structure of lipSyncData.
         console.log('Lip sync API response:', lipSyncData);
