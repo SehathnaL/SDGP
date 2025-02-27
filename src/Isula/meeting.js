@@ -28,7 +28,7 @@ const MeetingPage = () => {
             });
             socketRef.current.on('disconnect', () => console.log('Disconnected from server'));
         };
-        
+
         const startMedia = async () => {
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
@@ -70,13 +70,9 @@ const MeetingPage = () => {
                 processor.connect(audioContext.destination);
                 processor.onaudioprocess = async (event) => {
                     const inputBuffer = event.inputBuffer.getChannelData(0);
-                    // Convert audio frame to an array (or convert to the required format)
-                const audioFrame = Array.from(inputBuffer);
-                // Send the audio frame to the Gooey.ai API
-                const lipSyncResponse = await sendLipSyncFrame(audioFrame);
-                if (lipSyncResponse) {
-                    updateAvatar(lipSyncResponse);
-                }
+                    const wavData = convertToWAV(inputBuffer);
+                    const base64Audio = arrayBufferToBase64(wavData);
+                    sendLipSyncFrame(base64Audio);
             };
             audioProcessorRef.current = processor;
         } catch (error) {
