@@ -141,21 +141,6 @@ const MeetingPage = () => {
         }
     };
 
-    const toggleCaptions = () => {
-        if (!isCaptionsEnabled) {
-            const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-            recognition.continuous = true;
-            recognition.lang = "en-US";
-            recognition.onresult = event => {
-                const transcript = event.results[event.results.length - 1][0].transcript;
-                setCaptions(transcript);
-            };
-            recognition.start();
-            setIsCaptionsEnabled(true);
-        } else {
-            // Stop recognition (implementation depends on how you handle it)
-            setIsCaptionsEnabled(false);
-        }
     };
 
     const endCall = () => {
