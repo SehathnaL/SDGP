@@ -265,7 +265,7 @@ const MeetingPage = () => {
                     <video ref={localVideoRef} autoPlay playsInline muted />
                 </div>
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
-                    <img src=  "./Isula_Jayagoda_i_won'_ai_avatar_it_gild_she_won't_professional_an_2f0523c4-e8ab-4652-9894-3654e419b18d.png"/>
+                    <img src=  "./Isula_Jayagoda_i_won'_ai_avatar_it_gild_she_won't_professional_an_2f0523c4-e8ab-4652-9894-3654e419b18d.png" alt="Avatar"/>
                 </div>
             </div>
 
