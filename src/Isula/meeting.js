@@ -111,6 +111,31 @@ const MeetingPage = () => {
         // For example, you might update an Avatar context or call a method on the Avatar component.
         };
 
+        const convertToWAV = (float32Array) => {
+            const buffer = new ArrayBuffer(44 + float32Array.length * 2);
+            const view = new DataView(buffer);
+            const sampleRate = 44100;
+            
+            function writeString(offset, str) {
+                for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+            }
+            
+            writeString(0, 'RIFF');
+            view.setUint32(4, 36 + float32Array.length * 2, true);
+            writeString(8, 'WAVE');
+            writeString(12, 'fmt ');
+            view.setUint32(16, 16, true);
+            view.setUint16(20, 1, true);
+            view.setUint16(22, 1, true);
+            view.setUint32(24, sampleRate, true);
+            view.setUint32(28, sampleRate * 2, true);
+            view.setUint16(32, 2, true);
+            view.setUint16(34, 16, true);
+            writeString(36, 'data');
+            view.setUint32(40, float32Array.length * 2, true);
+
+
+
         initializeSocket();
         startMedia();
 
