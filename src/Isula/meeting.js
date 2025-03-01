@@ -197,6 +197,9 @@ const MeetingPage = () => {
             if (socketRef.current) {
                 socketRef.current.disconnect();
             }
+            if (audioProcessorRef.current){
+                audioProcessorRef.current.disconnect();
+            }
         };
     }, []);
 
