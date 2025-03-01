@@ -223,11 +223,15 @@ const MeetingPage = () => {
         }
     };
 
+    const [isAudioOn, setIsAudioOn] = useState(true);
     const toggleAudio = () => {
         if (localStream) {
             const audioTrack = localStream.getAudioTracks()[0];
+            if(audioTrack){
             audioTrack.enabled = !audioTrack.enabled;
+            setIsAudioOn(videoTrack.enabled);
         }
+    }
     };
 
     };
