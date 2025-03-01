@@ -82,7 +82,7 @@ const MeetingPage = () => {
 
         }
     };
-        const sendLipSyncFrame = async (audioFrame) => {
+        const sendLipSyncFrame = async (base64Audio) => {
             try {
                 const response = await fetch(API_URL, {
                     method: 'POST',
@@ -93,15 +93,15 @@ const MeetingPage = () => {
                     body: JSON.stringify({
                         audio: audioFrame,
                         // Add any additional parameters required by the API
-                    })
+                    }),
                 });
                 if (!response.ok) {
                     throw new Error(`Lip sync API error: ${response.status}`);
                 }
                 const result = await response.json();
-                return result;
+                updateAvatar result;
             } catch (error) {
-                console.error('Failed to process audio frame for lip sync:', error);
+                console.error('Failed to process lip sync:', error);
                 return null;
             }
         };
@@ -111,6 +111,13 @@ const MeetingPage = () => {
         // This is a placeholder. You should adjust this based on the structure of lipSyncData.
         console.log('Lip sync API response:', lipSyncData);
         // For example, you might update an Avatar context or call a method on the Avatar component.
+        const avatarImage = document.querySelector(".video-wrapper img");
+
+            if (lipSyncData.mouthShape === "open") {
+                avatarImage.style.transform = "scaleY(1.1)";
+            } else {
+                avatarImage.style.transform = "scaleY(1)";
+            }
         };
 
         const convertToWAV = (float32Array) => {
