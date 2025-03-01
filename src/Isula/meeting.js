@@ -8,6 +8,7 @@ const MeetingPage = () => {
     const mediaRecorderRef = useRef(null);
     const recordedChunksRef = useRef([]);
     const socketRef = useRef(null);
+    const audioProcessorRef = useRef(null);
 
     const API_KEY = 'YOUR_API_KEY_HERE';
     const API_URL = 'https://api.gooey.ai/lip-sync';
@@ -79,7 +80,7 @@ const MeetingPage = () => {
             console.error("Error setting up lip sync processor:", error);
 
         }
-        };
+    };
         const sendLipSyncFrame = async (audioFrame) => {
             try {
                 const response = await fetch(API_URL, {
@@ -286,6 +287,6 @@ const MeetingPage = () => {
         </div>
         
     );
-
+ 
 
 export default MeetingPage;
