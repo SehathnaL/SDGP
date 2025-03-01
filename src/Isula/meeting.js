@@ -133,6 +133,25 @@ const MeetingPage = () => {
             view.setUint16(34, 16, true);
             writeString(36, 'data');
             view.setUint32(40, float32Array.length * 2, true);
+            
+            let offset = 44;
+            for (let i = 0; i < float32Array.length; i++) {
+                view.setInt16(offset, float32Array[i] * 0x7FFF, true);
+                offset += 2;
+            }
+            return buffer;
+        };
+
+        const arrayBufferToBase64 = (buffer) => {
+            let binary = '';
+            let bytes = new Uint8Array(buffer);
+            for (let i = 0; i < bytes.length; i++) {
+                binary += String.fromCharCode(bytes[i]);
+            }
+            return btoa(binary);
+        };
+
+
 
 
 
