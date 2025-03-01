@@ -272,6 +272,8 @@ const MeetingPage = () => {
             <div className="controls">
                 <button onClick={toggleVideo}><i className="fa-solid fa-video"></i> Video</button>
                 <button onClick={toggleAudio}><i className="fa-solid fa-microphone"></i> Mic</button>
+                <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
+                <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button>
                 <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
                 <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
                 <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
