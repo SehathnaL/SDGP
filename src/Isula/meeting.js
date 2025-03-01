@@ -211,7 +211,7 @@ const MeetingPage = () => {
             }
         };
     }, []);
-    
+
     const [isVideoOn, setIsVideoOn] = useState(true);
     const toggleVideo = () => {
         if (localStream) {
@@ -283,8 +283,8 @@ const MeetingPage = () => {
             </div>
 
             <div className="controls">
-                <button onClick={toggleVideo}><i className="fa-solid fa-video"></i> Video</button>
-                <button onClick={toggleAudio}><i className="fa-solid fa-microphone"></i> Mic</button>
+                <button onClick={toggleVideo}> <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i>{isVideoOn ? " Turn Off Video" : " Turn On Video"}</button>
+                <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
                 <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
                 <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button>
                 <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
