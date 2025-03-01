@@ -211,11 +211,15 @@ const MeetingPage = () => {
             }
         };
     }, []);
-
+    
+    const [isVideoOn, setIsVideoOn] = useState(true);
     const toggleVideo = () => {
         if (localStream) {
             const videoTrack = localStream.getVideoTracks()[0];
+            if (videoTrack){
             videoTrack.enabled = !videoTrack.enabled;
+            setIsVideoOn(videoTrack.enabled);
+        }
         }
     };
 
