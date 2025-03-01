@@ -150,7 +150,7 @@ const MeetingPage = () => {
             }
             return btoa(binary);
         };
-        
+
         const sendLipSyncFrame = async (base64Audio) => {
             try {
                 const response = await fetch(API_URL, {
@@ -173,10 +173,16 @@ const MeetingPage = () => {
             }
         };
 
+        const updateAvatar = (lipSyncData) => {
+            console.log('Lip sync API response:', lipSyncData);
+            const avatarImage = document.querySelector(".video-wrapper img");
 
-
-
-
+            if (lipSyncData.mouthShape === "open") {
+                avatarImage.style.transform = "scaleY(1.1)";
+            } else {
+                avatarImage.style.transform = "scaleY(1)";
+            }
+        };
 
         initializeSocket();
         startMedia();
