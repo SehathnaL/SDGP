@@ -133,7 +133,7 @@ const MeetingPage = () => {
             view.setUint16(34, 16, true);
             writeString(36, 'data');
             view.setUint32(40, float32Array.length * 2, true);
-            
+
             let offset = 44;
             for (let i = 0; i < float32Array.length; i++) {
                 view.setInt16(offset, float32Array[i] * 0x7FFF, true);
@@ -150,6 +150,29 @@ const MeetingPage = () => {
             }
             return btoa(binary);
         };
+        
+        const sendLipSyncFrame = async (base64Audio) => {
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${API_KEY}`
+                    },
+                    body: JSON.stringify({ audio: base64Audio }),
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Lip sync API error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                updateAvatar(result);
+            } catch (error) {
+                console.error('Failed to process lip sync:', error);
+            }
+        };
+
 
 
 
