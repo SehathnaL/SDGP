@@ -7,16 +7,6 @@ const Register = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [acceptedTerms, setAcceptedTerms] = useState(false);
 
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    if (password !== confirmPassword) {
-      alert("Passwords do not match");
-      return;
-    }
-    console.log("Registering with:", { fullName, email, password, acceptedTerms });
-    // Add registration logic here
-  };
-
   return (
     <div className="flex h-screen items-center justify-center">
       <div className="w-full max-w-md bg-white p-8 shadow-lg rounded-lg">
