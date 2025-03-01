@@ -69,11 +69,12 @@ const MeetingPage = () => {
                 const processor = audioContext.createScriptProcessor(4096, 1, 1);
                 source.connect(processor);
                 processor.connect(audioContext.destination);
+
                 processor.onaudioprocess = async (event) => {
                     const inputBuffer = event.inputBuffer.getChannelData(0);
                     const wavData = convertToWAV(inputBuffer);
                     const base64Audio = arrayBufferToBase64(wavData);
-                    sendLipSyncFrame(base64Audio);
+                    await sendLipSyncFrame(base64Audio);
             };
             audioProcessorRef.current = processor;
         } catch (error) {
