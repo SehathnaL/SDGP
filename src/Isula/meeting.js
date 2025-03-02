@@ -82,29 +82,6 @@ const MeetingPage = () => {
 
         }
     };
-        const sendLipSyncFrame = async (base64Audio) => {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        audio: audioFrame,
-                        // Add any additional parameters required by the API
-                    }),
-                });
-                if (!response.ok) {
-                    throw new Error(`Lip sync API error: ${response.status}`);
-                }
-                const result = await response.json();
-                updateAvatar result;
-            } catch (error) {
-                console.error('Failed to process lip sync:', error);
-                return null;
-            }
-        };
         // Function to update your avatar based on the lip sync data
         const updateAvatar = (lipSyncData) => {
         // Update your Avatar component state or call its methods to reflect the lip movement.
@@ -179,17 +156,6 @@ const MeetingPage = () => {
                 updateAvatar(result);
             } catch (error) {
                 console.error('Failed to process lip sync:', error);
-            }
-        };
-
-        const updateAvatar = (lipSyncData) => {
-            console.log('Lip sync API response:', lipSyncData);
-            const avatarImage = document.querySelector(".video-wrapper img");
-
-            if (lipSyncData.mouthShape === "open") {
-                avatarImage.style.transform = "scaleY(1.1)";
-            } else {
-                avatarImage.style.transform = "scaleY(1)";
             }
         };
 
