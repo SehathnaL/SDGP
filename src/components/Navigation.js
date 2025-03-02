@@ -85,6 +85,10 @@ const Navigation = () => {
   const handleLoginClick = () => {
     navigate("/sign-up"); // Navigate to the TrainerSelection page
   };
+
+  const handleFeedbackClick = () => {
+    navigate("/feedback"); // Navigate to the Feedback page
+  };
   
   return (
     <Section id="navigation">
@@ -100,6 +104,7 @@ const Navigation = () => {
           <MenuItem onClick={() => scrollTo("Roadmap")}>Services</MenuItem>
           <MenuItem>About Us</MenuItem>
           <MenuItem onClick={() => scrollTo("faq")}>FAQ</MenuItem>
+          <MenuItem onClick={handleFeedbackClick}>Feedback</MenuItem>
         </Menu>
 
         {/* Login Button */}
