@@ -17,12 +17,12 @@ const trainerData = {
       { client: "Michael Brown", progress: 40}
     ],
     recentActivity: [
-      "John Doe completed workout: Legs (2024-10-26)",
-      "Jane Smith logged meal: Chicken Salad (2024-10-26)",
-      "David Lee updated weight: 180 lbs (2024-10-25)",
-      "Emily Chen requested feedback on form (2024-10-25)",
-      "Michael Brown missed workout: Chest (2024-10-24)"
-    ]
+        "John Doe completed workout: Legs (2024-10-26)",
+        "Jane Smith logged meal: Chicken Salad (2024-10-26)",
+        "David Lee updated weight: 180 lbs (2024-10-25)",
+        "Emily Chen requested feedback on form (2024-10-25)",
+        "Michael Brown missed workout: Chest (2024-10-24)"
+      ]
   };
   
   // Function to render the dashboard
