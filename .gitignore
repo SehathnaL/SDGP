@@ -26,3 +26,5 @@ yarn-error.log*
 /env
 .env
 ayath/.env
+/ayath/env
+/ayath/__pycache__

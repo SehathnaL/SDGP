@@ -8,12 +8,11 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
+OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 app = FastAPI()
 
 UPLOAD_DIR="uploaded_pdfs"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
-
 
 
 def get_name_from_text(text):
@@ -38,9 +37,37 @@ def get_name_from_text(text):
     # Handle cases where no name is found
     if not name or name.lower() == "no name is mentioned in this cv.":
         return "No name is mentioned in this CV."
-    print("hi")
-
     return name
+
+
+
+def get_soft_skills_from_text(text):
+    """Use OpenAI to extract soft skills from the CV."""
+    prompt = (
+        "Extract only the soft skills listed in the following CV text. "
+        "If soft skills are explicitly mentioned under a section like 'Soft Skills' or similar, return them as a comma-separated list. "
+        "If no soft skills section exists, analyze the text and infer common soft skills based on the content. "
+        "If no soft skills can be identified, return exactly: 'No soft skills are mentioned in this CV.'\n\n"
+        f"CV Text:\n{text}"
+    )
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    # Request completion from GPT-3.5 model
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    soft_skills = response.choices[0].message.content.strip()
+
+    # Handle cases where no soft skills are found
+    if not soft_skills or soft_skills.lower() == "no soft skills are mentioned in this cv.":
+        return "No soft skills are mentioned in this CV."
+
+    return soft_skills
+
+
 
 
 
@@ -60,4 +87,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     extracted_text=extract_text_from_pdf(file_path)
     name = get_name_from_text(extracted_text)
-    print(name)
+    soft_skills = get_soft_skills_from_text(extracted_text)
+
+    print("01. Extracted Name:", name)
+    print("02. Extracted Soft Skills:", soft_skills)
