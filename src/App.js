@@ -8,6 +8,7 @@ import Navigation from './components/Navigation';
 import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
+import Feedback from './components/sections/Feedback';
 
 function App() {
   return (
@@ -29,6 +30,9 @@ function App() {
 
       {/* choice route */}
       <Route path="/register" element={<Register />} />
+
+      {/* feedback route */}
+      <Route path="/feedback" element={<Feedback />} />
     
     </Routes>
     
