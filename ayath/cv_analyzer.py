@@ -94,6 +94,7 @@ def get_projects_from_text(text):
     """Use OpenAI to extract projects only from the 'Projects' section in the given text."""
     prompt = (
         "Extract only the projects listed under the 'Projects' section in the following CV text. "
+        "If the section exists, return a list of projects, formatted as a brief title followed by a short description. "
         "If there is no 'Projects' section, return exactly: 'No projects are mentioned in this CV.'\n\n"
         f"CV Text:\n{text}"
     )
@@ -134,9 +135,11 @@ async def upload_pdf(file: UploadFile = File(...)):
     name = get_name_from_text(extracted_text)
     soft_skills = get_soft_skills_from_text(extracted_text)
     Technical_skills= get_technical_skills_from_text(extracted_text)
+    projects=get_projects_from_text(extracted_text)
 
 
     print(" Extracted Name:", name)
     print(" Extracted Soft Skills:", soft_skills)
     print(" Extracted Technical Skills:",Technical_skills)
+    print("Extracted  projects:",projects)
 
