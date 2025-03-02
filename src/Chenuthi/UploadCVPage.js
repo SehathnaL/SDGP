@@ -27,7 +27,7 @@ const UploadCVPage = () => {
         
         <div>
             <Navigation/>
-            <p id="p">Your <span id="span1">Journey</span> To <span id="span1">Success</span> Begins <span id="span1">Here...</span></p>
+            <p id="p">Your Journey To<br/>Success Begins <span id="span1">Here...</span></p>
             <div id="field1">
                 <label htmlFor="jobDescription">Enter Your Job Description</label><br/>
                 <input type="text" id="jobDescription" placeholder="Intern-Software Engineering"/><br/><br/>
