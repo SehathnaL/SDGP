@@ -39,7 +39,29 @@ def get_name_from_text(text):
         return "No name is mentioned in this CV."
     return name
 
+def get_technical_skills_from_text(text):
+    """Use OpenAI to extract technical skills only from the 'Technical Skills' section in the given text."""
+    prompt = (
+        "Extract only the technical skills listed under the 'Technical Skills' section "
+        f"CV Text:\n{text}"
+    )
 
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    technical_skills = response.choices[0].message.content.strip()
+
+    # Handle cases where no skills are found
+    if not technical_skills or technical_skills.lower() == "no technical skills are mentioned in this cv.":
+        return "No technical skills are mentioned in this CV."
+
+    return technical_skills
 
 def get_soft_skills_from_text(text):
     """Use OpenAI to extract soft skills from the CV."""
@@ -68,9 +90,6 @@ def get_soft_skills_from_text(text):
     return soft_skills
 
 
-
-
-
 def extract_text_from_pdf(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         text=text = "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
@@ -88,6 +107,8 @@ async def upload_pdf(file: UploadFile = File(...)):
     extracted_text=extract_text_from_pdf(file_path)
     name = get_name_from_text(extracted_text)
     soft_skills = get_soft_skills_from_text(extracted_text)
+    skills = get_technical_skills_from_text(extracted_text)
 
     print("01. Extracted Name:", name)
     print("02. Extracted Soft Skills:", soft_skills)
+    print("02. Extracted Technical Skills:", skills)
