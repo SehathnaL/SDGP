@@ -137,9 +137,21 @@ async def upload_pdf(file: UploadFile = File(...)):
     Technical_skills= get_technical_skills_from_text(extracted_text)
     projects=get_projects_from_text(extracted_text)
 
-
     print(" Extracted Name:", name)
     print(" Extracted Soft Skills:", soft_skills)
     print(" Extracted Technical Skills:",Technical_skills)
     print("Extracted  projects:",projects)
+
+    data = {
+        "name": name,
+        "technical_skills": Technical_skills,
+        "projects": projects,
+        "soft_skills": soft_skills
+    }
+
+    file_name = "CVdictionary.json"
+
+
+
+
 
