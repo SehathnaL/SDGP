@@ -1,28 +1,29 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import ServicePage from "./ServicePage"; // Import your ServicePage component
-import TrainerSelection from "./TrainerSelection"; // Import your TrainerSelection component
-import UploadCVPage from "./UploadCVPage"; // Import your UploadCVPage component
-import MakeYourChoicePage from "./MakeYourChoicePage"; // Import your MakeYourChoicePage component
-import VideoPage from "./VideoPage"; // Import your VideoPage component
-import ServiceChoicePage from "./ServiceChoicePage"; // Import your ServiceChoicePage component
+import MainLayout from "./MainLayout";
+import TrainerSelection from "./TrainerSelection";
+import UploadCVPage from "./UploadCVPage";
+import MakeYourChoicePage from "./MakeYourChoicePage";
+import VideoPage from "./VideoPage";
+import ServiceChoicePage from "./ServiceChoicePage";
+import PaymentPage from "./PaymentPage";
+import Navigation from "./components/Navigation";
 
 function App() {
     return (
         <Router>
+            <Navigation/>
             <Routes>
-                {/* Route for the ServicePage */}
-                <Route path="/" element={<ServicePage />} />
-                {/* Route for the TrainerSelection */}
-                <Route path="/trainer-selection" element={<TrainerSelection />} />
-                {/* Route for the UploadCVPage */}
-                <Route path="/upload-cv" element={<UploadCVPage />} />
-                {/* Route for the MakeYourChoicePage */}
-                <Route path="/make-your-choice" element={<MakeYourChoicePage />} />
-                {/* Route for the VideoPage */}
-                <Route path="/video" element={<VideoPage />} />
-                {/* Route for the ServiceChoicePage */}
-                <Route path="/service-choice" element={<ServiceChoicePage />} />
+                {/* Main Layout with all sections on a single page */}
+                <Route path="/" element={<MainLayout />} />
+                
+                {/* Other separate pages */}
+                <Route path="trainer-selection" element={<TrainerSelection />} />
+                <Route path="upload-cv" element={<UploadCVPage />} />
+                <Route path="make-your-choice" element={<MakeYourChoicePage />} />
+                <Route path="video" element={<VideoPage />} />
+                <Route path="service-choice" element={<ServiceChoicePage />} />
+                <Route path="payment" element={<PaymentPage />} />
             </Routes>
         </Router>
     );

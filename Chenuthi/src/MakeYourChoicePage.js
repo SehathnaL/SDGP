@@ -1,40 +1,33 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
-import './MakeYourChoicePage.css'; // Create a separate CSS file for styles
+import { useNavigate } from 'react-router-dom';
+import "./MakeYourChoicePage.css";
 
 const MakeYourChoicePage = () => {
-    const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
-    const handleButtonClick = () => {
-        navigate('/video'); // Navigate to VideoPage
-    };
+  const handleCVClick = () => {
+    navigate('/video');
+  };
 
-    const handleLoginClick = () => {
-        alert('Login button clicked!');
-    };
+  const handleProposalClick = () => {
+    navigate('/video');
+  };
 
-    return (
-        <div>
-            <section className="section">
-                <nav className="nav-container">
-                    <h1 className="logo">intX</h1>
-                    <ul className="menu">
-                        <li className="menu-item">Home</li>
-                        <li className="menu-item">Services</li>
-                        <li className="menu-item">About Us</li>
-                        <li className="menu-item">FAQ</li>
-                    </ul>
-                    <button className="login-button" onClick={handleLoginClick}>Log In</button>
-                </nav>
-            </section>
-            <p className='p'>Make <span id="span1">Your</span> Choice ✨ </p>
-            <fieldset className='choice'>
-                <label id='label'>What Type Of Questions You Want To Be Asked? </label>
-                <button onClick={handleButtonClick}className='button'>Based On My CV</button>
-                <button onClick={handleButtonClick}className='button'>Based On My Projects</button>
-            </fieldset>
+  return (
+    <div className='container'>
+      <h2>What Type Of Questions You Want To Be Asked?</h2>
+      <div className='button-wrapper'>
+        <div className="button-container">
+          <button className="continue-application" onClick={handleCVClick}></button>
+          <p className='label'>Based On My CV</p>
         </div>
-    );
-};
+        <div className="button-container">
+          <button className="continue-application1" onClick={handleProposalClick}></button>
+          <p className='label'>Based On My Project Proposal</p>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export default MakeYourChoicePage;

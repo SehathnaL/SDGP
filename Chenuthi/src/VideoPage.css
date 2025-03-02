@@ -9,7 +9,7 @@ body {
     font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
     font-size: 42px;
     margin-left: 750px;
-    margin-top: 50px;
+    margin-top: 250px;
     line-height: 65px;
 }
 
@@ -18,10 +18,10 @@ body {
 }
 
 .button {
-    margin-left: 650px;
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
     padding: 10px;
     justify-content: center;
-    margin-left: 900px;
+    margin-left: 1020px;
     width: 200px;
     height: 50px;
     background-color: #EAC42D;
@@ -57,10 +57,10 @@ button:active {
 
 video {
     display: block;
-    width: 740px;
+    width: 700px;
     height: 460px;
-    margin-left: 60px;
-    margin-top: -360px;
+    margin-left: 100px;
+    margin-top: -370px;
     object-fit: cover;
     border-radius: 20px;
     /* Adds rounded corners */
@@ -76,11 +76,13 @@ video {
     padding: 2rem 0;
     display: flex;
     justify-content: center;
+    margin-left: -50px;
 
 }
 
 /* Navigation Container */
 .nav-container {
+    margin-left: -70px;
     width: 85%;
     background-color: #fff8e6;
     border-radius: 15px;

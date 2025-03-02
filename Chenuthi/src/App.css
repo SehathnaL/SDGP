@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-y: auto; /* Ensure vertical scrolling is enabled */
+  height: 100%; /* Ensure body takes full height */
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -15,7 +22,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 100vh; /* This can be adjusted */
   display: flex;
   flex-direction: column;
   align-items: center;
