@@ -1,77 +1,100 @@
-// Simulate data for the trainer dashboard
-const trainerData = {
-    name: "Coach Alex",
-    totalClients: 50,
-    activeClients: 35,
-    completedSessions: 200,
-    upcomingSessions: [
-      { client: "John Doe", time: "2024-10-27T10:00:00Z" },
-      { client: "Jane Smith", time: "2024-10-27T14:30:00Z" },
-      { client: "David Lee", time: "2024-10-28T09:00:00Z" },
-    ],
-    clientProgress: [
-      { client: "John Doe", progress: 75 },
-      { client: "Jane Smith", progress: 90 },
-      { client: "David Lee", progress: 60 },
-      { client: "Emily Chen", progress: 85},
-      { client: "Michael Brown", progress: 40}
-    ],
-  
-  };
-  
-  // Function to render the dashboard
-  function renderDashboard() {
-    const dashboard = document.getElementById("trainerDashboard");
-  
-    if (!dashboard) {
-      console.error("Dashboard element not found.");
-      return;
-    }
-  
-    dashboard.innerHTML = `
-      <h2>Trainer Dashboard - ${trainerData.name}</h2>
-      <div class="metrics">
-        <div>Total Clients: ${trainerData.totalClients}</div>
-        <div>Active Clients: ${trainerData.activeClients}</div>
-        <div>Completed Sessions: ${trainerData.completedSessions}</div>
-      </div>
-  
-      <h3>Upcoming Sessions</h3>
-      <ul>
-        ${trainerData.upcomingSessions.map(session => `<li>${session.client} - ${new Date(session.time).toLocaleString()}</li>`).join('')}
-      </ul>
-  
-      <h3>Client Progress</h3>
-      <ul>
-        ${trainerData.clientProgress.map(client => `<li>${client.client}: ${client.progress}%</li>`).join('')}
-      </ul>
-  
-      <h3>Recent Activity</h3>
-      <ul>
-        ${trainerData.recentActivity.map(activity => `<li>${activity}</li>`).join('')}
-      </ul>
-    `;
+// Get references to elements
+const dateButtons = document.querySelectorAll('.date-selector button');
+const dateInfo = document.querySelector('.date-info');
+const scheduleTimes = document.querySelector('.schedule-times');
+const candidateCards = document.querySelectorAll('.candidate-cards .card');
+const searchInput = document.querySelector('.search-filter input');
+const filterButton = document.querySelector('.filter-btn');
+
+// Sample candidate data (replace with actual data)
+const candidates = [
+  { name: 'Jason Ruly', title: 'UI/UX Designer', image: 'https://via.placeholder.com/150', schedule: '09:00 - 11:00' },
+  { name: 'Rendy Boy', title: 'Web Development', image: 'https://via.placeholder.com/150', schedule: '09:00 - 11:00' },
+  { name: 'Shania Elin', title: 'Illustrator', image: 'https://via.placeholder.com/150', schedule: '09:00 - 11:00' },
+  { name: 'Junior Key', title: 'Illustrator', image: 'https://via.placeholder.com/150', schedule: '13:00 - 14:00' },
+  { name: 'Siti Alice', title: 'Copywriter', image: 'https://via.placeholder.com/150', schedule: '13:00 - 14:00' },
+  { name: 'Bagas Oke', title: 'UI/UX Designer', image: 'https://via.placeholder.com/150', schedule: '13:00 - 14:00' },
+  { name: 'Superman', title: 'Superhero', image: 'https://via.placeholder.com/150', schedule: '14:00 - 16:00' },
+  { name: 'Susanti', title: 'Designer', image: 'https://via.placeholder.com/150', schedule: '14:00 - 16:00' },
+  // Add more candidates as needed
+];
+
+// Sample schedule data (replace with actual data)
+const scheduleData = {
+  '15': [
+    { time: '09:00 - 11:00', candidates: ['Jason Ruly', 'Rendy Boy', 'Shania Elin'] },
+    { time: '13:00 - 14:00', candidates: ['Junior Key', 'Siti Alice', 'Bagas Oke'] },
+    { time: '14:00 - 16:00', candidates: ['Superman', 'Susanti'] }, // Add more candidates
+  ],
+};
+
+// Function to update the schedule display
+function updateSchedule(date) {
+  const day = date.getDate().toString();
+  const scheduleForDay = scheduleData[day] || [];
+  let scheduleHTML = '';
+
+  if (scheduleForDay.length === 0) {
+    scheduleHTML = '<p>No schedule for this day.</p>';
+  } else {
+    scheduleForDay.forEach(slot => {
+      let avatarGroupHTML = '';
+      slot.candidates.forEach(name => {
+        const candidate = candidates.find(c => c.name === name);
+        if (candidate) {
+          avatarGroupHTML += `<img src="${candidate.image}" alt="${name}">`;
+        }
+      });
+      scheduleHTML += `
+        <div class="time-slot">
+          <p>${slot.time}</p>
+          <p>${slot.candidates.join(', ')}</p>
+          <div class="avatar-group">${avatarGroupHTML}</div>
+        </div>
+      `;
+    });
   }
-  
-  // Example usage (assuming you have a div with id="trainerDashboard" in your HTML)
-  document.addEventListener("DOMContentLoaded", renderDashboard);
-  
-  //Example HTML structure
-  /*
-  <!DOCTYPE html>
-  <html>
-  <head>
-  <title>Trainer Dashboard</title>
-  <style>
-  body {font-family: sans-serif;}
-  .metrics {display: flex; gap: 20px;}
-  </style>
-  </head>
-  <body>
-  <div id="trainerDashboard"></div>
-  <script>
-  // Paste the JavaScript code here
-  </script>
-  </body>
-  </html>
-  */
+
+  scheduleTimes.innerHTML = scheduleHTML;
+}
+
+// Function to update the date info
+function updateDateInfo(date) {
+  dateInfo.innerHTML = `<p>${date.toLocaleDateString()}</p><p>15 candidates</p>`;
+  updateSchedule(date);
+}
+
+// Add click event listeners to date buttons
+dateButtons.forEach(button => {
+  button.addEventListener('click', () => {
+    dateButtons.forEach(btn => btn.classList.remove('active'));
+    button.classList.add('active');
+    const selectedDate = new Date();
+    selectedDate.setDate(parseInt(button.textContent));
+    updateDateInfo(selectedDate);
+  });
+});
+
+// Initial setup: Select the default date (e.g., the 15th)
+const defaultDate = new Date();
+defaultDate.setDate(15);
+updateDateInfo(defaultDate);
+
+// Search functionality
+searchInput.addEventListener('input', () => {
+  const searchTerm = searchInput.value.toLowerCase();
+  candidateCards.forEach(card => {
+    const name = card.querySelector('h3').textContent.toLowerCase();
+    if (name.includes(searchTerm)) {
+      card.style.display = 'block';
+    } else {
+      card.style.display = 'none';
+    }
+  });
+});
+
+// Filter functionality (you can expand on this)
+filterButton.addEventListener('click', () => {
+  // Implement filter logic here based on your requirements
+  alert('Filter functionality not implemented yet.');
+});
