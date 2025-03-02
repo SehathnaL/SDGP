@@ -6,7 +6,7 @@ const TrainerCard = ({ trainer, onViewClick }) => {
     return (
         <fieldset id="fieldset1">
             <div className="trainer-card-content">
-                <img src={trainer.imgSrc} alt={trainer.name} className="trainer-image" />
+                <img src={trainer.imgSrc} alt={trainer.name} className="trainer-images" />
                 <h3>{trainer.name}</h3>
                 <p>{trainer.title}</p>
                 <p>Price: ${trainer.price}</p>
@@ -150,7 +150,7 @@ const TrainerSelection = () => {
             experience: "15 years",
             rating: 4.8,
             price: 190, // Added price
-            imgSrc: "Images/Trainer8.jpeg",
+            imgSrc: "./Images/Trainer8.jpeg",
             description:
                 "Isabella Clark is an accomplished public speaking coach who empowers candidates to communicate with confidence and clarity in interviews and presentations.",
         },
@@ -191,15 +191,17 @@ const TrainerSelection = () => {
     };
 
     return (
+        
         <div>
+            
             <h1>
                 Select <span>Your</span> Trainer ...
             </h1>
-            <div className="container">
+                <div className="trainer-container1">
                 {trainers.map((trainer, index) => (
                     <TrainerCard key={index} trainer={trainer} onViewClick={openModal} />
-                ))}
-            </div>
+                ))}</div>
+            
 
             <TrainerModal
                 trainerDetails={selectedTrainer}

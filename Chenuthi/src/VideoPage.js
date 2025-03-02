@@ -44,22 +44,10 @@ const VideoPage = () => {
 
     return (
         <div>
-            <section className="section">
-                <nav className="nav-container">
-                    <h1 className="logo">intX</h1>
-                    <ul className="menu">
-                        <li className="menu-item">Home</li>
-                        <li className="menu-item">Services</li>
-                        <li className="menu-item">About Us</li>
-                        <li className="menu-item">FAQ</li>
-                    </ul>
-                    <button className="login-button">Log In</button>
-                </nav>
-            </section>
             <p id='id1'>Your Session With<br /> <b>Mr.Will</b> is ready<br /><span id="span1">Good Luck!</span></p>
             <button className="button" onClick={handleJoinNowClick}>Join Now</button>
             <video id="myVideo" autoPlay loop muted>
-                <source src={`./Images/avatar video.mp4`} type="video/mp4" />
+                <source src={`./Images/Nico Wren - Avatar Demo.mp4`} type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
         </div>

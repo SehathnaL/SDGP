@@ -1,155 +1,79 @@
-body {
-    margin: 0;
-}
-
-.p {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    color: black;
-    font-size: 56px;
-    text-align: center; /* Center the text */
-    margin: 160px auto 20px; /* Center the paragraph */
-    margin-top: 110px;
-    margin-left: 550px;
-    margin-right: -100px;
-}
-
-#span1 {
-    color: #EAC42D;
-}
-
-.choice {
-    width: 500px;/* Use percentage for responsiveness */
-    height: 320px;
-    max-width: 500px; /* Limit max width */
-    margin: 20px auto; /* Center the fieldset */
-    border-radius: 20px;
-    text-align: left;
-    padding: 40px;
-    border: 2px solid #EAC42D; /* Yellow border */
-    background-color: white; /* Light grey background */
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-top: -330px;
-    margin-left: 80px;
-}
-
-#label {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 30px;
-    line-height: 1.5;
-}
-
-.button {
-    margin-left: 10px;
-    width: 100%; /* Make buttons full width */
-    max-width: 400px; /* Limit max width */
-    height: 80px;
-    background-color: #EAC42D;
-    border: none; /* Remove border */
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    padding: 25px;
-    font-size: 25px;
-    border-radius : 20px;
-    margin-top: 20px;
-    color: black;
-    cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    display: flex;
-    align-items: center;
-    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-    margin-bottom: 20px; /* Space between buttons */
-}
-
-/* Change color on hover */
-.button:hover {
-    background-color: #ffebaf; /* Change to a lighter color on hover */
-    color: black; /* Maintain text color */
-}
-
-/* Section Styles */
-.section {
-    width: 100vw;
-    height: auto; /* Adjust height as needed */
+.container {
     background-color: #ffffff;
-    padding: 2rem 0;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    width: 600px;
+    height: 350px;
+    display: flex; /* Center content */
+    flex-direction: column; /* Stack items vertically */
+    align-items: center; /* Center items horizontally */
+    justify-content: center; /* Center items vertically */
+    margin-left: auto; /* Center the container */
+    margin-right: auto; /* Center the container */
+    margin-top: 180px;
+    transition: transform 0.3s ease;
+}
+
+h2 {
+    margin-bottom: 20px;
+    font-size: 24px;
+    color: #333;
+}
+
+.button-wrapper {
+    display: flex; /* Row layout */
+    justify-content: center; /* Center buttons horizontally */
+    gap: 40px; /* Space between button containers */
+}
+
+.button-container {
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center content */
+    flex-direction: column; /* Stack button and label vertically */
+    align-items: center; /* Center items horizontally */
 }
 
-/* Navigation Container */
-.nav-container {
-    width: 85%;
-    background-color: #fff8e6;
-    border-radius: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.continue-application, .continue-application1 {
+    background-color: #EAC42D; /* Button background color */
+    color: #fff; /* Text color */
+    border: none; /* No border */
+    border-radius: 5px; /* Rounded corners */
+    font-size: 16px; /* Font size */
+    font-weight: 500; /* Font weight */
+    line-height: 19px; /* Line height */
+    padding: 15px; /* Padding */
+    width: 200px; /* Button width */
+    height: 170px; /* Button height */
+    display: flex; /* Flexbox for alignment */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: background 0.3s, transform 0.3s; /* Transition effects */
+    background-image: url("/public/Images/cv-graphic.png"); /* Background image for CV button */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    object-position: top;
+    
 }
 
-/* Logo Styles */
-.logo {
-    font-weight: bold;
-    font-size: 1.5rem;
-    color: #000;
-    margin: 0;
+.continue-application1 {
+    background-image: url("/public/Images/project-proposal.png"); /* Background image for Proposal button */
 }
 
-/* Menu Styles */
-.menu {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+.continue-application:hover, .continue-application1:hover {
+    background-color: rgb(254, 239, 179); /* Background color on hover */
+    transform: scale(1.05); /* Scale effect on hover */
 }
 
-/* Menu Item Styles */
-.menu-item {
-    margin: 0 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    color: #000;
-    cursor: pointer;
-    transition: color 0.3s ease;
+.label {
+    margin-top: 10px; /* Space between button and label */
+    font-size: 16px; /* Font size for label */
+    color: #333; /* Color for label */
+    text-align: center; /* Center text */
+    transition: color 0.3s; /* Transition for color change */
 }
 
-.menu-item:hover {
-    color: #f0c300; /* Change color on hover */
-}
-
-/* Login Button Styles */
-.login-button {
-    width: 150px;
-    height: 47px;
-    background-color: #000;
-    color: #fff;
-    padding: 0.5rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin-top: 40px;
-}
-
-.login-button:hover {
-    background-color: #333; /* Darker color on hover */
-}
-
-/* Media Query for Smaller Screens */
-@media (max-width: 768px) {
-    .menu {
-        display: block; /* Show the menu on smaller screens */
-        text-align: center;
-        width: 100%;
-    }
-
-    .menu-item {
-        display: block;
-        margin: 0.5rem 0;
-    }
+.continue-application:hover + .label, .continue-application1:hover + .label {
+    color: #EAC42D; /* Change label color on button hover */
 }

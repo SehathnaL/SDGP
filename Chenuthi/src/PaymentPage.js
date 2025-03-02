@@ -1,167 +1,107 @@
-import React, { useState } from 'react';
-import { useLocation } from 'react-router-dom';
-import './PaymentPage.css';
+import React, { useState } from "react";
+import { useLocation } from "react-router-dom";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import "./PaymentPage.css";
 
 const PaymentPage = () => {
     const location = useLocation();
-    const trainer = location.state?.trainer || {}; // Handle undefined trainer state
+    const trainer = location.state?.trainer || null;
 
-    const [paymentMethod, setPaymentMethod] = useState('card'); // Default payment method
-    const [cardNumber, setCardNumber] = useState('');
-    const [expiryMonth, setExpiryMonth] = useState('');
-    const [expiryYear, setExpiryYear] = useState('');
-    const [cvv, setCvv] = useState('');
-    const [paypalEmail, setPaypalEmail] = useState('');
-    const [paymentSuccess, setPaymentSuccess] = useState(false); // State to track payment success
+    const [cardDetails, setCardDetails] = useState({
+        cardNumber: "",
+        expiryDate: null,
+        cvv: "",
+        cardholderName: "",
+    });
 
-    const handlePaymentSuccess = () => {
-        setPaymentSuccess(true); // Set payment success state
+    const [loading, setLoading] = useState(false);
+
+    const isFormValid =
+        cardDetails.cardholderName.trim() !== "" &&
+        cardDetails.cardNumber.trim().length === 19 && // Assuming card number format "1111 - 2222 - 3333 - 4444"
+        cardDetails.expiryDate !== null &&
+        cardDetails.cvv.trim().length === 3; // Assuming 3-digit CVV
+
+    const handlePay = () => {
+        if (!isFormValid) return;
+
+        setLoading(true);
+        setTimeout(() => {
+            alert(`Payment of $${trainer.price} for ${trainer.name} is successful!`);
+            setLoading(false);
+        }, 2000);
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Here you would typically handle the payment processing
-        handlePaymentSuccess();
-    };
-
-    const handleBookSession = () => {
-        window.open(
-            `https://calendar.google.com/calendar/r/eventedit?text=Book%20Session%20with%20${trainer.name}`,
-            '_blank'
-        );
-    };
+    if (!trainer) {
+        return <div className="error-message">No trainer selected. Please go back and choose a trainer.</div>;
+    }
 
     return (
-        <div className="payment-page">
-            {paymentSuccess ? (
-                <div className="payment-success">
-                    <h1>Payment Successful!</h1>
-                    <p>Thank you for your payment.</p>
-                    <button onClick={handleBookSession}>Book a Session</button>
-                </div>
-            ) : (
-                <div className="payment-container">
-                    {/* Trainer's Information Section */}
-                    <div className="trainer-info-card">
-                        <div className="trainer-card-header">
-                            <img
-                                src={trainer.imgSrc}
-                                alt={trainer.name}
-                                className="trainer-image"
-                            />
-                            <h2>{trainer.name}</h2>
-                            <h4>{trainer.title}</h4>
-                        </div>
-                        <div className="trainer-card-details">
-                            <div className="detail-row">
-                                <p><strong>Company:</strong> {trainer.company}</p>
-                                <hr />
-                            </div>
-                            <div className="detail-row">
-                                <p><strong>Experience:</strong> {trainer.experience} years</p>
-                                <hr />
-                            </div>
-                            
-                            <div className="detail-row">
-                                <p><strong>Rating:</strong> {trainer.rating} ⭐</p>
-                                <hr />
-                            </div>
-                            <div className="detail-row">
-                                <p><strong>Price:</strong> ${trainer.price}</p>
-                            </div>
-                        </div>
-
+        <div className="payment-container">
+            <div className="payment-content">
+                <div className="trainer-details">
+                    <p className="trainer-header">Trainer Details</p>
+                    <img src={trainer.imgSrc} alt={trainer.name} className="trainer-image" />
+                    <h2>{trainer.name}</h2>
+                    <p className="trainer-service">{trainer.title} at {trainer.company}</p>
+                    <p className="trainer-description">{trainer.description}</p>
+                    <div className="price-box">
+                        <p className="trainer-price">Reserved Price: ${trainer.price}</p>
                     </div>
-
-
-                    {/* Payment Section */}
-                    <div className="payment-section">
-                        <h2>Payment</h2>
-                        <form className="payment-form" onSubmit={handleSubmit}>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="card"
-                                    checked={paymentMethod === 'card'}
-                                    onChange={() => setPaymentMethod('card')}
-                                />
-                                Credit Card
-                            </label>
-                            <label>
-                                <input
-                                    type="radio"
-                                    value="paypal"
-                                    checked={paymentMethod === 'paypal'}
-                                    onChange={() => setPaymentMethod('paypal')}
-                                />
-                                PayPal
-                            </label>
-
-                            {paymentMethod === 'card' && (
-                                <>
-                                    <label>
-                                        Card Number:
-                                        <input
-                                            type="text"
-                                            value={cardNumber}
-                                            onChange={(e) => setCardNumber(e.target.value)}
-                                            placeholder="1111-2222-3333-4444"
-                                            required
-                                        />
-                                    </label>
-                                    <div className="inline-fields">
-                                        <label>
-                                            Expiry Month:
-                                            <input
-                                                type="text"
-                                                value={expiryMonth}
-                                                onChange={(e) => setExpiryMonth(e.target.value)}
-                                                placeholder="MM"
-                                                required
-                                            />
-                                        </label>
-                                        <label>
-                                            Expiry Year:
-                                            <input
-                                                type="text"
-                                                value={expiryYear}
-                                                onChange={(e) => setExpiryYear(e.target.value)}
-                                                placeholder="YYYY"
-                                                required
-                                            />
-                                        </label>
-                                    </div>
-                                    <label>
-                                        CVV:
-                                        <input
-                                            type="text"
-                                            value={cvv}
-                                            onChange={(e) => setCvv(e.target.value)}
-                                            placeholder="123"
-                                            required
-                                        />
-                                    </label>
-                                </>
-                            )}
-
-                            {paymentMethod === 'paypal' && (
-                                <label>
-                                    PayPal Email:
-                                    <input
-                                        type="email"
-                                        value={paypalEmail}
-                                        onChange={(e) => setPaypalEmail(e.target.value)}
-                                        placeholder="your-email@example.com"
-                                        required
-                                    />
-                                </label>
-                            )}
-
-                            <button type="submit">Continue to checkout</button>
-                        </form>
+                    <div className="price-box">
+                        <p className="full-amount">Full Amount: ${trainer.price}</p>
                     </div>
                 </div>
-            )}
+
+                <div className="payment-form">
+                    <h3 className="checkout-header">Checkout</h3>
+                    <img src="./Images/5_Card_CUP_color_horizontal.png" className="creditcard" alt="Credit Card" />
+                    <div className="card-details">
+                        <label htmlFor="cardholder-name">Cardholder Name:</label>
+                        <input
+                            type="text"
+                            id="cardholder-name"
+                            placeholder="John Doe"
+                            value={cardDetails.cardholderName}
+                            onChange={(e) => setCardDetails({ ...cardDetails, cardholderName: e.target.value })}
+                        />
+                        <label htmlFor="card-number">Card Number:</label>
+                        <input
+                            type="text"
+                            id="card-number"
+                            placeholder="1111 - 2222 - 3333 - 4444"
+                            value={cardDetails.cardNumber}
+                            onChange={(e) => setCardDetails({ ...cardDetails, cardNumber: e.target.value })}
+                        />
+                        <div className="expiry-cvv">
+                            <div className="expiry">
+                                <label htmlFor="expiry-date">Expiry Date:</label>
+                                <DatePicker
+                                    selected={cardDetails.expiryDate}
+                                    onChange={(date) => setCardDetails({ ...cardDetails, expiryDate: date })}
+                                    dateFormat="MM/yyyy"
+                                    showMonthYearPicker
+                                    className="custom-datepicker"
+                                />
+                            </div>
+                            <div className="cvv">
+                                <label htmlFor="cvv">CVV:</label>
+                                <input
+                                    type="text"
+                                    id="cvv"
+                                    placeholder="123"
+                                    value={cardDetails.cvv}
+                                    onChange={(e) => setCardDetails({ ...cardDetails, cvv: e.target.value })}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                    <button className="pay-button" onClick={handlePay} disabled={!isFormValid || loading}>
+                        {loading ? "Processing..." : `Pay $${trainer.price}`}
+                    </button>
+                </div>
+            </div>
         </div>
     );
 };
