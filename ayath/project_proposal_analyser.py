@@ -71,6 +71,33 @@ def get_technologies_tools_from_text(text):
 
     return technologies_tools
 
+
+def get_target_audience_from_text(text):
+    """Use OpenAI to extract the target audience explicitly mentioned in the proposal."""
+    prompt = (
+        "Extract the target audience from the following project proposal text. "
+        "Ensure it is taken from a relevant section such as 'Target Audience', 'Intended Users', or a similar heading. "
+        "If multiple audiences are mentioned, return them as a comma-separated list. "
+        "If no target audience is explicitly mentioned, return exactly: 'No target audience is mentioned in this proposal.'\n\n"
+        f"Project Proposal Text:\n{text}"
+    )
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    # Request completion from GPT-3.5-turbo
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    target_audience = response.choices[0].message.content.strip()
+
+    # Handle cases where no target audience is found
+    if not target_audience or target_audience.lower() == "no target audience is mentioned in this proposal.":
+        return "No target audience is mentioned in this proposal."
+
+    return target_audience
+
 @app.post("/upload_pdf")
 async def upload_pdf(file: UploadFile = File(...)):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
@@ -83,6 +110,9 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     title = get_project_title_from_text(extracted_text)
     technologies_tools = get_technologies_tools_from_text(extracted_text)
+    target_audience = get_target_audience_from_text(extracted_text)
+
+    
 
 
 
