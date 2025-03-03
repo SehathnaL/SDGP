@@ -4,6 +4,7 @@ from fastapi import FastAPI, File, UploadFile
 import pdfplumber
 import shutil
 import openai
+import json
 
 load_dotenv()
 
@@ -181,6 +182,14 @@ async def upload_pdf(file: UploadFile = File(...)):
         "projects":project_proposal_solution,
         "Soft skills":target_audience,
     }
+
+    file_name = "Propsal-dictionary.json"
+
+    # Write the dictionary to a JSON file
+    with open(file_name, 'w') as json_file:
+        json.dump(proposal_data, json_file, indent=4)
+
+    print("Data successfully written to", file_name)
 
 
 
