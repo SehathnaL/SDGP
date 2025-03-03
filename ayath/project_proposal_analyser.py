@@ -98,6 +98,36 @@ def get_target_audience_from_text(text):
 
     return target_audience
 
+
+def get_proposed_solution_summary_from_text(text):
+    """Use OpenAI to extract the proposed solution summary explicitly mentioned in the proposal."""
+    prompt = (
+        "Extract the proposed solution summary from the following project proposal text. "
+        "Ensure it is taken from a relevant section such as 'Proposed Solution', 'Solution Overview', or similar. "
+        "If a clear proposed solution summary is found, return only the summary without any extra text. "
+        "If no proposed solution is explicitly mentioned, return exactly: 'No proposed solution is mentioned in this proposal.'\n\n"
+        f"Project Proposal Text:\n{text}"
+    )
+
+    try:
+        # Request completion from GPT-3.5-turbo
+        response = openai.ChatCompletion.create(
+            model="gpt-3.5-turbo",
+            messages=[{"role": "user", "content": prompt}]
+        )
+
+        proposed_solution_summary = response['choices'][0]['message']['content'].strip()
+
+        # Handle cases where no proposed solution is found
+        if not proposed_solution_summary or proposed_solution_summary.lower() == "no proposed solution is mentioned in this proposal.":
+            return "No proposed solution is mentioned in this proposal."
+
+        return proposed_solution_summary
+
+    except Exception as e:
+        # Handle any errors that may occur during the request
+        return f"An error occurred while processing the request: {str(e)}"
+
 @app.post("/upload_pdf")
 async def upload_pdf(file: UploadFile = File(...)):
     file_path = os.path.join(UPLOAD_DIR, file.filename)
@@ -112,7 +142,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     technologies_tools = get_technologies_tools_from_text(extracted_text)
     target_audience = get_target_audience_from_text(extracted_text)
 
-    
+
 
 
 
