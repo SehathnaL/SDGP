@@ -175,6 +175,13 @@ async def upload_pdf(file: UploadFile = File(...)):
     print("04.  technologies_tools:", technologies_tools)
     print("05. Target Audience:", target_audience)
 
+    proposal_data= {
+        "name":title,
+        "skills":project_object,
+        "projects":project_proposal_solution,
+        "Soft skills":target_audience,
+    }
+
 
 
 
