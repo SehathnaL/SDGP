@@ -22,7 +22,7 @@ const Header = styled.div`
 `;
 
 const Title = styled.h2`
-  font-size: 1.25rem;
+  font-size: 40px;
   font-weight: 600;
   margin-bottom: 0.5rem;
 `;
@@ -175,7 +175,7 @@ const BarChart = styled.div`
   padding: 2rem 1rem;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
 `;
 
 const Bar = styled.div`
@@ -217,7 +217,7 @@ const Feedback = () => {
       <Navigation />
       <ContentSection>
         <Header>
-          <Title>Thank you for using IntX to practice your interview skills!</Title>
+          <Title>Thank you for using intX <br/>to practice your interview skills!</Title>
           <Description>Here's a detailed analysis of your today's performance:</Description>
         </Header>
 
