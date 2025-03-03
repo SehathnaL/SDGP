@@ -4,6 +4,7 @@ import shutil
 import pdfplumber
 import openai
 from dotenv import load_dotenv
+import json
 
 
 load_dotenv()
@@ -144,14 +145,14 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     data = {
         "name": name,
-        "technical_skills": Technical_skills,
+        "skills": Technical_skills,
         "projects": projects,
-        "soft_skills": soft_skills
+        "Soft skills": soft_skills,
     }
-
     file_name = "CVdictionary.json"
 
+    with open(file_name, 'w') as json_file:
+        json.dump(data, json_file, indent=4)
 
-
-
+    print("Data successfully written to", file_name)
 
