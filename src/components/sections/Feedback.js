@@ -128,7 +128,7 @@ const SkillsContainer = styled.div`
   background: white;
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.05);
 `;
 
 const SkillItem = styled.div`
@@ -175,7 +175,7 @@ const BarChart = styled.div`
   padding: 2rem 1rem;
   background: white;
   border-radius: 12px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.05);
 `;
 
 const Bar = styled.div`
