@@ -45,7 +45,31 @@ def get_project_title_from_text(text):
         return "No project title is mentioned in this proposal."
 
     return project_title
+def get_technologies_tools_from_text(text):
+    """Use OpenAI to extract the technologies and tools explicitly mentioned in the proposal."""
+    prompt = (
+        "Extract the technologies and tools used in the project from the following project proposal text. "
+        "Ensure they are taken from a relevant section such as 'Technologies Used', 'Tools & Technologies', or similar. "
+        "If multiple technologies and tools are mentioned, return them as a comma-separated list. "
+        "If no technologies or tools are explicitly mentioned, return exactly: 'No technologies or tools are mentioned in this proposal.'\n\n"
+        f"Project Proposal Text:\n{text}"
+    )
 
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    # Request completion from GPT-3.5-turbo
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    technologies_tools = response.choices[0].message.content.strip()
+
+    # Handle cases where no technologies or tools are found
+    if not technologies_tools or technologies_tools.lower() == "no technologies or tools are mentioned in this proposal.":
+        return "No technologies or tools are mentioned in this proposal."
+
+    return technologies_tools
 
 @app.post("/upload_pdf")
 async def upload_pdf(file: UploadFile = File(...)):
@@ -56,8 +80,10 @@ async def upload_pdf(file: UploadFile = File(...)):
         shutil.copyfileobj(file.file, buffer)
 
     extracted_text = extract_text_from_pdf(file_path)
+
     title = get_project_title_from_text(extracted_text)
-    
+    technologies_tools = get_technologies_tools_from_text(extracted_text)
+
 
 
 
