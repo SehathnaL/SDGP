@@ -124,6 +124,32 @@ def get_proposed_solution_summary_from_text(text):
 
     return proposed_solution_summary
 
+def get_project_objective_from_text(text):
+    """Use OpenAI to extract the project objective explicitly mentioned in the proposal."""
+    prompt = (
+        "Extract the project objective from the following project proposal text. "
+        "Ensure it is taken from a relevant section such as 'Project Objective', 'Objective', or an introductory statement. "
+        "If a clear project objective is found, return only the objective without any extra text. "
+        "If no project objective is explicitly mentioned, return exactly: 'No project objective is mentioned in this proposal.'\n\n"
+        f"Project Proposal Text:\n{text}"
+    )
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    # Request completion from GPT-3.5-turbo
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    project_objective = response.choices[0].message.content.strip()
+
+    # Handle cases where no project objective is found
+    if not project_objective or project_objective.lower() == "no project objective is mentioned in this proposal.":
+        return "No project objective is mentioned in this proposal."
+
+    return project_objective
+
 
 
 @app.post("/upload_pdf")
@@ -140,6 +166,7 @@ async def upload_pdf(file: UploadFile = File(...)):
     technologies_tools = get_technologies_tools_from_text(extracted_text)
     target_audience = get_target_audience_from_text(extracted_text)
     project_proposal_solution = get_proposed_solution_summary_from_text(extracted_text)
+    project_object = get_project_objective_from_text(extracted_text)
 
 
 
