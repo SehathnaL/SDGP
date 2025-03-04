@@ -123,20 +123,4 @@ body {
   cursor: pointer;
 }
 
-.login-btn:hover {
-  background-color: #e1a72c;
-}
 
-.signup {
-  margin-top: 20px;
-  text-align: center;
-}
-
-.signup a {
-  color: #f9b234;
-  text-decoration: none;
-}
-
-.signup a:hover {
-  text-decoration: underline;
-}
