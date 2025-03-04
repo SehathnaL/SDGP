@@ -8,7 +8,7 @@ const MeetingPage = () => {
     const socketRef = useRef(null);
     const audioProcessorRef = useRef(null);
 
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
 
     const [localStream, setLocalStream] = useState(null);
