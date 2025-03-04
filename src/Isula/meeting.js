@@ -5,8 +5,6 @@ import Avatar from "./Avatar";
 const MeetingPage = () => {
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
-    const mediaRecorderRef = useRef(null);
-    const recordedChunksRef = useRef([]);
     const socketRef = useRef(null);
     const audioProcessorRef = useRef(null);
 
