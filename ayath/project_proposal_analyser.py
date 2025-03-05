@@ -183,7 +183,7 @@ async def upload_pdf(file: UploadFile = File(...)):
         "Soft skills":target_audience,
     }
 
-    file_name = "Propsal-dictionary.json"
+    file_name = "Propsal-dictionary.json" 
 
     # Write the dictionary to a JSON file
     with open(file_name, 'w') as json_file:

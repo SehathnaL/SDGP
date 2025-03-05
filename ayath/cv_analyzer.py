@@ -20,7 +20,7 @@ def get_name_from_text(text):
     """Use OpenAI to extract the name only if explicitly mentioned in the CV."""
     prompt = (
         "Extract the full name from the following CV text, ensuring it is taken from a relevant section such as 'Name' or 'Personal Information'. "
-        "If there is no name explicitly mentioned, return exactly: 'No name is mentioned in this CV.'\n\n"
+        "If a full name is found, return only the name without any extra text. "
         f"CV Text:\n{text}"
     )
 
