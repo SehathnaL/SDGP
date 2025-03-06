@@ -6,6 +6,8 @@ const MeetingPage = () => {
     const remoteVideoRef = useRef(null);
     const socketRef = useRef(null);
     const audioProcessorRef = useRef(null);
+    const peerConnectionRef = useRef(null);
+    const processorRef = useRef(null);
 
     const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
