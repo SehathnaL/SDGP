@@ -67,6 +67,7 @@ const MeetingPage = () => {
                 const source = audioContext.createMediaStreamSource(stream);
                 // Create a script processor node for real-time processing
                 const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
                 source.connect(processor);
                 processor.connect(audioContext.destination);
 
@@ -76,6 +77,7 @@ const MeetingPage = () => {
                     const base64Audio = arrayBufferToBase64(wavData);
                     await sendLipSyncFrame(base64Audio);
             };
+
             audioProcessorRef.current = processor;
         } catch (error) {
             console.error("Error setting up lip sync processor:", error);
@@ -102,7 +104,7 @@ const MeetingPage = () => {
             const view = new DataView(buffer);
             const sampleRate = 44100;
             
-            function writeString(offset, str) {
+            const writeString(offset, str) {
                 for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
             }
             
@@ -175,6 +177,8 @@ const MeetingPage = () => {
             if (audioProcessorRef.current){
                 audioProcessorRef.current.disconnect();
             }
+            if (audioContextRef.current)
+                 audioContextRef.current.close();
         };
     }, []);
 
