@@ -177,8 +177,6 @@ const MeetingPage = () => {
             if (audioProcessorRef.current){
                 audioProcessorRef.current.disconnect();
             }
-            if (audioContextRef.current)
-                 audioContextRef.current.close();
         };
     }, []);
 
