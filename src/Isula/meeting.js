@@ -1,16 +1,15 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Avatar from "./Avatar";
 
 const MeetingPage = () => {
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
-    const mediaRecorderRef = useRef(null);
-    const recordedChunksRef = useRef([]);
     const socketRef = useRef(null);
     const audioProcessorRef = useRef(null);
+    const peerConnectionRef = useRef(null);
+    const processorRef = useRef(null);
 
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
 
     const [localStream, setLocalStream] = useState(null);
@@ -36,6 +35,7 @@ const MeetingPage = () => {
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
                 setupWebRTC(stream);
+                setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
             }
@@ -67,6 +67,7 @@ const MeetingPage = () => {
                 const source = audioContext.createMediaStreamSource(stream);
                 // Create a script processor node for real-time processing
                 const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
                 source.connect(processor);
                 processor.connect(audioContext.destination);
 
@@ -76,35 +77,13 @@ const MeetingPage = () => {
                     const base64Audio = arrayBufferToBase64(wavData);
                     await sendLipSyncFrame(base64Audio);
             };
+
             audioProcessorRef.current = processor;
         } catch (error) {
             console.error("Error setting up lip sync processor:", error);
 
         }
     };
-        const sendLipSyncFrame = async (base64Audio) => {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        audio: audioFrame,
-                        // Add any additional parameters required by the API
-                    }),
-                });
-                if (!response.ok) {
-                    throw new Error(`Lip sync API error: ${response.status}`);
-                }
-                const result = await response.json();
-                updateAvatar result;
-            } catch (error) {
-                console.error('Failed to process lip sync:', error);
-                return null;
-            }
-        };
         // Function to update your avatar based on the lip sync data
         const updateAvatar = (lipSyncData) => {
         // Update your Avatar component state or call its methods to reflect the lip movement.
@@ -125,7 +104,7 @@ const MeetingPage = () => {
             const view = new DataView(buffer);
             const sampleRate = 44100;
             
-            function writeString(offset, str) {
+            const writeString(offset, str) {
                 for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
             }
             
@@ -179,17 +158,6 @@ const MeetingPage = () => {
                 updateAvatar(result);
             } catch (error) {
                 console.error('Failed to process lip sync:', error);
-            }
-        };
-
-        const updateAvatar = (lipSyncData) => {
-            console.log('Lip sync API response:', lipSyncData);
-            const avatarImage = document.querySelector(".video-wrapper img");
-
-            if (lipSyncData.mouthShape === "open") {
-                avatarImage.style.transform = "scaleY(1.1)";
-            } else {
-                avatarImage.style.transform = "scaleY(1)";
             }
         };
 
