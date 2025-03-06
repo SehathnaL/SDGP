@@ -35,6 +35,7 @@ const MeetingPage = () => {
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
                 setupWebRTC(stream);
+                setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
             }
