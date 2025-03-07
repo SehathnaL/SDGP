@@ -1,7 +1,8 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-
+import { useNavigate } from 'react-router-dom';
 const MeetingPage = () => {
+    const navigation = useNavigate()
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
     const socketRef = useRef(null);
@@ -197,12 +198,13 @@ const MeetingPage = () => {
     const toggleVideo = () => {
         if (localStream) {
             const videoTrack = localStream.getVideoTracks()[0];
+            console.log(videoTrack,"SSSS")
             if (videoTrack){
             videoTrack.enabled = !videoTrack.enabled;
             setIsVideoOn(videoTrack.enabled);
         }
         }
-    };
+    }
 
     const [isAudioOn, setIsAudioOn] = useState(true);
     const toggleAudio = () => {
@@ -224,6 +226,8 @@ const MeetingPage = () => {
             socketRef.current.emit("leave-room");
             socketRef.current.disconnect();
         }
+        navigation('/')
+
     };
 
     const startRecording = () => {
@@ -278,7 +282,7 @@ const MeetingPage = () => {
                 <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
                 <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
                 <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
-                <button onCli ck={endCall}><i className="fa-solid fa-phone-slash"></i> End</button>
+                <button onClick={endCall}><i className="fa-solid fa-phone-slash"></i> End</button>
             </div>
 
             <div id="captionsContainer">{captions}</div>
