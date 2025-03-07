@@ -163,6 +163,17 @@ const MeetingPage = () => {
             }
         };
 
+        const toggleVideo = () => {
+            if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                if (videoTrack) {
+                    videoTrack.enabled = !videoTrack.enabled;
+                    setIsVideoOn(videoTrack.enabled);
+                }
+            }
+        };
+        
+
         initializeSocket();
         startMedia();
 
