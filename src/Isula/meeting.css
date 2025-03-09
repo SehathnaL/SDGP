@@ -195,3 +195,24 @@ button {
     flex: 1 1 120px;
   }
 }
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .meeting-container {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+  
+  .video-wrapper {
+    aspect-ratio: 16/9;
+  }
+  
+  .controls {
+    flex-wrap: wrap;
+    max-width: 95vw;
+  }
+  
+  button {
+    flex: 1 1 120px;
+  }
+}
