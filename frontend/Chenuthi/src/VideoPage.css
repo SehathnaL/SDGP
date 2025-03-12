@@ -1,0 +1,171 @@
+body {
+    margin: 0;
+    overflow: hidden;
+    /* Hide overflow for fullscreen effect */
+}
+
+#id1 {
+    text-align: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 42px;
+    margin-left: 750px;
+    margin-top: 250px;
+    line-height: 65px;
+}
+
+#span1 {
+    color: #EAC42D;
+}
+
+.button {
+    font-family:  Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;;
+    padding: 10px;
+    justify-content: center;
+    margin-left: 1020px;
+    width: 200px;
+    height: 50px;
+    background-color: #EAC42D;
+    border: #ccc;
+    font-family: "Roboto";
+    font-size: 28px;
+    border-radius: 25px;
+    color: black;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    align-items: flex-end;
+    box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+    /* Subtle shadow */
+}
+
+/* Change color on hover */
+button:hover {
+    background-color: #ffebaf;
+    /* Yellow color on hover */
+    color: black;
+    /* White text on hover */
+}
+
+/* Change color on click */
+button:active {
+    background-color: #ffebaf;
+    /* Yellow color on click */
+    color: black;
+    /* Black text on click */
+    border-color: #ffebaf;
+    /* Match border to background */
+}
+
+video {
+    display: block;
+    width: 700px;
+    height: 460px;
+    margin-left: 100px;
+    margin-top: -370px;
+    object-fit: cover;
+    border-radius: 20px;
+    /* Adds rounded corners */
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.5);
+    /* Optional: Adds a shadow for better appearance */
+}
+
+/* Section Styles */
+.section {
+    width: 100vw;
+    height: 65px;
+    background-color: #ffffff;
+    padding: 2rem 0;
+    display: flex;
+    justify-content: center;
+    margin-left: -50px;
+
+}
+
+/* Navigation Container */
+.nav-container {
+    margin-left: -70px;
+    width: 85%;
+    background-color: #fff8e6;
+    border-radius: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    flex-wrap: wrap;
+    /* Allow menu items to wrap if space is tight */
+}
+
+/* Logo Styles */
+.logo {
+    font-weight: bold;
+    font-size: 1.5rem;
+    color: #000;
+    margin: 0;
+}
+
+/* Menu Styles */
+.menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    flex-grow: 1;
+    /* Make menu items take up available space */
+}
+
+/* Menu Item Styles */
+.menu-item {
+    margin: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: #f0c300;
+}
+
+/* Login Button Styles */
+.login-button {
+    display: flex; /* Allows alignment properties to work */
+    justify-content: center; /* Centers content horizontally */
+    align-items: center; /* Centers content vertically */
+    text-align: center; /* Centers multiline text */
+    width: 100px;
+    height: 35px;
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    position: absolute;
+    right: 2rem;
+}
+
+.login-button:hover {
+    background-color: #333;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .menu {
+        display: block;
+        /* Show the menu on smaller screens */
+        text-align: center;
+        width: 100%;
+    }
+
+    .menu-item {
+        display: block;
+        margin: 0.5rem 0;
+    }
+}

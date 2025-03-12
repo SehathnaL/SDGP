@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What Service Would You Like To Have</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Trirong">
+    <style>
+        #line1 {
+            color: #EAC42D;
+            font-family: Itim;
+            font-size: 52px;
+            margin-top: 120px;
+            margin-left: 100px;
+            line-height: 5px;
+            padding: 0px;
+        }
+
+        #line2 {
+            color: black;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 72px;
+            margin-left: 100px;
+        }
+
+        .button-container {
+            margin-top: -400px;
+            margin-left: 800px;
+        }
+
+        .service-button {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 600px;
+            height: 200px;
+            border: 4px solid #fff0b6;
+            border-radius: 25px;
+            padding: 20px;
+            background-color: #fffcea;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+            cursor: pointer;
+            position: relative;
+            margin-left: 50px;
+        }
+
+        .service-button:hover {
+            background-color: #ffebaf;
+        }
+
+        .service-button img {
+            width: 190px;
+            height: 190px;
+            border-radius: 21px;
+            margin-right: 20px;
+        }
+
+        .button-text {
+            color: #EAC42D;
+            font-size: 32px;
+            font-weight: bold;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+
+        .button-text span {
+            display: block;
+            font-size: 36px;
+            font-family: "Trirong", serif;
+            color: black;
+        }
+
+        .section {
+            width: 100vw;
+            height: 65px;
+            background-color: #ffffff;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        .nav-container {
+            width: 85%;
+            background-color: #fff8e6;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #000;
+            margin: 0;
+        }
+
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-grow: 1;
+        }
+
+        .menu-item {
+            margin: 0 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #000;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            color: #f0c300;
+        }
+
+        .login-button {
+            width: 150px;
+            height: 47px;
+            background-color: #000;
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            right: 2rem;
+        }
+
+        .login-button:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .menu {
+                display: block;
+                text-align: center;
+                width: 100%;
+            }
+
+            .menu-item {
+                display: block;
+                margin:  0.5rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <nav class="nav-container">
+            <h1 class="logo">intX</h1>
+            <ul class="menu">
+                <li class="menu-item">Home</li>
+                <li class="menu-item">Services</li>
+                <li class="menu-item">About Us</li>
+                <li class="menu-item">FAQ</li>
+            </ul>
+            <button class="login-button">Log In</button>
+        </nav>
+    </section>
+    <p id="line1">Hi There,</p>
+    <p id="line2">What Service Would <br /> You To Have ?</p>
+
+    <div class="button-container">
+        <button class="service-button">
+            <img src="Images/avatar1.png" alt="avatar1">
+            <div class="button-text">
+                <span>Hire,</span>
+                A Personal Trainer
+            </div>
+        </button>
+
+        <button class="service-button" onclick="window.location.href='CVupload.html'">
+            <img src="Images/avatar2.png" alt="avatar2">
+            <div class="button-text">
+                <span>Continue With,</span>
+                A Virtual Interview
+            </div>
+        </button>
+    </div>
+    <script>
+        document.querySelector('.login-button').addEventListener('click', () => {
+            alert('Login button clicked!');
+        });
+    </script>
+</body>
+
+</html>
