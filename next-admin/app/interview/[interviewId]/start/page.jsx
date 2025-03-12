@@ -11,21 +11,23 @@ import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
 import { chatSession } from "@/utils/GeminiAiModel";
 import Link from "next/link";
+import startConversation from "./logic";
 
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState();
-   const [isWebcamOn, setIsWebcamOn] = useState(true);
-   const [initialResponse, setInitialResponse] = useState("");
-   const [conversationHistory, setConversationHistory] = useState([]);
-   const [userInput, setUserInput] = useState("");
-   const webcamRef = useRef(null);
+  const [isWebcamOn, setIsWebcamOn] = useState(true);
+  const [initialResponse, setInitialResponse] = useState("");
+  const [conversationHistory, setConversationHistory] = useState([]);
+  const [userInput, setUserInput] = useState("");
+  const webcamRef = useRef(null);
 
   useEffect(() => {
     const fetchParams = async () => {
       const unwrappedParams = await params;
       console.log("Interview ID:", unwrappedParams.interviewId);
       const interview = await GetInterviewDetails(unwrappedParams.interviewId);
-      await startConversation(interview);
+      const response = await startConversation(interview);
+      console.log(response)
     };
     fetchParams();
   }, [params]);
@@ -44,6 +46,8 @@ function StartInterview({ params }) {
         result[0].jsonMockResp.length > 0
       ) {
         setInitialResponse(result[0].jsonMockResp[0].question);
+        let role = result[0].jobRole;
+        let description = result[0].jobDesc;
         console.log("Job Role:", result[0].jobRole);
         console.log("Job Description:", result[0].jobDesc);
       }
@@ -52,6 +56,21 @@ function StartInterview({ params }) {
       console.error("Error fetching interview details:", error);
     }
   };
+
+  const startConversation = async (role, description) => {
+    try {
+      const InputPrompt = `You are a professional interviewer conducting a job interview. 
+    Greet the candidate warmly and begin the conversation. Start by introducing yourself 
+    and maintain a professional yet friendly tone throughout the session. And ask user can we start  the conversation.
+    And ask 1 question on   this topic ${description} . Only  after the user  input`;
+      let result = await chatSession.sendMessage(InputPrompt);
+
+      console.log("Initail Response: ", result.response.text());
+    } catch (error) {
+      console.log("Error", error);
+    }
+  };
+
   const toggleWebcam = useCallback(() => {
     setIsWebcamOn((prev) => !prev);
   }, []);
@@ -151,16 +170,14 @@ function StartInterview({ params }) {
       <footer className="flex justify-between items-center p-4 border-t border-gray-800">
         <div className="text-lg font-mono"></div>
         <div>
-        <Button
-          variant="outline"
-          size="icon"
-          className="rounded-full bg-amber-400 hover:bg-amber-500 border-none h-12 w-12"
-        >
-          <Mic className="h-6 w-6" />
-        </Button>
-        
+          <Button
+            variant="outline"
+            size="icon"
+            className="rounded-full bg-amber-400 hover:bg-amber-500 border-none h-12 w-12"
+          >
+            <Mic className="h-6 w-6" />
+          </Button>
         </div>
-      
 
         <Button variant="ghost" size="icon" className="text-gray-400">
           <Info className="h-6 w-6" />
