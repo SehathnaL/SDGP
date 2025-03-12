@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Webcam from 'react-webcam';
+// import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 
 const MeetingPage = () => {
