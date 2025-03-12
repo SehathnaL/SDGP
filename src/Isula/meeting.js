@@ -1,10 +1,13 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
+import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
+
 const MeetingPage = () => {
     const navigation = useNavigate()
-    const localVideoRef = useRef(null);
-    const remoteVideoRef = useRef(null);
+
+    // Refs for media elements
+    const webcamRef = useRef(null);
     const socketRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const audioProcessorRef = useRef(null);
