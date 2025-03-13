@@ -19,13 +19,26 @@ export default function Interview({ params }) {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
   const webcamRef = useRef(null);
+  const [ID, setID] = useState("");
 
-  useEffect((params) => {
+
+  useEffect(() => {
     const fetchParams = async () => {
-      const unwrappedParams = await params;
-      console.log("Interview ID:", unwrappedParams.interviewId);
-      const interview = await GetInterviewDetails(unwrappedParams.interviewId);
-      await startConversation(interview);
+      try {
+        const unwrappedParams = await params;
+        const ID = unwrappedParams.interviewId;
+        setID(ID);
+        console.log("Interview ID:", ID);
+        
+        const interview = await GetInterviewDetails(unwrappedParams.interviewId);
+        console.log("Interview:", interview);
+        if (interview) {
+          console.log("Job Role:", interview.jobRole);
+          console.log("Job Desc:", interview.jobDesc);
+        }
+      } catch (error) {
+        console.error("Error fetching parameters:", error);
+      }
     };
     fetchParams();
   }, [params]);
@@ -37,17 +50,19 @@ export default function Interview({ params }) {
         .from(MockInterview)
         .where(eq(MockInterview.mockId, interviewId));
       console.log("Fetched Interview Data:", result);
-      setInterviewData(result[0]);
+    
       if (
         result[0] &&
         result[0].jsonMockResp &&
         result[0].jsonMockResp.length > 0
       ) {
-        setInitialResponse(result[0].jsonMockResp[0].question);
-        console.log("Job Role:", result[0].jobRole);
-        console.log("Job Description:", result[0].jobDesc);
+        setInitialResponse(result[0]?.jsonMockResp?.[0]?.question || "");
+        setInterviewData(result[0]);
+        return {
+          jobRole: result[0].jobRole,
+          jobDesc: result[0].jobDesc,
+        };
       }
-      return result[0];
     } catch (error) {
       console.error("Error fetching interview details:", error);
     }
@@ -160,7 +175,7 @@ export default function Interview({ params }) {
         >
           <Mic className="h-6 w-6" />
         </Button> */}
-        <Link href ={"/interview/}"+params.interviewId+"/start"}>
+        <Link href ={`/interview/${ID}/start`}>
             <Button  className="hover:bg-amber-300 hover:text-blue-950"> Start Interview</Button>
         </Link>
         <Button variant="ghost" size="icon" className="text-gray-400">

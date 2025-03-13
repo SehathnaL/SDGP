@@ -1,6 +1,6 @@
 "use client";
 
-"use client";
+
 import Image from "next/image";
 import { Mic, Info, Video, VideoOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +11,6 @@ import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
 import { chatSession } from "@/utils/GeminiAiModel";
 import Link from "next/link";
-import startConversation from "./logic";
 
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState();
@@ -23,14 +22,22 @@ function StartInterview({ params }) {
 
   useEffect(() => {
     const fetchParams = async () => {
-      const unwrappedParams = await params;
-      console.log("Interview ID:", unwrappedParams.interviewId);
-      const interview = await GetInterviewDetails(unwrappedParams.interviewId);
-      const response = await startConversation(interview);
-      console.log(response)
+      try {
+        const unwrappedParams = await params;
+        console.log("Interview ID:", unwrappedParams.interviewId);
+        
+        const interview = await GetInterviewDetails(unwrappedParams.interviewId);
+        console.log("Interview:", interview);
+        if (interview) {
+          console.log("Job Role:", interview.jobRole);
+          console.log("Job Desc:", interview.jobDesc);
+        }
+      } catch (error) {
+        console.error("Error fetching parameters:", error);
+      }
     };
     fetchParams();
-  }, [params]);
+  }, []);
 
   const GetInterviewDetails = async (interviewId) => {
     try {
@@ -39,35 +46,21 @@ function StartInterview({ params }) {
         .from(MockInterview)
         .where(eq(MockInterview.mockId, interviewId));
       console.log("Fetched Interview Data:", result);
-      setInterviewData(result[0]);
+    
       if (
         result[0] &&
         result[0].jsonMockResp &&
         result[0].jsonMockResp.length > 0
       ) {
-        setInitialResponse(result[0].jsonMockResp[0].question);
-        let role = result[0].jobRole;
-        let description = result[0].jobDesc;
-        console.log("Job Role:", result[0].jobRole);
-        console.log("Job Description:", result[0].jobDesc);
+        setInitialResponse(result[0]?.jsonMockResp?.[0]?.question || "");
+        setInterviewData(result[0]);
+        return {
+          jobRole: result[0].jobRole,
+          jobDesc: result[0].jobDesc,
+        };
       }
-      return result[0];
     } catch (error) {
       console.error("Error fetching interview details:", error);
-    }
-  };
-
-  const startConversation = async (role, description) => {
-    try {
-      const InputPrompt = `You are a professional interviewer conducting a job interview. 
-    Greet the candidate warmly and begin the conversation. Start by introducing yourself 
-    and maintain a professional yet friendly tone throughout the session. And ask user can we start  the conversation.
-    And ask 1 question on   this topic ${description} . Only  after the user  input`;
-      let result = await chatSession.sendMessage(InputPrompt);
-
-      console.log("Initail Response: ", result.response.text());
-    } catch (error) {
-      console.log("Error", error);
     }
   };
 
