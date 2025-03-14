@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-// import Webcam from 'react-webcam';
+import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 
 const MeetingPage = () => {
@@ -9,18 +9,20 @@ const MeetingPage = () => {
     // Refs for media elements
     const webcamRef = useRef(null);
     const socketRef = useRef(null);
-    const mediaRecorderRef = useRef(null);
+    // const mediaRecorderRef = useRef(null);
     const audioProcessorRef = useRef(null);
     const peerConnectionRef = useRef(null);
-    const processorRef = useRef(null);
+    // const processorRef = useRef(null);
+    // const localVideoRef = useRef(null);
     const recordedChunksRef = useRef(null);
+    // const remoteVideoRef = useRef(null);
 
     const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
 
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
-    const [peerConnection, setPeerConnection] = useState(null);
+    // const [peerConnection, setPeerConnection] = useState(null);
     const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
     const [captions, setCaptions] = useState('');
 
@@ -40,7 +42,8 @@ const MeetingPage = () => {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
-                setupWebRTC(stream);
+                // setupWebRTC(stream);
+                peerConnectionRef.current.addStream(stream);
                 setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
@@ -185,8 +188,8 @@ const MeetingPage = () => {
             if (localStream) {
                 localStream.getTracks().forEach(track => track.stop());
             }
-            if (peerConnection) {
-                peerConnection.close();
+            if (peerConnectionRef.current) {
+                peerConnectionRef.current.close();
             }
             if (socketRef.current) {
                 socketRef.current.disconnect();
@@ -280,6 +283,7 @@ const MeetingPage = () => {
             <div className="controls">
                 <button onClick={toggleVideo}> <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i>{isVideoOn ? " Turn Off Video" : " Turn On Video"}</button>
                 <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
+                <Webcam ref={webcamRef} audio muted autoPlay playsInline />
                 {/* <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
                 <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button> */}
                 <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
