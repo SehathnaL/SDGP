@@ -27,6 +27,11 @@ const generationConfig = {
     // ],
   });
 
+  export const sendMessage = async (message) => {
+    const result = await chatSession.sendMessage(message);
+    return result.response.text();
+  };
+
   // const result = await chatSession.sendMessage("INSERT_INPUT_HERE");
   // console.log(result.response.text());
 

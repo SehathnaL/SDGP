@@ -10,7 +10,8 @@ import { MockInterview } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
 import { chatSession } from "@/utils/GeminiAiModel";
-import Link from "next/link";
+
+import { handleInitialPrompt, handleChatSession } from "../../services/chatHandler";
 
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState();
@@ -19,6 +20,7 @@ function StartInterview({ params }) {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
   const webcamRef = useRef(null);
+  
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -26,12 +28,15 @@ function StartInterview({ params }) {
         const unwrappedParams = await params;
         console.log("Interview ID:", unwrappedParams.interviewId);
         
+        handleInitialPrompt(userInput, interviewData?.jobRole, interviewData?.jobDesc, setUserInput);
         const interview = await GetInterviewDetails(unwrappedParams.interviewId);
         console.log("Interview:", interview);
         if (interview) {
           console.log("Job Role:", interview.jobRole);
           console.log("Job Desc:", interview.jobDesc);
         }
+        handleInitialPrompt(userInput, interview.jobRole, interview.jobDesc, setUserInput);
+
       } catch (error) {
         console.error("Error fetching parameters:", error);
       }
@@ -63,6 +68,21 @@ function StartInterview({ params }) {
       console.error("Error fetching interview details:", error);
     }
   };
+
+  const handleSubmit = () => {
+    handleChatSession(userInput, setUserInput);
+  }
+
+  const handleInputChange = (e) => {
+    setUserInput(e.target.value);
+  }
+  const handleKeyPress = (e) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit();
+    }
+  }
+  
 
   const toggleWebcam = useCallback(() => {
     setIsWebcamOn((prev) => !prev);
@@ -155,8 +175,19 @@ function StartInterview({ params }) {
         {initialResponse && (
           <div className="mt-6 p-4 bg-gray-800 rounded-lg text-white">
             <p>{initialResponse}</p>
+            
           </div>
         )}
+            <input
+          type="text"
+          value={userInput}
+          onChange= {handleInputChange}
+          onKeyPress={handleKeyPress}
+          placeholder="Type your message..."
+          className="mt-4 w-full max-w-4xl p-2 rounded-lg bg-gray-700 text-white"
+        />
+
+
       </main>
 
       {/* Footer */}
