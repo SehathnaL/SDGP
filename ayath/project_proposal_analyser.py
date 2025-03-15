@@ -15,11 +15,20 @@ app = FastAPI()
 UPLOAD_DIR = "uploaded_pdfs1"
 os.makedirs(UPLOAD_DIR, exist_ok=True)
 
+# def extract_text_from_pdf(pdf_path):
+#     """Extract text from the PDF file."""
+#     with pdfplumber.open(pdf_path) as pdf:
+#         text = "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
+#     return text
 def extract_text_from_pdf(pdf_path):
-    """Extract text from the PDF file."""
-    with pdfplumber.open(pdf_path) as pdf:
-        text = "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
-    return text
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            text = "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
+        if not text.strip():
+            raise ValueError("No extractable text found in PDF.")
+        return text
+    except Exception as e:
+        raise ValueError(f"Error extracting text from PDF: {str(e)}")
 
 def get_project_title_from_text(text):
     """Use OpenAI to extract the project title explicitly mentioned in the proposal."""
@@ -103,7 +112,7 @@ def get_proposed_solution_summary_from_text(text):
     """Use OpenAI to extract the proposed solution summary explicitly mentioned in the proposal."""
     prompt = (
         "Extract the proposed solution summary from the following project proposal text. "
-        "Ensure it is taken from a relevant section such as 'Proposed Solution', 'Solution Overview', or similar. "
+        "Ensure it is taken from a relevant section such as 'Proposed   Solution', 'Solution Overview', or similar. "
         "If a clear proposed solution summary is found, return only the summary without any extra text. "
         "If no proposed solution is explicitly mentioned, return exactly: 'No proposed solution is mentioned in this proposal.'\n\n"
         f"Project Proposal Text:\n{text}"
