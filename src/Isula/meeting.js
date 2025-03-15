@@ -310,7 +310,7 @@ const MeetingPage = () => {
         <div>
             <div className="meeting-container">
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
-                <Webcam ref={webcamRef} audio muted autoPlay playsInline />
+                <WebcamComponent audio muted autoPlay playsInline />
                 </div>
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
                     <img src="./avatar-meeting.png" alt="Avatar"/>
