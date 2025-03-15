@@ -1,6 +1,5 @@
 "use client";
 
-
 import Image from "next/image";
 import { Mic, Info, Video, VideoOff } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,7 +10,11 @@ import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
 import { chatSession } from "@/utils/GeminiAiModel";
 
-import { handleInitialPrompt, handleChatSession } from "../../services/chatHandler";
+import {
+  handleInitialPrompt,
+  handleChatSession,
+} from "../../services/chatHandler";
+import { RecordUserAnswer } from "../../services/recordUserAnswer";
 
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState();
@@ -20,23 +23,33 @@ function StartInterview({ params }) {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
   const webcamRef = useRef(null);
-  
 
   useEffect(() => {
     const fetchParams = async () => {
       try {
         const unwrappedParams = await params;
         console.log("Interview ID:", unwrappedParams.interviewId);
-        
-        handleInitialPrompt(userInput, interviewData?.jobRole, interviewData?.jobDesc, setUserInput);
-        const interview = await GetInterviewDetails(unwrappedParams.interviewId);
+
+        handleInitialPrompt(
+          userInput,
+          interviewData?.jobRole,
+          interviewData?.jobDesc,
+          setUserInput
+        );
+        const interview = await GetInterviewDetails(
+          unwrappedParams.interviewId
+        );
         console.log("Interview:", interview);
         if (interview) {
           console.log("Job Role:", interview.jobRole);
           console.log("Job Desc:", interview.jobDesc);
         }
-        handleInitialPrompt(userInput, interview.jobRole, interview.jobDesc, setUserInput);
-
+        handleInitialPrompt(
+          userInput,
+          interview.jobRole,
+          interview.jobDesc,
+          setUserInput
+        );
       } catch (error) {
         console.error("Error fetching parameters:", error);
       }
@@ -51,7 +64,7 @@ function StartInterview({ params }) {
         .from(MockInterview)
         .where(eq(MockInterview.mockId, interviewId));
       console.log("Fetched Interview Data:", result);
-    
+
       if (
         result[0] &&
         result[0].jsonMockResp &&
@@ -71,18 +84,17 @@ function StartInterview({ params }) {
 
   const handleSubmit = () => {
     handleChatSession(userInput, setUserInput);
-  }
+  };
 
   const handleInputChange = (e) => {
     setUserInput(e.target.value);
-  }
+  };
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       e.preventDefault();
       handleSubmit();
     }
-  }
-  
+  };
 
   const toggleWebcam = useCallback(() => {
     setIsWebcamOn((prev) => !prev);
@@ -175,33 +187,28 @@ function StartInterview({ params }) {
         {initialResponse && (
           <div className="mt-6 p-4 bg-gray-800 rounded-lg text-white">
             <p>{initialResponse}</p>
-            
           </div>
         )}
-            <input
-          type="text"
-          value={userInput}
-          onChange= {handleInputChange}
-          onKeyPress={handleKeyPress}
-          placeholder="Type your message..."
-          className="mt-4 w-full max-w-4xl p-2 rounded-lg bg-gray-700 text-white"
-        />
-
-
+        <div className="mt-4 w-full mx-w-4xl flex">
+          <input
+            type="text"
+            value={userInput}
+            onChange={handleInputChange}
+            onKeyPress={handleKeyPress}
+            placeholder="Type your message..."
+            className="mt-4 w-full max-w-4xl p-2 rounded-lg bg-gray-700 text-white"
+          />
+          <RecordUserAnswer
+            ref={recordUserAnswerRef}
+            setUserInput={setUserInput}
+          />
+        </div>
       </main>
 
       {/* Footer */}
       <footer className="flex justify-between items-center p-4 border-t border-gray-800">
         <div className="text-lg font-mono"></div>
-        <div>
-          <Button
-            variant="outline"
-            size="icon"
-            className="rounded-full bg-amber-400 hover:bg-amber-500 border-none h-12 w-12"
-          >
-            <Mic className="h-6 w-6" />
-          </Button>
-        </div>
+        <div></div>
 
         <Button variant="ghost" size="icon" className="text-gray-400">
           <Info className="h-6 w-6" />
