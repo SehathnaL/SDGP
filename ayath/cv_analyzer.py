@@ -94,9 +94,9 @@ def get_soft_skills_from_text(text):
 def get_projects_from_text(text):
     """Use OpenAI to extract projects only from the 'Projects' section in the given text."""
     prompt = (
-        "Extract only the projects listed under the 'Projects' section in the following CV text. "
-        "If the section exists, return a list of projects, formatted as a brief title followed by a short description. "
-        "If there is no 'Projects' section, return exactly: 'No projects are mentioned in this CV.'\n\n"
+        "Extract the career objective or aspirations from the given CV text. "
+        "If there is no explicit 'Career Objective' section, infer the candidate's aspirations based on the provided text. "
+        "Then, summarize it concisely in one or two sentences, keeping only the key points.\n\n"
         f"CV Text:\n{text}"
     )
 
@@ -118,6 +118,33 @@ def get_projects_from_text(text):
     return projects
 
 
+
+def get_career_objectives_from_text(text):
+    """Use OpenAI to extract career objectives from the CV."""
+    prompt = (
+        "Extract the career objective or aspirations from the given CV text. "
+        "If there is no explicit 'Career Objective' section, infer the candidate's aspirations based on the provided text. "
+        "Provide only the key objective, avoiding unnecessary details.\n\n"
+        f"CV Text:\n{text}"
+    )
+
+    client = openai.OpenAI(api_key=OPENAI_API_KEY)
+
+    response = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}]
+    )
+
+    career_objective = response.choices[0].message.content.strip()
+
+    # Handle cases where no career objective is found
+    if not career_objective or "no career objective" in career_objective.lower():
+        return "No career objective is mentioned in this CV."
+
+    return career_objective
+
+
+
 def extract_text_from_pdf(pdf_path):
     with pdfplumber.open(pdf_path) as pdf:
         text=text = "\n".join([page.extract_text() for page in pdf.pages if page.extract_text()])
@@ -137,11 +164,13 @@ async def upload_pdf(file: UploadFile = File(...)):
     soft_skills = get_soft_skills_from_text(extracted_text)
     Technical_skills= get_technical_skills_from_text(extracted_text)
     projects=get_projects_from_text(extracted_text)
+    objective=get_career_objectives_from_text(extracted_text)
 
     print(" Extracted Name:", name)
     print(" Extracted Soft Skills:", soft_skills)
     print(" Extracted Technical Skills:",Technical_skills)
     print("Extracted  projects:",projects)
+    print("Object:", objective)
 
     data = {
         "name": name,
