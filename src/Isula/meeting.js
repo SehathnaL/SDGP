@@ -1,6 +1,6 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Webcam from 'react-webcam';
+// import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 
 const MeetingPage = () => {
@@ -13,9 +13,7 @@ const MeetingPage = () => {
     const audioProcessorRef = useRef(null);
     const peerConnectionRef = useRef(null);
     const processorRef = useRef(null);
-    const localVideoRef = useRef(null);
     const recordedChunksRef = useRef(null);
-    const remoteVideoRef = useRef(null);
 
     const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
@@ -25,7 +23,6 @@ const MeetingPage = () => {
     const [peerConnection, setPeerConnection] = useState(null);
     const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
     const [captions, setCaptions] = useState('');
-    
 
 
     useEffect(() => {
@@ -43,8 +40,7 @@ const MeetingPage = () => {
                 const stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
-                // setupWebRTC(stream);
-                peerConnectionRef.current.addStream(stream);
+                setupWebRTC(stream);
                 setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
@@ -71,42 +67,6 @@ const MeetingPage = () => {
             };
 
         };
-
-        const WebcamComponent = ({ isVideoOn, isAudioOn, onStreamReady }) => {
-            const webcamRef = useRef(null);
-            const [localStream, setLocalStream] = useState(null);
-        
-            useEffect(() => {
-                const startWebcam = async () => {
-                    try {
-                        const stream = await navigator.mediaDevices.getUserMedia({
-                            video: isVideoOn,
-                            audio: isAudioOn
-                        });
-        
-                        setLocalStream(stream);
-                        if (onStreamReady) {
-                            onStreamReady(stream);
-                        }
-                    } catch (error) {
-                        console.error('Error accessing webcam:', error);
-                    }
-                };
-        
-                startWebcam();
-        
-                return () => {
-                    if (localStream) {
-                        localStream.getTracks().forEach(track => track.stop());
-                    }
-                };
-            }, [isVideoOn, isAudioOn]);
-        
-            return (
-                <Webcam ref={webcamRef} audio muted autoPlay playsInline />
-            );
-        };
-        
         const setupLipSyncProcessor = (stream) => {
             try {
                 const audioContext = new AudioContext();
@@ -225,8 +185,8 @@ const MeetingPage = () => {
             if (localStream) {
                 localStream.getTracks().forEach(track => track.stop());
             }
-            if (peerConnectionRef.current) {
-                peerConnectionRef.current.close();
+            if (peerConnection) {
+                peerConnection.close();
             }
             if (socketRef.current) {
                 socketRef.current.disconnect();
@@ -310,7 +270,7 @@ const MeetingPage = () => {
         <div>
             <div className="meeting-container">
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
-                <WebcamComponent audio muted autoPlay playsInline />
+                    <video ref={localVideoRef} autoPlay playsInline muted />
                 </div>
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
                     <img src="./avatar-meeting.png" alt="Avatar"/>
