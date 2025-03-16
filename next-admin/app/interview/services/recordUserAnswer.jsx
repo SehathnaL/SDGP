@@ -1,10 +1,14 @@
-import React, { forwardRef } from "react";
-import useSpeechToText from "react-hook-speech-to-text";
+"use client"
+import React, {useState, useEffect} from 'react';
+import { Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mic } from "lucide-react";
+import useSpeechToText from 'react-hook-speech-to-text';
 
 
-const RecordUserAnswer = forwardRef(({ setUserInput }, ref) => {
+
+function RecordUserAnswer() {
+  const [userAnswer, setUserAnswer] = useState("");
   const {
     error,
     interimResult,
@@ -14,32 +18,43 @@ const RecordUserAnswer = forwardRef(({ setUserInput }, ref) => {
     stopSpeechToText,
   } = useSpeechToText({
     continuous: true,
-    useLegacyResults: false,
+    useLegacyResults: false
   });
+  useEffect (() => {
+    results.map((result) => {
+      setUserAnswer(prevAns=>prevAns +  result?.transcript);
+    });
 
-  if (error) return <p>Web Speech API is not available in this browser 🤷‍</p>;
+  }, [results]);
 
-  return (
+return (
     <div>
-      <h1>Recording: {isRecording.toString()}</h1>
-      <button
-        variant="outline"
-        size="icon"
-        className="rounded-full bg-amber-400 hover:bg-amber-500 border-none h-12 w-12"
-        onClick={isRecording ? stopSpeechToText : startSpeechToText}
-      >
-        {isRecording ? "Stop Recording" : "Start Recording"}
+        <footer className="flex justify-between items-center p-4 border-t border-gray-800">
+        <div className="text-lg font-mono"></div>
+        <div></div>
+        <Button
+            variant="outline"
+            size="icon"
+            className=" bg-amber-400 hover:bg-amber-500 border-none h-12 w-50"
+            
+            onClick={isRecording ? stopSpeechToText : startSpeechToText}>
+        
+          <h2>
+          <Mic className="h-6 w-6" />
+          </h2>
+        
+            {isRecording ? 'Stop Recording' : 'Start Recording'}
+          </Button>
+           <Button onClick={()=>console.log(userAnswer)}>Show Answer</Button>
+           
+       
 
-        <Mic className="h-6 w-6" />
-      </button>
-      <ul>
-        {results.map((result) => (
-          <li key={result.timestamp}>{result.transcript}</li>
-        ))}
-        {interimResult && <li>{interimResult}</li>}
-      </ul>
+        <Button variant="ghost" size="icon" className="text-gray-400">
+          <Info className="h-6 w-6" />
+        </Button>
+      </footer>
     </div>
-  );
-});
+  )
+}
 
 export default RecordUserAnswer;

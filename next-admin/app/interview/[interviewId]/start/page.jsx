@@ -9,12 +9,12 @@ import { MockInterview } from "@/utils/schema";
 import { eq } from "drizzle-orm";
 import Webcam from "react-webcam";
 import { chatSession } from "@/utils/GeminiAiModel";
-
+import TestPage from "../../services/testPage";
 import {
   handleInitialPrompt,
   handleChatSession,
 } from "../../services/chatHandler";
-import { RecordUserAnswer } from "../../services/recordUserAnswer";
+import RecordUserAnswer from "../../services/recordUserAnswer";
 
 function StartInterview({ params }) {
   const [interviewData, setInterviewData] = useState();
@@ -23,6 +23,7 @@ function StartInterview({ params }) {
   const [conversationHistory, setConversationHistory] = useState([]);
   const [userInput, setUserInput] = useState("");
   const webcamRef = useRef(null);
+  const recordUserAnswerRef = useRef(null);
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -168,8 +169,8 @@ function StartInterview({ params }) {
                       alt="Thasara"
                       width={128}
                       height={128}
-                      className="rounded-full"
-                    />
+                      className="rounded-full"></Image>
+                    
                   </div>
                   <div
                     className="absolute bottom-0 right-0 bg-[#1e1e1e] p-1 rounded-full cursor-pointer"
@@ -198,22 +199,13 @@ function StartInterview({ params }) {
             placeholder="Type your message..."
             className="mt-4 w-full max-w-4xl p-2 rounded-lg bg-gray-700 text-white"
           />
-          <RecordUserAnswer
-            ref={recordUserAnswerRef}
-            setUserInput={setUserInput}
-          />
+          
         </div>
       </main>
 
       {/* Footer */}
-      <footer className="flex justify-between items-center p-4 border-t border-gray-800">
-        <div className="text-lg font-mono"></div>
-        <div></div>
-
-        <Button variant="ghost" size="icon" className="text-gray-400">
-          <Info className="h-6 w-6" />
-        </Button>
-      </footer>
+      <RecordUserAnswer/>
+     
     </div>
   );
 }
