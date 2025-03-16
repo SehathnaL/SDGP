@@ -1,6 +1,8 @@
-import { sendMessage } from "@/utils/GeminiAiModel";
+import { sendMessage} from "@/utils/GeminiAiModel";
+import { useState } from "react";
 
-export const handleInitialPrompt = async (userInput, jobRole, jobDesc, setUserInput) => {
+export const handleInitialPrompt = async (jobRole, jobDesc) => {
+ 
     try {
       const initialPrompt = `You are a professional interviewer called Nadia, a Women 
        conducting a job interview. 
