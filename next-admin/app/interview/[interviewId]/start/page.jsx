@@ -76,7 +76,7 @@ function StartInterview({ params }) {
   };
 
   const handleSubmit = () => {
-    handleChatSession(userInput, setUserInput);
+    handleChatSession(userInput);
   };
 
   const handleInputChange = (e) => {
