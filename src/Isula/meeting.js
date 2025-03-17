@@ -1,8 +1,29 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-// import Webcam from 'react-webcam';
+import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 
+function WebcamSample() {
+    const [isShowVideo, setIsShowVideo] = useState(false);
+    const videoElement = useRef(null);
+
+    const videoConstraints = {
+        width: 640,
+        height: 480,
+        facingMode: "user"
+    }
+
+    const startCam = () => {
+        setIsShowVideo(true);
+    }
+
+    const stopCam = () => {
+        let stream = videoElement.current.stream;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        setIsShowVideo(false);
+    }
+}
 const MeetingPage = () => {
     const navigation = useNavigate()
 
@@ -23,8 +44,6 @@ const MeetingPage = () => {
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
-    // const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
-    // const [captions, setCaptions] = useState('');
 
 
     useEffect(() => {
@@ -274,16 +293,21 @@ const MeetingPage = () => {
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
                     <video ref={localVideoRef} autoPlay playsInline muted />
                 </div>
-                <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
+                <div className="video-wrapper"> Add wrapper for aspect ratio
                     <img src="./avatar-meeting.png" alt="Avatar"/>
+                    <div className="camView">
+                {isShowVideo &&
+                    <Webcam audio={false} ref={videoElement} videoConstraints={videoConstraints} />
+                }
+            </div>
                 </div>
             </div>
 
             <div className="controls">
                 <button onClick={toggleVideo}> <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i>{isVideoOn ? " Turn Off Video" : " Turn On Video"}</button>
                 <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
-                {/* <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
-                <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button> */}
+                <button onClick={startCam}>Start Video</button>
+                <button onClick={stopCam}>Stop Video</button>
                 <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
                 <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
                 <button onClick={endCall}><i className="fa-solid fa-phone-slash"></i> End</button>
