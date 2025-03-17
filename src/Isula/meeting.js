@@ -273,11 +273,32 @@ const MeetingPage = () => {
             </div>
 
             <div className="controls">
-                <button onClick={toggleVideo}> <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i>{isVideoOn ? " Turn Off Video" : " Turn On Video"}</button>
-                <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
-                <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
-                <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
-                <button onClick={endCall}><i className="fa-solid fa-phone-slash"></i> End</button>
+                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? 'green' : 'red' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
+                <button 
+                    onClick={toggleAudio} 
+                    style={{ backgroundColor: isAudioOn ? 'green' : 'red' }}
+                >
+                    <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
+                    {isAudioOn ? " Mute Mic" : " Unmute Mic"}
+                </button>
+                <button 
+                    onClick={startRecording} 
+                    style={{ backgroundColor: isRecording ? 'red' : 'blue' }}
+                >
+                    <i className="fa-solid fa-circle"></i> Start Recording
+                </button>
+                <button 
+                    onClick={stopRecording} 
+                    style={{ backgroundColor: !isRecording ? 'gray' : 'red' }}
+                >
+                    <i className="fa-solid fa-stop"></i> Stop Recording
+                </button>
+                <button 
+                    onClick={endCall} 
+                    style={{ backgroundColor: 'black', color: 'white' }}
+                >
+                    <i className="fa-solid fa-phone-slash"></i> End
+                </button>
             </div>
         </div>
         
