@@ -1,0 +1,19 @@
+html,
+body,
+.landing-page {
+    height: 100%;
+    margin: 0; /* Remove any default margin */
+}
+
+body {
+    background: linear-gradient(45deg, #EAC42D, white, black);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.logo {
+    width: 500px;
+    height: 300px;
+    margin-top: 180px;
+    margin-left: 500px;
+}

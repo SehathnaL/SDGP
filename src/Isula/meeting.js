@@ -1,16 +1,21 @@
 import React, { useRef, useEffect, useState } from 'react';
 import io from 'socket.io-client';
-import Avatar from "./Avatar";
+// import Webcam from 'react-webcam';
+import { useNavigate } from 'react-router-dom';
 
 const MeetingPage = () => {
-    const localVideoRef = useRef(null);
-    const remoteVideoRef = useRef(null);
-    const mediaRecorderRef = useRef(null);
-    const recordedChunksRef = useRef([]);
-    const socketRef = useRef(null);
-    const audioProcessorRef = useRef(null);
+    const navigation = useNavigate()
 
-    const API_KEY = 'YOUR_API_KEY_HERE';
+    // Refs for media elements
+    const webcamRef = useRef(null);
+    const socketRef = useRef(null);
+    const mediaRecorderRef = useRef(null);
+    const audioProcessorRef = useRef(null);
+    const peerConnectionRef = useRef(null);
+    const processorRef = useRef(null);
+    const recordedChunksRef = useRef(null);
+
+    const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
     const API_URL = 'https://api.gooey.ai/lip-sync';
 
     const [localStream, setLocalStream] = useState(null);
@@ -36,6 +41,7 @@ const MeetingPage = () => {
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
                 setupWebRTC(stream);
+                setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
             }
@@ -67,6 +73,7 @@ const MeetingPage = () => {
                 const source = audioContext.createMediaStreamSource(stream);
                 // Create a script processor node for real-time processing
                 const processor = audioContext.createScriptProcessor(4096, 1, 1);
+
                 source.connect(processor);
                 processor.connect(audioContext.destination);
 
@@ -76,35 +83,13 @@ const MeetingPage = () => {
                     const base64Audio = arrayBufferToBase64(wavData);
                     await sendLipSyncFrame(base64Audio);
             };
+
             audioProcessorRef.current = processor;
         } catch (error) {
             console.error("Error setting up lip sync processor:", error);
 
         }
     };
-        const sendLipSyncFrame = async (base64Audio) => {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({
-                        audio: audioFrame,
-                        // Add any additional parameters required by the API
-                    }),
-                });
-                if (!response.ok) {
-                    throw new Error(`Lip sync API error: ${response.status}`);
-                }
-                const result = await response.json();
-                updateAvatar result;
-            } catch (error) {
-                console.error('Failed to process lip sync:', error);
-                return null;
-            }
-        };
         // Function to update your avatar based on the lip sync data
         const updateAvatar = (lipSyncData) => {
         // Update your Avatar component state or call its methods to reflect the lip movement.
@@ -125,7 +110,7 @@ const MeetingPage = () => {
             const view = new DataView(buffer);
             const sampleRate = 44100;
             
-            function writeString(offset, str) {
+            const writeString = (offset, str) => {
                 for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
             }
             
@@ -182,16 +167,16 @@ const MeetingPage = () => {
             }
         };
 
-        const updateAvatar = (lipSyncData) => {
-            console.log('Lip sync API response:', lipSyncData);
-            const avatarImage = document.querySelector(".video-wrapper img");
-
-            if (lipSyncData.mouthShape === "open") {
-                avatarImage.style.transform = "scaleY(1.1)";
-            } else {
-                avatarImage.style.transform = "scaleY(1)";
+        const toggleVideo = () => {
+            if (localStream) {
+                const videoTrack = localStream.getVideoTracks()[0];
+                if (videoTrack) {
+                    videoTrack.enabled = !videoTrack.enabled;
+                    setIsVideoOn(videoTrack.enabled);
+                }
             }
         };
+        
 
         initializeSocket();
         startMedia();
@@ -216,12 +201,13 @@ const MeetingPage = () => {
     const toggleVideo = () => {
         if (localStream) {
             const videoTrack = localStream.getVideoTracks()[0];
+            console.log(videoTrack,"SSSS")
             if (videoTrack){
             videoTrack.enabled = !videoTrack.enabled;
             setIsVideoOn(videoTrack.enabled);
         }
         }
-    };
+    }
 
     const [isAudioOn, setIsAudioOn] = useState(true);
     const toggleAudio = () => {
@@ -229,12 +215,11 @@ const MeetingPage = () => {
             const audioTrack = localStream.getAudioTracks()[0];
             if(audioTrack){
             audioTrack.enabled = !audioTrack.enabled;
-            setIsAudioOn(videoTrack.enabled);
+            setIsAudioOn(audioTrack.enabled);
         }
     }
     };
 
-    };
 
     const endCall = () => {
         if (peerConnection) {
@@ -244,6 +229,8 @@ const MeetingPage = () => {
             socketRef.current.emit("leave-room");
             socketRef.current.disconnect();
         }
+        navigation('/')
+
     };
 
     const startRecording = () => {
@@ -273,7 +260,11 @@ const MeetingPage = () => {
         if (mediaRecorderRef.current) {
             mediaRecorderRef.current.stop();
         }
-    };
+    }
+
+    const toggleCaptions = () =>{
+
+    }
 
     return (
         <div>
@@ -282,15 +273,15 @@ const MeetingPage = () => {
                     <video ref={localVideoRef} autoPlay playsInline muted />
                 </div>
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
-                    <img src=  "./Isula_Jayagoda_i_won'_ai_avatar_it_gild_she_won't_professional_an_2f0523c4-e8ab-4652-9894-3654e419b18d.png" alt="Avatar"/>
+                    <img src="./avatar-meeting.png" alt="Avatar"/>
                 </div>
             </div>
 
             <div className="controls">
                 <button onClick={toggleVideo}> <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i>{isVideoOn ? " Turn Off Video" : " Turn On Video"}</button>
                 <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
-                <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
-                <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button>
+                {/* <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
+                <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button> */}
                 <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
                 <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
                 <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
@@ -303,6 +294,8 @@ const MeetingPage = () => {
         </div>
         
     );
+
+}    
  
 
 export default MeetingPage;
