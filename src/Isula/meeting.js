@@ -267,35 +267,35 @@ const MeetingPage = () => {
                 <div className="video-wrapper"> {/* Add wrapper for aspect ratio */}
                     <video ref={localVideoRef} autoPlay playsInline muted />
                 </div>
-                <div className="video-wrapper"> Add wrapper for aspect ratio
+                <div className="video-wrapper">
                     <img src="./avatar-meeting.png" alt="Avatar"/>
                 </div>
             </div>
 
             <div className="controls">
-                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? 'green' : 'red' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
+                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#a12308' : 'black' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
                 <button 
                     onClick={toggleAudio} 
-                    style={{ backgroundColor: isAudioOn ? 'green' : 'red' }}
+                    style={{ backgroundColor: isAudioOn ? '#a12308' : 'black' }}
                 >
                     <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
                     {isAudioOn ? " Mute Mic" : " Unmute Mic"}
                 </button>
                 <button 
                     onClick={startRecording} 
-                    style={{ backgroundColor: isRecording ? 'red' : 'blue' }}
+                    style={{ backgroundColor: startRecording ? '#a12308' : 'black' }}
                 >
                     <i className="fa-solid fa-circle"></i> Start Recording
                 </button>
                 <button 
                     onClick={stopRecording} 
-                    style={{ backgroundColor: !isRecording ? 'gray' : 'red' }}
+                    style={{ backgroundColor: stopRecording ? '#a12308' : 'black' }}
                 >
                     <i className="fa-solid fa-stop"></i> Stop Recording
                 </button>
                 <button 
                     onClick={endCall} 
-                    style={{ backgroundColor: 'black', color: 'white' }}
+                    style={{ backgroundColor: '#a12308' }}
                 >
                     <i className="fa-solid fa-phone-slash"></i> End
                 </button>
