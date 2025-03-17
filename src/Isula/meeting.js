@@ -21,8 +21,8 @@ const MeetingPage = () => {
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
-    const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
-    const [captions, setCaptions] = useState('');
+    // const [isCaptionsEnabled, setIsCaptionsEnabled] = useState(false);
+    // const [captions, setCaptions] = useState('');
 
 
     useEffect(() => {
@@ -262,9 +262,9 @@ const MeetingPage = () => {
         }
     }
 
-    const toggleCaptions = () =>{
+    // const toggleCaptions = () =>{
 
-    }
+    // }
 
     return (
         <div>
@@ -282,13 +282,12 @@ const MeetingPage = () => {
                 <button onClick={toggleAudio}><i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i>{isAudioOn ? " Mute Mic" : " Unmute Mic"}</button>
                 {/* <button onClick={() => localStream.getVideoTracks()[0].enabled = !localStream.getVideoTracks()[0].enabled}>Toggle Video</button>
                 <button onClick={() => localStream.getAudioTracks()[0].enabled = !localStream.getAudioTracks()[0].enabled}>Toggle Audio</button> */}
-                <button onClick={toggleCaptions}><i className="fa-solid fa-closed-captioning"></i> Captions</button>
                 <button onClick={startRecording}><i className="fa-solid fa-circle"></i> Start Recording</button>
                 <button onClick={stopRecording}><i className="fa-solid fa-stop"></i> Stop Recording</button>
                 <button onClick={endCall}><i className="fa-solid fa-phone-slash"></i> End</button>
             </div>
 
-            <div id="captionsContainer">{captions}</div>
+            {/* <div id="captionsContainer">{captions}</div> */}
             {/* You can pass lip sync data as props to your Avatar component if needed */}
             {/* <Avatar lipSyncData={...} /> */} 
         </div>
