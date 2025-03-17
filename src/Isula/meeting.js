@@ -189,6 +189,7 @@ const MeetingPage = () => {
             }
             if (socketRef.current) {
                 socketRef.current.disconnect();
+                console.log('Disconnected from server');
             }
             if (audioProcessorRef.current){
                 audioProcessorRef.current.disconnect();
