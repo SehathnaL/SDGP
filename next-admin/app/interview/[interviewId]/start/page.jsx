@@ -24,6 +24,8 @@ function StartInterview({ params }) {
   const [userInput, setUserInput] = useState("");
   const webcamRef = useRef(null);
   const recordUserAnswerRef = useRef(null);
+  const [initialPromptSet, setInitialPromptSet] = useState(false);
+  const initialPromptTriggered = useRef(false);
 
   useEffect(() => {
     const fetchParams = async () => {
@@ -31,32 +33,22 @@ function StartInterview({ params }) {
         const unwrappedParams = await params;
         console.log("Interview ID:", unwrappedParams.interviewId);
 
-        handleInitialPrompt(
-          userInput,
-          interviewData?.jobRole,
-          interviewData?.jobDesc,
-          setUserInput
-        );
         const interview = await GetInterviewDetails(
           unwrappedParams.interviewId
         );
         console.log("Interview:", interview);
-        if (interview) {
+        if (interview && !initialPromptTriggered.current) {
           console.log("Job Role:", interview.jobRole);
           console.log("Job Desc:", interview.jobDesc);
+          handleInitialPrompt(interview.jobRole, interview.jobDesc);
+          initialPromptTriggered.current = true; // Prevent re-triggering
         }
-        handleInitialPrompt(
-          userInput,
-          interview.jobRole,
-          interview.jobDesc,
-          setUserInput
-        );
       } catch (error) {
         console.error("Error fetching parameters:", error);
       }
     };
     fetchParams();
-  }, []);
+  }, [params]);
 
   const GetInterviewDetails = async (interviewId) => {
     try {
@@ -64,7 +56,7 @@ function StartInterview({ params }) {
         .select()
         .from(MockInterview)
         .where(eq(MockInterview.mockId, interviewId));
-      console.log("Fetched Interview Data:", result);
+      // console.log("Fetched Interview Data:", result);
 
       if (
         result[0] &&
@@ -84,7 +76,7 @@ function StartInterview({ params }) {
   };
 
   const handleSubmit = () => {
-    handleChatSession(userInput, setUserInput);
+    handleChatSession(userInput);
   };
 
   const handleInputChange = (e) => {
@@ -169,8 +161,8 @@ function StartInterview({ params }) {
                       alt="Thasara"
                       width={128}
                       height={128}
-                      className="rounded-full"></Image>
-                    
+                      className="rounded-full"
+                    ></Image>
                   </div>
                   <div
                     className="absolute bottom-0 right-0 bg-[#1e1e1e] p-1 rounded-full cursor-pointer"
@@ -199,13 +191,11 @@ function StartInterview({ params }) {
             placeholder="Type your message..."
             className="mt-4 w-full max-w-4xl p-2 rounded-lg bg-gray-700 text-white"
           />
-          
         </div>
       </main>
 
       {/* Footer */}
-      <RecordUserAnswer/>
-     
+      <RecordUserAnswer />
     </div>
   );
 }

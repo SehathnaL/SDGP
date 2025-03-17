@@ -4,7 +4,7 @@ import { Info } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Mic } from "lucide-react";
 import useSpeechToText from 'react-hook-speech-to-text';
-
+import { handleChatSession } from './chatHandler';
 
 
 function RecordUserAnswer() {
@@ -20,13 +20,17 @@ function RecordUserAnswer() {
     continuous: true,
     useLegacyResults: false
   });
-  useEffect (() => {
-    results.map((result) => {
-      setUserAnswer(prevAns=>prevAns +  result?.transcript);
-    });
-
+  useEffect(() => {
+    if (results.length > 0) {
+      const latestResult = results[results.length - 1]?.transcript;
+      setUserAnswer(latestResult);
+    }
   }, [results]);
 
+  const handleStopRecording = () => {
+    stopSpeechToText();
+    handleChatSession(userAnswer);
+  };
 return (
     <div>
         <footer className="flex justify-between items-center p-4 border-t border-gray-800">
@@ -37,7 +41,7 @@ return (
             size="icon"
             className=" bg-amber-400 hover:bg-amber-500 border-none h-12 w-50"
             
-            onClick={isRecording ? stopSpeechToText : startSpeechToText}>
+            onClick={isRecording ? handleStopRecording : startSpeechToText}>
         
           <h2>
           <Mic className="h-6 w-6" />
@@ -46,6 +50,7 @@ return (
             {isRecording ? 'Stop Recording' : 'Start Recording'}
           </Button>
            <Button onClick={()=>console.log(userAnswer)}>Show Answer</Button>
+           
            
        
 
