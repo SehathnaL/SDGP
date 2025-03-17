@@ -12,6 +12,8 @@ const MeetingPage = () => {
     const mediaRecorderRef = useRef(null);
     const audioProcessorRef = useRef(null);
     const peerConnectionRef = useRef(null);
+    const localVideoRef = useRef(null);
+    const remoteVideoRef = useRef(null);
     const processorRef = useRef(null);
     const recordedChunksRef = useRef(null);
 
