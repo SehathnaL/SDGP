@@ -1,0 +1,472 @@
+body {
+    overflow-x: hidden;
+}
+
+h1 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 56px;
+    color: black;
+    text-align: center;
+    margin-top: 50px;
+}
+
+span {
+    color: #EAC42D;
+}
+
+.container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding-top: 20px;
+}
+
+.trainer-card-content {
+    width: 300px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+
+fieldset {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto; /* Prevent fieldsets from stretching */
+
+}
+
+.trainer-images {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    object-position: top; 
+    margin-left: 10px;
+    margin-top: -1px;
+}
+
+.trainer-card-content.view-button {
+    display: block;
+    width: 90%;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #EAC42D;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.view-button:hover {
+    background-color: #907819;
+}
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-body {
+    display: flex; /* Use flexbox for layout */
+    align-items: center;
+    margin-left:900px; /* Center items vertically */
+}
+
+.modal-image {
+    width: 300px;
+    height: 300px;
+    border-radius: 8px; /* Added border radius for a softer look */
+    margin-left: -400px;
+    margin-top: 10px; /* Space between image and info */
+    object-position: top; 
+}
+#desc{
+    margin-left: 400px;
+    margin-top: -10px;
+    line-height: 1.5;
+}
+
+.trainer-info {
+    text-align: left; /* Align text to the left */
+    flex: 1; /* Allow the info section to take the remaining space */
+    padding: 10px; /* Remove any padding */
+    margin-top: -10px;
+    box-shadow: none; /* Ensure no box shadow */
+    border: none; 
+    background-color: white;
+    margin-left: 100px;
+    width: 1600px;/* Ensure no border */
+}
+
+.close-button {
+    background: none; 
+    position: absolute;
+    top: 10px;
+    right: -185px;
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    left: 670px;
+    width: 50px;
+}
+
+
+.proceed-button {
+    background-color: #EAC42D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.proceed-button:hover {
+    background-color: #9b7c00;
+}
+.modal {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff; /* White background for the modal */
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 700px;
+    height: 400px; /* Adjusted width */
+    max-height: 80%; /* Set a maximum height */
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.modal.active {
+    display: block;
+    font-size: 1rem;
+    color: #000000;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.modal-body {
+    margin-top: -30px;
+    margin-left: -10px;
+    display: flex;
+    flex-direction: row;
+    text-align: justify;
+    gap: 20px;
+    width: 100%; /* Use full width of modal */
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.modal-body img.trainer-modal-image {
+    margin-top: 55px;
+    width: 150px;
+    height: 210px;
+    border-radius: 25px;
+    object-fit: cover;
+    margin-left: 20px; /* Adjusted margin */
+    object-position: top; 
+}
+
+.details-container {
+    margin-top: 45px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    text-align: justify;
+    flex: 1; /* Allow it to take remaining space */
+}
+
+.modal-body p {
+    
+    margin: 0;
+    color: #000000;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+.p {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    /* Consistent spacing between items */
+    margin: 0;
+    /* Remove any default margin */
+    text-align: justify;
+}
+
+#info {
+    margin: 0;
+    line-height: 1.5;
+    text-align: justify;
+}
+
+
+.rating-stars {
+    color: #bc9e24;
+    font-size: 1.2rem;
+    font-size: 36px;
+}
+
+.modal-button {
+    background-color: #EAC42D;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    margin-top: 50px;
+    width: 100%;
+}
+
+.modal-button:hover {
+    background-color: #907819;
+}
+
+.overlay {
+    display: none; /* Initially hidden */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+    z-index: 999; /* Ensure it is above other content */
+}
+
+.overlay.active {
+    display: block; /* Show overlay when active */
+}
+.section{
+    margin-right: 500px;
+}
+#trainer-name{
+    font-size: 48px;
+    text-align: left;
+    margin-left: 20px;
+
+}
+
+/* Menu Item Styles */
+.menu-item {
+    margin: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000; /* Black text */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.menu-item:hover {
+    color: #f0c300; /* Yellow text on hover */
+}
+
+/* Login Button Styles */
+.login-button {
+    background-color: #000; /* Black button */
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px; /* Rounded corners for button */
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+    background-color: #333; /* Darker black on hover */
+}
+body {
+    overflow-x: hidden;
+    animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+h1 {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 56px;
+    color: black;
+    text-align: center;
+    margin-top: 150px;
+    animation: slideDown 0.8s ease-in-out;
+}
+
+@keyframes slideDown {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+
+.trainer-card-content {
+    width: 300px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    transition: transform 0.3s ease-in-out;
+}
+
+.trainer-card-content:hover {
+    transform: scale(1.05);
+}
+
+fieldset {
+    width: 300px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    background-color: #fff;
+    padding: 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    flex: 0 0 auto; /* Prevent fieldsets from stretching */
+
+}
+
+.view-button {
+    display: block;
+    width: 90%;
+    padding: 10px 0;
+    text-align: center;
+    background-color: #EAC42D;
+    color: #fff;
+    font-size: 1rem;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.view-button:hover {
+    background-color: #907819;
+    transform: scale(1.1);
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    width: 700px;
+    height: 400px;
+    max-height: 80%;
+    overflow-y: auto;
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.modal.active {
+    display: block;
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.close-button {
+    background: none;
+    position: absolute;
+    top: 10px;
+    right: -185px;
+    font-size: 20px;
+    cursor: pointer;
+    color: black;
+    left: 670px;
+    width: 50px;
+}
+
+.proceed-button {
+    background-color: #EAC42D;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.proceed-button:hover {
+    background-color: #9b7c00;
+}
+
+.menu-item {
+    margin: 0 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.menu-item:hover {
+    color: #f0c300;
+    transform: scale(1.1);
+}
+
+.login-button {
+    background-color: #000;
+    color: #fff;
+    padding: 0.5rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 600;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease-in-out;
+}
+
+.login-button:hover {
+    background-color: #333;
+    transform: scale(1.05);
+}
+.trainer-container1{
+    display: flex;
+    flex-wrap: wrap; /* Allows fieldsets to wrap to the next line */
+    justify-content: flex-start; /* Align fieldsets to the left */
+    gap: 20px; /* Space between fieldsets */
+    padding: 20px; /* Padding around the container */
+    margin-left: 50px;
+}
