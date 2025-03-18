@@ -47,15 +47,4 @@ function App() {
 }
 
 
-// function App() {
-//   return (
-//     <Routes>
-//       <Route path="/" element={<MeetingPage />} />
-
-
-//     </Routes>
-
-//   );
-// }
-
 export default App;
