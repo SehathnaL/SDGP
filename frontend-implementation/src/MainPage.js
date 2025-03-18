@@ -302,7 +302,7 @@ const MainPage = () => {
           </div>
         </div>
         <div className="image-section">
-          <img alt="An Interviewer" height="300" src={image} width="400" />
+          <img alt="An Interviewer" height="300" src={image} width="400"className='avatar' />
         </div>
       </div>
 
