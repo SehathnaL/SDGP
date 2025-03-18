@@ -234,7 +234,7 @@ const MeetingPage = () => {
 
     };
 
-    const toggleFullScreenRecording = async () => {
+    const toggleFullScreenRecording = async () => { 
         if (isRecording) {
             if (mediaRecorderRef.current) {
                 mediaRecorderRef.current.stop();
@@ -242,16 +242,21 @@ const MeetingPage = () => {
             setIsRecording(false);
         } else {
             try {
-                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                // Capture the entire screen for recording only (not sharing)
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: "screen" }, // Captures full screen
+                    audio: true // Captures system audio
+                });
+    
                 mediaRecorderRef.current = new MediaRecorder(screenStream);
                 recordedChunksRef.current = [];
-
+    
                 mediaRecorderRef.current.ondataavailable = event => {
                     if (event.data.size > 0) {
                         recordedChunksRef.current.push(event.data);
                     }
                 };
-
+    
                 mediaRecorderRef.current.onstop = () => {
                     const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
@@ -260,14 +265,23 @@ const MeetingPage = () => {
                     a.download = 'full-screen-recording.webm';
                     a.click();
                 };
-
+    
                 mediaRecorderRef.current.start();
                 setIsRecording(true);
+    
+                // Stop recording if the user closes the screen capture
+                screenStream.getVideoTracks()[0].onended = () => {
+                    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+                        mediaRecorderRef.current.stop();
+                        setIsRecording(false);
+                    }
+                };
             } catch (error) {
                 console.error("Error starting full-screen recording:", error);
             }
         }
     };
+    
 
     return (
         <div>
