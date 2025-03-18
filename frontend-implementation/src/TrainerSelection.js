@@ -27,16 +27,15 @@ const TrainerCard = ({ trainer, onViewClick }) => {
     );
 };
 
-const TrainerModal = ({ trainerDetails, isOpen, onClose, proceedToCheckout, generateStars }) => {
+const TrainerModal = ({ trainerDetails, isOpen, onClose, proceedToCheckout }) => {
     if (!isOpen) return null;
 
     return (
-        <div className="overlay active" onClick={onClose}>
-            <div className="modal active" onClick={(e) => e.stopPropagation()}>
+        <div className="trainer-overlay active" onClick={onClose}>
+            <div className="trainer-modal active" onClick={(e) => e.stopPropagation()}>
                 <div className="modal-header">
                     <span id="trainer-name">
                         {trainerDetails.name}{" "}
-                        
                     </span>
                     <button className="close-button" onClick={onClose}>
                         ✖
@@ -223,24 +222,6 @@ const TrainerSelection = () => {
         }
     };
 
-    /*const generateStars = (rating) => {
-        const fullStars = Math.floor(rating);
-        const halfStar = rating % 1 >= 0.5 ? 1 : 0;
-        const emptyStars = 5 - fullStars - halfStar;
-
-        let stars = "";
-        for (let i = 0; i < fullStars; i++) {
-            stars += "★";
-        }
-        if (halfStar) {
-            stars += "☆";
-        }
-        for (let i = 0; i < emptyStars; i++) {
-            stars += "☆";
-        }
-        return stars;
-    };*/
-
     return (
         <div>
             <h1>
@@ -256,7 +237,6 @@ const TrainerSelection = () => {
                 isOpen={modalOpen}
                 onClose={closeModal}
                 proceedToCheckout={proceedToCheckout}
-                /*generateStars={generateStars}*/
             />
         </div>
     );
@@ -371,7 +351,8 @@ const StyledWrapper = styled.div`
   button:active .button-text {
     color: rgba(255, 255, 255, 0.459);
   }
-    .pay-btn {
+
+  .pay-btn {
     position: relative;
     padding: 12px 24px;
     font-size: 16px;
@@ -385,9 +366,9 @@ const StyledWrapper = styled.div`
     align-items: center;
     gap: 10px;
     transition: all 0.3s ease;
-    margin-left:30px;
-    margin-top:20px;
-    width:650px;
+    margin-left: 30px;
+    margin-top: 20px;
+    width: 650px;
   }
 
   .pay-btn:hover {
@@ -402,7 +383,7 @@ const StyledWrapper = styled.div`
     display: flex; /* make icon-container a flex container */
     justify-content: center; /* center horizontally */
     align-items: center; /* center vertically */
-}
+  }
 
   .pay-btn .icon {
     position: absolute;
@@ -466,12 +447,9 @@ const StyledWrapper = styled.div`
   }
 
   .btn-text {
-    text-align:center;
+    text-align: center;
     font-weight: 600;
-    font-family:
-      system-ui,
-      -apple-system,
-      sans-serif;
+    font-family: system-ui, -apple-system, sans-serif;
   }
 
   @keyframes iconRotate {
@@ -515,37 +493,6 @@ const StyledWrapper = styled.div`
       opacity: 1;
       transform: scale(1) rotate(0deg);
     }
-      .rating:not(:checked) > input {
-    position: absolute;
-    appearance: none;
-  }
-
-  .rating:not(:checked) > label {
-    float: right;
-    cursor: pointer;
-    font-size: 30px;
-    color: #666;
-  }
-
-  .rating:not(:checked) > label:before {
-    content: '★';
-  }
-
-  .rating > input:checked + label:hover,
-  .rating > input:checked + label:hover ~ label,
-  .rating > input:checked ~ label:hover,
-  .rating > input:checked ~ label:hover ~ label,
-  .rating > label:hover ~ input:checked ~ label {
-    color: #e58e09;
-  }
-
-  .rating:not(:checked) > label:hover,
-  .rating:not(:checked) > label:hover ~ label {
-    color: #ff9e0b;
-  }
-
-  .rating > input:checked ~ label {
-    color: #ffa723;
-  }`;
+}`
 
 export default TrainerSelection;
