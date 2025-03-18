@@ -234,7 +234,7 @@ const MeetingPage = () => {
 
     };
 
-    const toggleScreenRecording = async () => {
+    const toggleFullScreenRecording = async () => {
         if (isRecording) {
             if (mediaRecorderRef.current) {
                 mediaRecorderRef.current.stop();
@@ -242,8 +242,8 @@ const MeetingPage = () => {
             setIsRecording(false);
         } else {
             try {
-                const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
-                mediaRecorderRef.current = new MediaRecorder(mediaStream);
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                mediaRecorderRef.current = new MediaRecorder(screenStream);
                 recordedChunksRef.current = [];
 
                 mediaRecorderRef.current.ondataavailable = event => {
@@ -257,14 +257,14 @@ const MeetingPage = () => {
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a');
                     a.href = url;
-                    a.download = 'camera-recording.webm';
+                    a.download = 'full-screen-recording.webm';
                     a.click();
                 };
 
                 mediaRecorderRef.current.start();
                 setIsRecording(true);
             } catch (error) {
-                console.error("Error starting camera recording:", error);
+                console.error("Error starting full-screen recording:", error);
             }
         }
     };
@@ -289,7 +289,7 @@ const MeetingPage = () => {
                     <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
                     {isAudioOn ? " Mute Mic" : " Unmute Mic"}
                 </button>
-                <button onClick={toggleScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
+                <button onClick={toggleFullScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
                     <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
                 </button>
                 <button 
