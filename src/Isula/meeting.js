@@ -14,14 +14,15 @@ const MeetingPage = () => {
     const localVideoRef = useRef(null);
     const remoteVideoRef = useRef(null);
     const processorRef = useRef(null);
-    const recordedChunksRef = useRef(null);
+    const recordedChunksRef = useRef([]);
 
-    const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
-    const API_URL = 'https://api.gooey.ai/lip-sync';
+    // const API_KEY = 'sk-lJPr9DVcj2rCU948GXmzdTQfELpATxkKhOazR6uwsAievjFU';
+    // const API_URL = 'https://api.gooey.ai/lip-sync';
 
     const [localStream, setLocalStream] = useState(null);
     const [remoteStream, setRemoteStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
+    const [isRecording, setIsRecording] = useState(false);
 
 
     useEffect(() => {
@@ -40,7 +41,7 @@ const MeetingPage = () => {
                 setLocalStream(stream);
                 localVideoRef.current.srcObject = stream;
                 setupWebRTC(stream);
-                setupLipSyncProcessor(stream);
+                // setupLipSyncProcessor(stream);
             } catch (error) {
                 console.error("Error accessing media devices.", error);
             }
@@ -66,105 +67,105 @@ const MeetingPage = () => {
             };
 
         };
-        const setupLipSyncProcessor = (stream) => {
-            try {
-                const audioContext = new AudioContext();
-                const source = audioContext.createMediaStreamSource(stream);
-                // Create a script processor node for real-time processing
-                const processor = audioContext.createScriptProcessor(4096, 1, 1);
+    //     const setupLipSyncProcessor = (stream) => {
+    //         try {
+    //             const audioContext = new AudioContext();
+    //             const source = audioContext.createMediaStreamSource(stream);
+    //             // Create a script processor node for real-time processing
+    //             const processor = audioContext.createScriptProcessor(4096, 1, 1);
 
-                source.connect(processor);
-                processor.connect(audioContext.destination);
+    //             source.connect(processor);
+    //             processor.connect(audioContext.destination);
 
-                processor.onaudioprocess = async (event) => {
-                    const inputBuffer = event.inputBuffer.getChannelData(0);
-                    const wavData = convertToWAV(inputBuffer);
-                    const base64Audio = arrayBufferToBase64(wavData);
-                    await sendLipSyncFrame(base64Audio);
-            };
+    //             processor.onaudioprocess = async (event) => {
+    //                 const inputBuffer = event.inputBuffer.getChannelData(0);
+    //                 const wavData = convertToWAV(inputBuffer);
+    //                 const base64Audio = arrayBufferToBase64(wavData);
+    //                 await sendLipSyncFrame(base64Audio);
+    //         };
 
-            audioProcessorRef.current = processor;
-        } catch (error) {
-            console.error("Error setting up lip sync processor:", error);
+    //         audioProcessorRef.current = processor;
+    //     } catch (error) {
+    //         console.error("Error setting up lip sync processor:", error);
 
-        }
-    };
-        // Function to update your avatar based on the lip sync data
-        const updateAvatar = (lipSyncData) => {
-        // Update your Avatar component state or call its methods to reflect the lip movement.
-        // This is a placeholder. You should adjust this based on the structure of lipSyncData.
-        console.log('Lip sync API response:', lipSyncData);
-        // For example, you might update an Avatar context or call a method on the Avatar component.
-        const avatarImage = document.querySelector(".video-wrapper img");
+    //     }
+    // };
+    //     // Function to update your avatar based on the lip sync data
+    //     const updateAvatar = (lipSyncData) => {
+    //     // Update your Avatar component state or call its methods to reflect the lip movement.
+    //     // This is a placeholder. You should adjust this based on the structure of lipSyncData.
+    //     console.log('Lip sync API response:', lipSyncData);
+    //     // For example, you might update an Avatar context or call a method on the Avatar component.
+    //     const avatarImage = document.querySelector(".video-wrapper img");
 
-            if (lipSyncData.mouthShape === "open") {
-                avatarImage.style.transform = "scaleY(1.1)";
-            } else {
-                avatarImage.style.transform = "scaleY(1)";
-            }
-        };
+    //         if (lipSyncData.mouthShape === "open") {
+    //             avatarImage.style.transform = "scaleY(1.1)";
+    //         } else {
+    //             avatarImage.style.transform = "scaleY(1)";
+    //         }
+    //     };
 
-        const convertToWAV = (float32Array) => {
-            const buffer = new ArrayBuffer(44 + float32Array.length * 2);
-            const view = new DataView(buffer);
-            const sampleRate = 44100;
+    //     const convertToWAV = (float32Array) => {
+    //         const buffer = new ArrayBuffer(44 + float32Array.length * 2);
+    //         const view = new DataView(buffer);
+    //         const sampleRate = 44100;
             
-            const writeString = (offset, str) => {
-                for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
-            }
+    //         const writeString = (offset, str) => {
+    //             for (let i = 0; i < str.length; i++) view.setUint8(offset + i, str.charCodeAt(i));
+    //         }
             
-            writeString(0, 'RIFF');
-            view.setUint32(4, 36 + float32Array.length * 2, true);
-            writeString(8, 'WAVE');
-            writeString(12, 'fmt ');
-            view.setUint32(16, 16, true);
-            view.setUint16(20, 1, true);
-            view.setUint16(22, 1, true);
-            view.setUint32(24, sampleRate, true);
-            view.setUint32(28, sampleRate * 2, true);
-            view.setUint16(32, 2, true);
-            view.setUint16(34, 16, true);
-            writeString(36, 'data');
-            view.setUint32(40, float32Array.length * 2, true);
+    //         writeString(0, 'RIFF');
+    //         view.setUint32(4, 36 + float32Array.length * 2, true);
+    //         writeString(8, 'WAVE');
+    //         writeString(12, 'fmt ');
+    //         view.setUint32(16, 16, true);
+    //         view.setUint16(20, 1, true);
+    //         view.setUint16(22, 1, true);
+    //         view.setUint32(24, sampleRate, true);
+    //         view.setUint32(28, sampleRate * 2, true);
+    //         view.setUint16(32, 2, true);
+    //         view.setUint16(34, 16, true);
+    //         writeString(36, 'data');
+    //         view.setUint32(40, float32Array.length * 2, true);
 
-            let offset = 44;
-            for (let i = 0; i < float32Array.length; i++) {
-                view.setInt16(offset, float32Array[i] * 0x7FFF, true);
-                offset += 2;
-            }
-            return buffer;
-        };
+    //         let offset = 44;
+    //         for (let i = 0; i < float32Array.length; i++) {
+    //             view.setInt16(offset, float32Array[i] * 0x7FFF, true);
+    //             offset += 2;
+    //         }
+    //         return buffer;
+    //     };
 
-        const arrayBufferToBase64 = (buffer) => {
-            let binary = '';
-            let bytes = new Uint8Array(buffer);
-            for (let i = 0; i < bytes.length; i++) {
-                binary += String.fromCharCode(bytes[i]);
-            }
-            return btoa(binary);
-        };
+    //     const arrayBufferToBase64 = (buffer) => {
+    //         let binary = '';
+    //         let bytes = new Uint8Array(buffer);
+    //         for (let i = 0; i < bytes.length; i++) {
+    //             binary += String.fromCharCode(bytes[i]);
+    //         }
+    //         return btoa(binary);
+    //     };
 
-        const sendLipSyncFrame = async (base64Audio) => {
-            try {
-                const response = await fetch(API_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${API_KEY}`
-                    },
-                    body: JSON.stringify({ audio: base64Audio }),
-                });
+    //     const sendLipSyncFrame = async (base64Audio) => {
+    //         try {
+    //             const response = await fetch(API_URL, {
+    //                 method: 'POST',
+    //                 headers: {
+    //                     'Content-Type': 'application/json',
+    //                     'Authorization': `Bearer ${API_KEY}`
+    //                 },
+    //                 body: JSON.stringify({ audio: base64Audio }),
+    //             });
 
-                if (!response.ok) {
-                    throw new Error(`Lip sync API error: ${response.status}`);
-                }
+    //             if (!response.ok) {
+    //                 throw new Error(`Lip sync API error: ${response.status}`);
+    //             }
 
-                const result = await response.json();
-                updateAvatar(result);
-            } catch (error) {
-                console.error('Failed to process lip sync:', error);
-            }
-        };
+    //             const result = await response.json();
+    //             updateAvatar(result);
+    //         } catch (error) {
+    //             console.error('Failed to process lip sync:', error);
+    //         }
+    //     };
 
         const toggleVideo = () => {
             if (localStream) {
@@ -191,9 +192,9 @@ const MeetingPage = () => {
                 socketRef.current.disconnect();
                 console.log('Disconnected from server');
             }
-            if (audioProcessorRef.current){
-                audioProcessorRef.current.disconnect();
-            }
+            // if (audioProcessorRef.current){
+            //     audioProcessorRef.current.disconnect();
+            // }
         };
     }, []);
 
@@ -233,34 +234,40 @@ const MeetingPage = () => {
 
     };
 
-    const startRecording = () => {
-        recordedChunksRef.current = [];
-        const mr = new MediaRecorder(localStream);
-        mediaRecorderRef.current = mr;
-
-        mr.ondataavailable = event => {
-            if (event.data.size > 0) {
-                recordedChunksRef.current.push(event.data);
+    const toggleScreenRecording = async () => {
+        if (isRecording) {
+            if (mediaRecorderRef.current) {
+                mediaRecorderRef.current.stop();
             }
-        };
+            setIsRecording(false);
+        } else {
+            try {
+                const mediaStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+                mediaRecorderRef.current = new MediaRecorder(mediaStream);
+                recordedChunksRef.current = [];
 
-        mr.onstop = () => {
-            const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement("a");
-            a.href = url;
-            a.download = "meeting-recording.webm";
-            a.click();
-        };
+                mediaRecorderRef.current.ondataavailable = event => {
+                    if (event.data.size > 0) {
+                        recordedChunksRef.current.push(event.data);
+                    }
+                };
 
-        mr.start();
-    };
+                mediaRecorderRef.current.onstop = () => {
+                    const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'camera-recording.webm';
+                    a.click();
+                };
 
-    const stopRecording = () => {
-        if (mediaRecorderRef.current) {
-            mediaRecorderRef.current.stop();
+                mediaRecorderRef.current.start();
+                setIsRecording(true);
+            } catch (error) {
+                console.error("Error starting camera recording:", error);
+            }
         }
-    }
+    };
 
     return (
         <div>
@@ -274,29 +281,20 @@ const MeetingPage = () => {
             </div>
 
             <div className="controls">
-                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#a12308' : 'black' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
+                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#c49168' : 'black' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
                 <button 
                     onClick={toggleAudio} 
-                    style={{ backgroundColor: isAudioOn ? '#a12308' : 'black' }}
+                    style={{ backgroundColor: isAudioOn ? '#c49168' : 'black' }}
                 >
                     <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
                     {isAudioOn ? " Mute Mic" : " Unmute Mic"}
                 </button>
-                <button 
-                    onClick={startRecording} 
-                    style={{ backgroundColor: startRecording ? '#a12308' : 'black' }}
-                >
-                    <i className="fa-solid fa-circle"></i> Start Recording
-                </button>
-                <button 
-                    onClick={stopRecording} 
-                    style={{ backgroundColor: stopRecording ? '#a12308' : 'black' }}
-                >
-                    <i className="fa-solid fa-stop"></i> Stop Recording
+                <button onClick={toggleScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
+                    <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
                 </button>
                 <button 
                     onClick={endCall} 
-                    style={{ backgroundColor: '#a12308' }}
+                    style={{ backgroundColor: '#c49168' }}
                 >
                     <i className="fa-solid fa-phone-slash"></i> End
                 </button>
