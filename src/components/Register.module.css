@@ -1,4 +1,4 @@
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -93,15 +93,15 @@
     transition: color 0.3s ease;
   }
   
-  .social-icons a:nth-child(1) { /* Facebook */
+  .social-icons a:nth-child(1) { 
     color: #1877f2;
   }
   
-  .social-icons a:nth-child(2) { /* Google */
+  .social-icons a:nth-child(2) {
     color: #db4437;
   }
   
-  .social-icons a:nth-child(3) { /* LinkedIn */
+  .social-icons a:nth-child(3) { 
     color: #0077b5;
   }
   
@@ -126,4 +126,4 @@
     background-color: #357ae8;
   }
   
-  
+   */

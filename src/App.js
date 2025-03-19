@@ -9,8 +9,8 @@ import Footer from './components/Footer';
 import Login from './components/Login';
 import Register from './components/Register';
 
-import MeetingPage from './Isula/meeting';
-    import "../src/Isula/meeting.css"
+// import MeetingPage from './Isula/meeting';
+//     import "../src/Isula/meeting.css"
 
 import Feedback from './components/sections/Feedback';
 
@@ -37,7 +37,7 @@ function App() {
       <Route path="/register" element={<Register />} />
 
       {/* choice route */}
-      <Route path="/Avatar-Meeting" element={<MeetingPage />} /> 
+      {/* <Route path="/Avatar-Meeting" element={<MeetingPage />} />  */}
       {/* feedback route */}
       <Route path="/feedback" element={<Feedback />} />
     
