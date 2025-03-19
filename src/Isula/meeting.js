@@ -234,7 +234,7 @@ const MeetingPage = () => {
 
     };
 
-    const toggleFullScreenRecording = async () => { 
+    const toggleFullScreenRecording = async () => {
         if (isRecording) {
             if (mediaRecorderRef.current) {
                 mediaRecorderRef.current.stop();
@@ -242,13 +242,30 @@ const MeetingPage = () => {
             setIsRecording(false);
         } else {
             try {
-                // Capture the entire screen for recording only (not sharing)
+                // Capture full screen for recording (no screen sharing)
                 const screenStream = await navigator.mediaDevices.getDisplayMedia({
-                    video: { mediaSource: "screen" }, // Captures full screen
-                    audio: true // Captures system audio
+                    video: { 
+                        mediaSource: "screen",
+                        frameRate: { ideal: 30, max: 60 } // Smooth recording
+                    },
+                    audio: false // No system audio
                 });
     
-                mediaRecorderRef.current = new MediaRecorder(screenStream);
+                // Capture microphone audio separately
+                let micStream;
+                try {
+                    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                } catch (err) {
+                    console.warn("Microphone access denied, recording screen only.");
+                }
+    
+                // Combine screen + microphone (if available)
+                const combinedStream = new MediaStream([
+                    ...screenStream.getVideoTracks(),
+                    ...(micStream ? micStream.getAudioTracks() : [])
+                ]);
+    
+                mediaRecorderRef.current = new MediaRecorder(combinedStream);
                 recordedChunksRef.current = [];
     
                 mediaRecorderRef.current.ondataavailable = event => {
@@ -258,29 +275,32 @@ const MeetingPage = () => {
                 };
     
                 mediaRecorderRef.current.onstop = () => {
-                    const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+                    const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
                     const url = URL.createObjectURL(blob);
-                    const a = document.createElement('a');
+                    const a = document.createElement("a");
                     a.href = url;
-                    a.download = 'full-screen-recording.webm';
+                    a.download = "screen-recording.webm";
                     a.click();
                 };
     
                 mediaRecorderRef.current.start();
                 setIsRecording(true);
     
-                // Stop recording if the user closes the screen capture
+                // Stop recording when screen capture is closed by the user
                 screenStream.getVideoTracks()[0].onended = () => {
                     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
                         mediaRecorderRef.current.stop();
                         setIsRecording(false);
                     }
                 };
+    
             } catch (error) {
-                console.error("Error starting full-screen recording:", error);
+                console.error("Error starting screen recording:", error);
             }
         }
     };
+    
+    
     
 
     return (
