@@ -15,9 +15,9 @@
     "cookie": "^1.0.2",
     "cors": "^2.8.5",
     "gsap": "^3.12.7",
-    "react": "^19.0.0",
+    "react": "^18.2.0",
     "react-confetti": "^6.4.0",
-    "react-dom": "^19.0.0",
+    "react-dom": "^18.2.0",
     "react-router-dom": "^7.3.0",
     "react-scripts": "5.0.1",
     "react-use": "^17.6.0",
@@ -56,6 +56,10 @@
     "autoprefixer": "^10.4.21",
     "kill-port": "^2.0.1",
     "postcss": "^8.5.3",
-    "tailwindcss": "^4.0.14"
+    "tailwindcss": "^4.0.14",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typewriter-effect": "^2.21.0"
+    
   }
 }
