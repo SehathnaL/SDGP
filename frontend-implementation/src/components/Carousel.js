@@ -1,23 +1,21 @@
 import React from "react";
 import styled from "styled-components";
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation } from 'swiper/modules'; 
 
-// Import Swiper styles
+import { Swiper, SwiperSlide } from "swiper/react";
+
 import "swiper/css";
 import "swiper/css/effect-cards";
 import "swiper/css/pagination";
 import "swiper/css/navigation";
 
-// Import images
+import { Pagination, Navigation, Autoplay, EffectCards } from "swiper";
+
 import img1 from "../assets/Feature 1.png";
 import img2 from "../assets/Feature 2.png";
 import img3 from "../assets/Feature 3.png";
 
-// Import arrow image
 import Arrow from "../assets/Arrow.svg";
 
-// Styled component for the carousel container
 const Container = styled.div`
   width: 25vw;
   height: 70vh;
@@ -49,6 +47,7 @@ const Container = styled.div`
   .swiper-slide {
     background-color: ${(props) => props.theme.carouselColor};
     border-radius: 20px;
+
     display: flex;
     justify-content: center;
     align-items: center;
@@ -58,43 +57,51 @@ const Container = styled.div`
       width: 100%;
       height: auto;
       object-fit: cover;
-      margin-left:-8px;
-      margin-top:-10px;
-    }
-  }
-
-  .swiper-button-next,
-  .swiper-button-prev {
-    color: ${(props) => props.theme.text};
-    width: 4rem;
-    top: 80%;
-    background-image: url(${Arrow});
-    background-position: center;
-    background-size: cover;
-    &:after {
-      display: none;
     }
   }
 
   .swiper-button-next {
+    color: ${(props) => props.theme.text};
     right: 0;
-  }
+    width: 4rem;
+    top: 80%;
 
-  .swiper-button-prev {
-    left: 0;
-    transform: rotate(180deg);
-  }
+    background-image: url(${Arrow});
+    background-position: center;
+    background-size: cover;
 
-  @media (max-width: 64em) {
-    .swiper-button-next,
-    .swiper-button-prev {
+    &:after {
+      display: none;
+    }
+
+    @media (max-width: 64em) {
       width: 3rem;
+    }
+
+    @media (max-width: 30em) {
+      width: 2rem;
     }
   }
 
-  @media (max-width: 30em) {
-    .swiper-button-next,
-    .swiper-button-prev {
+  .swiper-button-prev {
+    color: ${(props) => props.theme.text};
+    width: 4rem;
+    left: 0;
+    top: 80%;
+    transform: rotate(180deg);
+    background-image: url(${Arrow});
+    background-position: center;
+    background-size: cover;
+
+    &:after {
+      display: none;
+    }
+
+    @media (max-width: 64em) {
+      width: 3rem;
+    }
+
+    @media (max-width: 30em) {
       width: 2rem;
     }
   }
@@ -104,32 +111,34 @@ const Carousel = () => {
   return (
     <Container>
       <Swiper
-        modules={[Autoplay, Pagination, Navigation]}
         autoplay={{
           delay: 2000,
           disableOnInteraction: false,
         }}
         pagination={{
-          clickable: true, // Make pagination clickable
+          type: "fraction",
         }}
+        scrollbar={{
+          draggable: true,
+        }}
+        modules={[EffectCards, Pagination, Navigation, Autoplay]}
         navigation={true}
         effect={"cards"}
         grabCursor={true}
         className="mySwiper"
       >
         <SwiperSlide>
-          <img src={img1} alt="Feature 1" />
+          <img src={img1} alt="The Weirdos" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={img2} alt="Feature 2" />
+          <img src={img2} alt="The Weirdos" />
         </SwiperSlide>
         <SwiperSlide>
-          <img src={img3} alt="Feature 3" />
+          <img src={img3} alt="The Weirdos" />
         </SwiperSlide>
       </Swiper>
     </Container>
   );
 };
-
 
 export default Carousel;
