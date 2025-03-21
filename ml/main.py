@@ -300,11 +300,7 @@ async def upload_pdf(proposal: UploadFile = File(...)):
     target_audience=get_target_audience_from_text(extracted_text)
 
 
-    print("01. Extracted Name:", title)
-    print("02. Project objective:",project_object)
-    print("03.  project_proposal_solution:",project_proposal_solution)
-    print("04.  technologies_tools:", technologies_tools)
-    print("05. Target Audience:", target_audience)
+
 
     proposal_data= {
         "name":title,
