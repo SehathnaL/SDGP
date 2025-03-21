@@ -22,8 +22,8 @@ const MainLayout = () => {
           {/* These sections will be visible on all pages that use this layout */}
           <Home />
           <About />
-          <Faq />
           <RoadMap />
+          <Faq />
           
           {/* The Outlet will render the content for each page */}
           <Outlet />
