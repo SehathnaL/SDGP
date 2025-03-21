@@ -144,29 +144,30 @@ const MeetingPage = () => {
         navigation('/');
     };
 
-    const handleRecording = async () => {
+    const handleRecording = () => {
         if (isRecording) {
-            // Stop recording
+            stopRecording();
+        } else {
+            startRecording();
+        }
+        setIsRecording(!isRecording);
+    };
+
+    const toggleFullScreenRecording = async () => { 
+        if (isRecording) {
             if (mediaRecorderRef.current) {
                 mediaRecorderRef.current.stop();
             }
             setIsRecording(false);
         } else {
             try {
-                let stream;
-                
-                // If a video call is active, record the local stream
-                if (localStream) {
-                    stream = localStream;
-                } else {
-                    // Otherwise, capture the full screen
-                    stream = await navigator.mediaDevices.getDisplayMedia({
-                        video: { mediaSource: "screen" },
-                        audio: true 
-                    });
-                }
+                // Capture the entire screen for recording only (not sharing)
+                const screenStream = await navigator.mediaDevices.getDisplayMedia({
+                    video: { mediaSource: "screen" }, // Captures full screen
+                    audio: true // Captures system audio
+                });
     
-                mediaRecorderRef.current = new MediaRecorder(stream);
+                mediaRecorderRef.current = new MediaRecorder(screenStream);
                 recordedChunksRef.current = [];
     
                 mediaRecorderRef.current.ondataavailable = event => {
@@ -176,33 +177,29 @@ const MeetingPage = () => {
                 };
     
                 mediaRecorderRef.current.onstop = () => {
-                    if (recordedChunksRef.current.length > 0) {
-                        const blob = new Blob(recordedChunksRef.current, { type: "video/webm" });
-                        const url = URL.createObjectURL(blob);
-                        const a = document.createElement("a");
-                        a.href = url;
-                        a.download = "recording.webm";
-                        a.click();
-                    }
+                    const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'full-screen-recording.webm';
+                    a.click();
                 };
     
                 mediaRecorderRef.current.start();
                 setIsRecording(true);
     
-                // Stop recording if the screen capture is stopped
-                stream.getVideoTracks()[0].onended = () => {
+                // Stop recording if the user closes the screen capture
+                screenStream.getVideoTracks()[0].onended = () => {
                     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
                         mediaRecorderRef.current.stop();
                         setIsRecording(false);
                     }
                 };
             } catch (error) {
-                console.error("Error starting recording:", error);
+                console.error("Error starting full-screen recording:", error);
             }
         }
     };
-    
-    
 
     return (
         <div className='meeting-container'>
@@ -224,7 +221,7 @@ const MeetingPage = () => {
                     alignItems: 'center',
                     color: 'white'
                 }}>
-
+                    Camera Off
                 </div>
             )}
             </div>
@@ -241,9 +238,9 @@ const MeetingPage = () => {
                     <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
                     {isAudioOn ? " Mute Mic" : " Unmute Mic"}
                 </button>
-                <button onClick={handleRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
-                  <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
-                    </button>
+                <button onClick={toggleFullScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
+                    <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
+                </button>
                 <button 
                     onClick={endCall} 
                     style={{ backgroundColor: '#c49168' }}
