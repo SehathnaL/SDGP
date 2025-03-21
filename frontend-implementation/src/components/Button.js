@@ -38,9 +38,9 @@ const Btn = styled.button`
   }
 `;
 
-const Button = ({ text, link }) => {
+const Button = ({ text, onClick, link }) => {
   return (
-    <Btn>
+    <Btn onClick={onClick}>
       <a href={link} aria-label={text} target="_blank" rel="noreferrer">
         {text}
       </a>
