@@ -144,13 +144,13 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const scrollToRoadmap = () => {
+  const element = document.getElementById("Roadmap");
+  element.scrollIntoView({ behavior: "smooth" });
+};
+
 const About = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-  const handleButtonClick = () => {
-    navigate("/ Roadmap"); // Navigate to the Roadmap page
-  };
-
+  
   return (
     <Section id="about">
       <Container>
@@ -170,7 +170,7 @@ const About = () => {
           </SubTextLight>
           <ButtonContainer>
             <ThemeProvider theme={dark}>
-              <Button text="Get Started" onClick={handleButtonClick} /> {/* Updated to handle click */}
+            <Button text="Get Started" onClick={scrollToRoadmap} />
             </ThemeProvider>
           </ButtonContainer>
         </Box>
