@@ -10,7 +10,7 @@
 
 body {
   background: var(--bg);
-  min-height: 90vh;
+  min-height: 100vh;
   font-family: 'Inter', system-ui, sans-serif;
 } 
 
@@ -30,13 +30,12 @@ body {
   transform-style: preserve-3d;
   transition: var(--transition);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-  height: 100%;
+  height: 700px;
 }
 
-.video-wrapper video,
 .video-wrapper img {
   width: 100%;
-  height: 100%;
+  height: 700px;
   display: block;
   object-fit: cover;
   border-radius: inherit; /* Keep rounded corners */
@@ -74,7 +73,7 @@ body {
 /* Holographic Button Effect */
 .controls {
   position: fixed;
-  bottom: 2rem;
+  bottom: -75px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -180,19 +179,6 @@ button {
   .meeting-container {
     grid-template-columns: 1fr;
     padding: 1rem;
-  }
-  
-  .video-wrapper {
-    aspect-ratio: 16/9;
-  }
-  
-  .controls {
-    flex-wrap: wrap;
-    max-width: 95vw;
-  }
-  
-  button {
-    flex: 1 1 120px;
   }
 
 }
