@@ -3,6 +3,7 @@ import io from 'socket.io-client';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { useReactMediaRecorder } from "react-media-recorder";
+import axios from 'axios'; // Add axios for API requests
 
 const MeetingPage = () => {
     const navigation = useNavigate();
@@ -10,6 +11,8 @@ const MeetingPage = () => {
     const peerConnectionRef = useRef(null);
     const recordedChunksRef = useRef([]);
     const webcamRef = useRef(null);
+    const mediaRecorderRef = useRef(null);
+    const audioChunksRef = useRef([]);
     
     const [remoteStream, setRemoteStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
@@ -17,8 +20,11 @@ const MeetingPage = () => {
     const [isAudioOn, setIsAudioOn] = useState(true);
     const [isRecording, setIsRecording] = useState(false);
     const [localStream, setLocalStream] = useState(null);
-        const mediaRecorderRef = useRef(null);
     
+    // Speech-to-text states
+    const [isTranscribing, setIsTranscribing] = useState(false);
+    const [transcript, setTranscript] = useState('');
+    const [transcriptionInterval, setTranscriptionInterval] = useState(null);
 
     const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: true, audio: true });
 
@@ -34,9 +40,9 @@ const MeetingPage = () => {
 
         initializeSocket();
 
-
         return () => {
             stopAllTracks();
+            stopTranscription();
             
             if (peerConnectionRef.current) {
                 peerConnectionRef.current.close();
@@ -127,10 +133,16 @@ const MeetingPage = () => {
                 track.stop()
             });
         }
+        
+        // If audio is turned off, stop transcription
+        if (isAudioOn && isTranscribing) {
+            stopTranscription();
+        }
     };
 
     const endCall = () => {
         stopAllTracks();
+        stopTranscription();
         
         if (peerConnectionRef.current) {
             peerConnectionRef.current.close();
@@ -200,6 +212,115 @@ const MeetingPage = () => {
             }
         }
     };
+    
+    // OpenAI Whisper API for speech-to-text
+    const startTranscription = async () => {
+        if (!isTranscribing && isAudioOn) {
+            try {
+                // Get audio stream for transcription
+                const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                
+                // Set up audio recorder with the stream
+                const audioRecorder = new MediaRecorder(audioStream);
+                audioChunksRef.current = [];
+                
+                audioRecorder.ondataavailable = (event) => {
+                    if (event.data.size > 0) {
+                        audioChunksRef.current.push(event.data);
+                    }
+                };
+                
+                // Start recording audio
+                audioRecorder.start(3000); // Collect 3 seconds of audio at a time
+                
+                // Set up interval to send audio to Whisper API
+                const interval = setInterval(async () => {
+                    if (audioChunksRef.current.length === 0) return;
+                    
+                    // Create a copy of the current chunks and clear the buffer
+                    const chunks = [...audioChunksRef.current];
+                    audioChunksRef.current = [];
+                    
+                    // Create an audio blob and send to Whisper API
+                    const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+                    await sendAudioToWhisper(audioBlob);
+                }, 3000);
+                
+                setTranscriptionInterval(interval);
+                mediaRecorderRef.current = audioRecorder;
+                setIsTranscribing(true);
+                
+            } catch (error) {
+                console.error("Error starting transcription:", error);
+            }
+        }
+    };
+    
+    const stopTranscription = () => {
+        if (isTranscribing) {
+            // Stop audio recording
+            if (mediaRecorderRef.current && mediaRecorderRef.current.state !== 'inactive') {
+                mediaRecorderRef.current.stop();
+            }
+            
+            // Clear the interval
+            if (transcriptionInterval) {
+                clearInterval(transcriptionInterval);
+                setTranscriptionInterval(null);
+            }
+            
+            // Reset state
+            setIsTranscribing(false);
+        }
+    };
+    
+    const sendAudioToWhisper = async (audioBlob) => {
+        try {
+            // Create form data for the API request
+            const formData = new FormData();
+            formData.append('file', audioBlob, 'audio.webm');
+            formData.append('model', 'whisper-1');
+            
+            // Set your OpenAI API key in environment variables for security
+            const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+            
+            // Send the audio to OpenAI Whisper API
+            const response = await axios.post(
+                'https://api.openai.com/v1/audio/transcriptions',
+                formData,
+                {
+                    headers: {
+                        'Authorization': `Bearer ${apiKey}`,
+                        'Content-Type': 'multipart/form-data'
+                    }
+                }
+            );
+            
+            // Process the transcription result
+            if (response.data && response.data.text) {
+                const newText = response.data.text.trim();
+                if (newText) {
+                    setTranscript(prev => prev + ' ' + newText);
+                    
+                    // Optionally send transcript to server via socket
+                    if (socketRef.current) {
+                        socketRef.current.emit("transcript-update", newText);
+                    }
+                }
+            }
+        } catch (error) {
+            console.error("Error with Whisper API:", error);
+        }
+    };
+    
+    // Toggle transcription with a single button
+    const toggleTranscription = () => {
+        if (isTranscribing) {
+            stopTranscription();
+        } else {
+            startTranscription();
+        }
+    };
 
     return (
         <div className='meeting-container'>
@@ -225,12 +346,29 @@ const MeetingPage = () => {
                 </div>
             )}
             </div>
-                   <div className="video-wrapper">
-                    <img src="./avatar-meeting.png" alt="Avatar"/>
+            <div className="video-wrapper">
+                <img src="./avatar-meeting.png" alt="Avatar"/>
+            </div>
+            
+            {/* Transcription display area */}
+            <div className="transcript-container" style={{
+                margin: '10px 0',
+                padding: '10px',
+                backgroundColor: '#f5f5f5',
+                borderRadius: '5px',
+                maxHeight: '150px',
+                overflowY: 'auto'
+            }}>
+                <h3>Transcript</h3>
+                <div className="transcript">
+                    {transcript || 'No transcript available yet. Click the microphone button to start transcribing.'}
                 </div>
+            </div>
                         
             <div className="controls">
-                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#c49168' : 'black' }} > <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} </button>
+                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#c49168' : 'black' }} > 
+                    <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} 
+                </button>
                 <button 
                     onClick={toggleAudio} 
                     style={{ backgroundColor: isAudioOn ? '#c49168' : 'black' }}
@@ -240,6 +378,14 @@ const MeetingPage = () => {
                 </button>
                 <button onClick={toggleFullScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
                     <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
+                </button>
+                <button 
+                    onClick={toggleTranscription}
+                    style={{ backgroundColor: isTranscribing ? 'black' : '#c49168' }}
+                    disabled={!isAudioOn}
+                >
+                    <i className={`fa-solid ${isTranscribing ? "fa-stop" : "fa-microphone-lines"}`}></i> 
+                    {isTranscribing ? " Stop Transcribing" : " Transcribe"}
                 </button>
                 <button 
                     onClick={endCall} 
