@@ -3,7 +3,6 @@ import io from 'socket.io-client';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { useReactMediaRecorder } from "react-media-recorder";
-import axios from 'axios'; // Add axios for API requests
 
 const MeetingPage = () => {
     const navigation = useNavigate();
@@ -65,20 +64,18 @@ const MeetingPage = () => {
     
     const initializeCamera = async () => {
         try {
-            let stream=null
-            if(isVideoOn){
-                console.log("INISDE ON")
+            let stream = null;
+            
+            if (!isVideoOn) {
                 stream = await navigator.mediaDevices.getUserMedia({ 
                     video: false, 
                     audio: isAudioOn 
                 });
-            }
-            else{
+            } else {
                 stream = await navigator.mediaDevices.getUserMedia({ 
                     video: true, 
                     audio: isAudioOn 
                 });
-                
             }
             
             setLocalStream(stream);
@@ -121,7 +118,6 @@ const MeetingPage = () => {
     };
     
     const toggleVideo = () => {
-        console.log(!isVideoOn)
         setIsVideoOn(!isVideoOn);
     };
 
@@ -130,7 +126,7 @@ const MeetingPage = () => {
         
         if (localStream) {
             localStream.getAudioTracks().forEach(track => {
-                track.stop()
+                track.stop();
             });
         }
         
@@ -213,7 +209,7 @@ const MeetingPage = () => {
         }
     };
     
-    // OpenAI Whisper API for speech-to-text
+    // Speech-to-text functionality
     const startTranscription = async () => {
         if (!isTranscribing && isAudioOn) {
             try {
@@ -230,28 +226,26 @@ const MeetingPage = () => {
                     }
                 };
                 
-                // Start recording audio
-                audioRecorder.start(3000); // Collect 3 seconds of audio at a time
-                
-                // Set up interval to send audio to Whisper API
-                const interval = setInterval(async () => {
-                    if (audioChunksRef.current.length === 0) return;
-                    
-                    // Create a copy of the current chunks and clear the buffer
-                    const chunks = [...audioChunksRef.current];
-                    audioChunksRef.current = [];
-                    
-                    // Create an audio blob and send to Whisper API
-                    const audioBlob = new Blob(chunks, { type: 'audio/webm' });
+                audioRecorder.onstop = async () => {
+                    const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/wav' });
                     await sendAudioToWhisper(audioBlob);
-                }, 3000);
+                    
+                    // If still transcribing, restart recording
+                    if (isTranscribing) {
+                        audioChunksRef.current = [];
+                        audioRecorder.start(5000); // Record in 5-second chunks
+                    }
+                };
                 
-                setTranscriptionInterval(interval);
+                // Start recording audio in chunks
+                audioRecorder.start(5000);
+                
                 mediaRecorderRef.current = audioRecorder;
                 setIsTranscribing(true);
                 
             } catch (error) {
                 console.error("Error starting transcription:", error);
+                setIsTranscribing(false);
             }
         }
     };
@@ -263,12 +257,6 @@ const MeetingPage = () => {
                 mediaRecorderRef.current.stop();
             }
             
-            // Clear the interval
-            if (transcriptionInterval) {
-                clearInterval(transcriptionInterval);
-                setTranscriptionInterval(null);
-            }
-            
             // Reset state
             setIsTranscribing(false);
         }
@@ -278,27 +266,30 @@ const MeetingPage = () => {
         try {
             // Create form data for the API request
             const formData = new FormData();
-            formData.append('file', audioBlob, 'audio.webm');
+            formData.append('file', audioBlob);
             formData.append('model', 'whisper-1');
             
             // Set your OpenAI API key in environment variables for security
-            const apiKey = process.env.REACT_APP_OPENAI_API_KEY;
+            // const apiKey = api key seen ekak danna;
             
             // Send the audio to OpenAI Whisper API
-            const response = await axios.post(
+            const response = await fetch(
                 'https://api.openai.com/v1/audio/transcriptions',
-                formData,
                 {
+                    method: 'POST',
                     headers: {
-                        'Authorization': `Bearer ${apiKey}`,
-                        'Content-Type': 'multipart/form-data'
-                    }
+                        Authorization: `Bearer ${apiKey}`
+                    },
+                    body: formData
                 }
             );
             
+            const data = await response.json();
+            console.log("Transcription result:", data);
+            
             // Process the transcription result
-            if (response.data && response.data.text) {
-                const newText = response.data.text.trim();
+            if (data && data.text) {
+                const newText = data.text.trim();
                 if (newText) {
                     setTranscript(prev => prev + ' ' + newText);
                     
@@ -325,45 +316,44 @@ const MeetingPage = () => {
     return (
         <div className='meeting-container'>
             <div className="video-wrapper"> 
-            {isVideoOn ? (
-                <Webcam 
-                    ref={webcamRef} 
-                    audio={isAudioOn} 
-                    muted={true} // Always mute the local preview to prevent feedback
-                    style={{ width: '100%' }}
-                />
-            ) : (
-                <div style={{ 
-                    width: '100%', 
-                    height: '100%', 
-                    backgroundColor: '#333', 
-                    display: 'flex', 
-                    justifyContent: 'center', 
-                    alignItems: 'center',
-                    color: 'white'
-                }}>
-                    Camera Off
-                </div>
-            )}
+                {isVideoOn ? (
+                    <Webcam 
+                        ref={webcamRef} 
+                        audio={isAudioOn} 
+                        muted={true} // Always mute the local preview to prevent feedback
+                        style={{ width: '100%' }}
+                    />
+                ) : (
+                    <div style={{ 
+                        width: '100%', 
+                        height: '100%', 
+                        backgroundColor: '#333', 
+                        display: 'flex', 
+                        justifyContent: 'center', 
+                        alignItems: 'center',
+                        color: 'white'
+                    }}>
+                        Camera Off
+                    </div>
+                )}
             </div>
             <div className="video-wrapper">
                 <img src="./avatar-meeting.png" alt="Avatar"/>
             </div>
             
-            {/* Transcription display area */}
-            <div className="transcript-container" style={{
-                margin: '10px 0',
-                padding: '10px',
-                backgroundColor: '#f5f5f5',
-                borderRadius: '5px',
-                maxHeight: '150px',
-                overflowY: 'auto'
-            }}>
-                <h3>Transcript</h3>
-                <div className="transcript">
-                    {transcript || 'No transcript available yet. Click the microphone button to start transcribing.'}
+            {transcript && (
+                <div className="transcript-container" style={{
+                    padding: '10px',
+                    margin: '10px 0',
+                    backgroundColor: '#f0f0f0',
+                    borderRadius: '5px',
+                    maxHeight: '100px',
+                    overflowY: 'auto'
+                }}>
+                    <h3>Transcript:</h3>
+                    <p>{transcript}</p>
                 </div>
-            </div>
+            )}
                         
             <div className="controls">
                 <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#c49168' : 'black' }} > 
