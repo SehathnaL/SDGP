@@ -270,7 +270,7 @@ const MeetingPage = () => {
             formData.append('model', 'whisper-1');
             
             // Set your OpenAI API key in environment variables for security
-            const apiKey = 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;
+            // const apiKey = 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;
             
             // Send the audio to OpenAI Whisper API
             const response = await fetch(
