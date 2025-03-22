@@ -5,10 +5,9 @@ import styled from "styled-components";
 import Accordion from "../Accordion";
 
 const Section = styled.section`
-  margin-left:-50px;
   min-height: 100vh;
   height: auto;
-  width: 1600px;
+  width: 100vw;
   background-color: ${(props) => props.theme.text};
   position: relative;
   color: ${(props) => props.theme.body};
@@ -21,6 +20,7 @@ const Section = styled.section`
 
 const Title = styled.h1`
   font-size: ${(props) => props.theme.fontxxl};
+  font-family: "Sora", sans-serif;
   text-transformation: uppercase;
   color: ${(props) => props.theme.body};
 
