@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router,Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './components/sections/LandingPage';
 import TrainerSelection from './Chenuthi/TrainerSelection';
 import UploadCV from './Chenuthi/UploadCVPage';
@@ -10,7 +10,7 @@ import Login from './components/Login';
 import Register from './components/Register';
 
 import MeetingPage from './Isula/meeting';
-    import "../src/Isula/meeting.css"
+import "../src/Isula/meeting.css"
 
 import Feedback from './components/sections/Feedback';
 
@@ -20,7 +20,7 @@ function App() {
 <Routes>
       {/* Default route for the landing page */}
       <Route path="/" element={<LandingPage />} />
-      
+
       {/* Trainer selection route */}
       <Route path="/trainer-selection" element={<TrainerSelection />} />
 
@@ -40,10 +40,11 @@ function App() {
       <Route path="/Avatar-Meeting" element={<MeetingPage />} /> 
       {/* feedback route */}
       <Route path="/feedback" element={<Feedback />} />
-    
+
     </Routes>
-    
+
   );
 }
+
 
 export default App;
