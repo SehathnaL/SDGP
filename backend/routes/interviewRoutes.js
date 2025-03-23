@@ -2,8 +2,11 @@ const express = require("express");
 const { sendMessage } = require("../config/geminiModel");
 const { saveInterview } = require("../controllers/interviewController");
 
-const router = express.Router();
+const Interview = require('../models/interview');
 
+
+const router = express.Router();
+let f_response
 router.post("/process_cv", async (req, res) => {
   try {
     const cvData = req.body;
@@ -64,6 +67,7 @@ router.get("/first_resp", async (req, res) => {
       return res.status(404).json({ response: "No response yet" });
     }
     res.json(f_response);
+    console.log("passed")
   } catch (error) {
     console.error("Error in /first_resp:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -105,5 +109,19 @@ router.post("/feedback", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.get("/feedback", async (req, res) =>{
+  try{
+    const feedbackItems = await Interview.find();
+    res.json(feedbackItem);
+  }catch (error){
+    res.status(500).json({ message: "Server error", error });
+  }
+
+});
+
+
+
+
 
 module.exports = router;

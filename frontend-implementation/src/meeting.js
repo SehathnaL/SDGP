@@ -4,8 +4,6 @@ import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { useReactMediaRecorder } from "react-media-recorder";
 import axios from 'axios';
-import "./meeting.css";
-import "./avatar-meeting.png"
 
 const MeetingPage = () => {
     const navigation = useNavigate();
@@ -40,7 +38,9 @@ const MeetingPage = () => {
     const [isFirstResponse, setIsFirstResponse] = useState(false);
     const [interview, setInterview] = useState(null);
     const [cvId, setCvId] = useState(null);
-    const [feedback, setFeedback] = useState("");
+    const [feedback, setFeedback] = useState([]);
+    const [response, setResponse] = useState(null);
+    const [interviewText, setInterviewText] = useState('');
 
     useEffect(() => {
         const initializeSocket = () => {
@@ -164,7 +164,7 @@ const MeetingPage = () => {
             socketRef.current.disconnect();
         }
         
-        navigation('/');
+        navigation('/feedback');
     };
 
     const handleRecording = () => {
@@ -285,7 +285,7 @@ const MeetingPage = () => {
             formData.append('model', 'whisper-1');
             
             // Set your OpenAI API key in environment variables for security
-            const apiKey = "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";
+            const apiKey = "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";
             
             // Send the audio to OpenAI Whisper API
             const response = await fetch(
@@ -320,17 +320,6 @@ const MeetingPage = () => {
             console.error("Error with Whisper API:", error);
         }
     };
-    //  creating the feedback function
-    const getFeedback = async (aiResponse, userInput) => {
-        try {
-            const response = await axios.post("http://localhost:5000/api/feedback", aiResponse, userInput);
-            console.log("Feedback response:", response.data);
-            setFeedback((preFeedback) => [...preFeedback, response.data]);
-            console.log(feedback)
-        } catch (error) {
-            console.error("Error fetching feedback:", error);
-        }
-    }
     const synthesizeSpeech = async (text) => {
         try {
           const response = await axios.post("http://localhost:5000/api/voice", {
@@ -342,7 +331,7 @@ const MeetingPage = () => {
             return;
           }
           const audio_Src = `data:audio/mp3;base64,${response.data.audioContent}`;
-        //   console.log("Audio source before setting:", audio_Src);
+          console.log("Audio source before setting:", audio_Src);
           setAudioSrc(audio_Src);
           console.log("Audio source after setting:", audioSrc);
           return audio_Src;
@@ -350,6 +339,16 @@ const MeetingPage = () => {
           console.error("Error synthesizing speech:", error); // Log errors
         }
     };
+    const getFeedback = async (aiResponse, userInput) => {
+        try {
+            const response = await axios.post("http://localhost:5000/api/feedback", {aiResponse, userInput});
+            console.log("Feedback response:", response.data);
+            setFeedback((preFeedback) => [...preFeedback, response.data]);
+            console.log(feedback)
+        } catch (error) {
+            console.error("Error fetching feedback:", error);
+        }
+    }
 
 
     const sendMessage = async (userInput) => {
@@ -387,7 +386,8 @@ const MeetingPage = () => {
             const res=await synthesizeSpeech(data.response);
             console.log("my new", res);
             getFeedback(aiResponse, userInput);
-            
+
+
             const audio = new Audio(res);
             // audio.loop = true;
             audio.play().catch((error) => console.error("Error playing audio:", error));
@@ -396,8 +396,49 @@ const MeetingPage = () => {
             console.error("Error in chat session:", error);
         }
     };
-    
-    // Toggle transcription with a single button
+    const processCV = async () => {
+        try {
+           
+            console.log("🚀 Starting processCV function...");
+            
+            // Call FastAPI to start the process
+            const response = await axios.post("http://localhost:8000/process_cv");
+
+            console.log("✅ AI Response Received:", response.data);
+            
+            // Set response to state
+            setAiResponse(response.data.response);
+
+            // Call the text-to-speech function to play the response
+            const audioSrc = await synthesizeSpeech(response.data.response);
+            if (audioSrc) {
+                const audio = new Audio(audioSrc);
+                audio.play().catch((error) => console.error("Error playing audio:", error));
+            }
+        } catch (error) {
+            console.error("❌ Error processing CV:", error);
+        }
+    };
+
+    // const startInterview = async () => {
+    //     try{
+    //         const {data} = await axios.get("http://localhost:5000/api/first_resp");
+            
+    //         const res=await synthesizeSpeech(data.response);
+    //         console.log("my new", res);
+    //         getFeedback(aiResponse, userInput);
+
+
+    //         const audio = new Audio(res);
+    //         // audio.loop = true;
+    //         audio.play().catch((error) => console.error("Error playing audio:", error));
+    //         console.log("Response from server:", data.response);
+    //     }catch(error){
+    //         console.error("Error in startInterview:", error);
+    //     }
+        
+    // }
+    // // Toggle transcription with a single button
     const toggleTranscription = () => {
         if (isTranscribing) {
             stopTranscription();
@@ -405,6 +446,8 @@ const MeetingPage = () => {
             startTranscription();
         }
     };
+   
+  
 
     return (
         <div className='meeting-container'>
@@ -498,6 +541,12 @@ const MeetingPage = () => {
                     </div>
                 )}
             </div>
+            <div >
+        <h1>Meeting Page</h1>
+        {cvId ? <p>Interview ID: {response}</p> : <p>Loading...</p>}
+        <button onClick={processCV}>Start Interview</button>
+        </div>
+          
             
                         
             <div className="controls">

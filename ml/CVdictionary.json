@@ -1,0 +1,7 @@
+{
+    "name": "Isula Jayagoda",
+    "technical_skills": "Technical Skills:\n- HTML\n- CSS\n- JavaScript\n- Python\n- Java\n- MySQL",
+    "soft_skills": "Creative Thinking, Proactive, Detail-oriented, Versatile, Dedicated, Innovative.",
+    "projects": "Projects:\n1. Plane Management Software\n   Plane management application created using Java. Users can book, cancel seats, and find seat availability. Uses OOP concepts - encapsulation, abstraction, polymorphism.\n2. Taskia - Task Management Website landing page design\n   Task management website landing page created using HTML, CSS, and Bootstrap.\n3. AthWala - Donation Web App\n   Athwela is a full-stack web app developed using Python and React. MySql was used as the database.",
+    "career_objective": "To continuously enhance my skill set and deliver innovative solutions in full-stack development."
+}

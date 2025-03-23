@@ -403,26 +403,26 @@ async def upload_proposal(cv: UploadFile = File(...)):
 
 
 
-async def startup_logic():
-    try:
-        file_name = "CVdictionary.json"
-        with open(file_name, 'r') as json_file:
-            data = json.load(json_file)
+# async def startup_logic():
+#     try:
+#         file_name = "CVdictionary.json"
+#         with open(file_name, 'r') as json_file:
+#             data = json.load(json_file)
 
-        response = requests.post(NODE_SERVER_URL, json=data)
+#         response = requests.post(NODE_SERVER_URL, json=data)
 
-        if response.status_code == 200:
-            print("Done")
-            print(response.json())
+#         if response.status_code == 200:
+#             print("Done")
+#             print(response.json())
             
-        else:
-            print({"error": "Failed to send data", "status_code": response.status_code})
-    except Exception as e:
-        print({"error": str(e)})
+#         else:
+#             print({"error": "Failed to send data", "status_code": response.status_code})
+#     except Exception as e:
+#         print({"error": str(e)})
 
-@app.on_event("startup")
-async def startup_event():
-    await startup_logic()
+# @app.on_event("startup")
+# async def startup_event():
+#     await startup_logic()
 @app.post("/process_cv/")
 async def upload_cv():
     try:
@@ -433,8 +433,9 @@ async def upload_cv():
         response = requests.post(NODE_SERVER_URL, json=data)
 
         if response.status_code == 200:
+            node_response = response.json()
             print(response.json())
-            return response.json()
+            return {"response": node_response["response"]}
         else:
             return {"error": "Failed to send data", "status_code": response.status_code}
 
