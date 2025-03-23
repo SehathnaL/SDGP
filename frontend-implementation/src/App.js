@@ -8,6 +8,7 @@ import MainPage from "./MainPage";
 import MainLayout from "./MainLayout";
 import Navigation from "./components/Navigation";
 import TrainerSelection from "./TrainerSelection";
+import Feedback from "./components/sections/Feedback";
 
 function App() {
   return (
@@ -20,6 +21,8 @@ function App() {
         <Route path="/make-your-choice" element={<MakeYourChoicePage />} />
         <Route path="/payment-success" element={<Success />} />
         <Route path="/payment-cancel" element={<Cancel />} />
+        {/* feedback route */}
+      <Route path="/feedback" element={<Feedback />} />
       </Routes>
     </Router>
   );

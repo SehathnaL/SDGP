@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload Your CV Here</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        p {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: black;
+            font-size: 56px;
+            text-align: center;
+            margin-top: 70px;
+        }
+
+        #span1 {
+            color: #EAC42D;
+        }
+
+        fieldset {
+            width: 700px;
+            height: auto;
+            margin: 0 auto;
+            border-radius: 10px;
+            box-shadow: 0px 2px 2px #fff0b6;
+            border: 2px solid #fff0b6;
+            text-align: left;
+            padding: 50px;
+        }
+
+        label {
+            font-family: Arial, sans-serif;
+            font-size: 18px;
+        }
+
+        input[type="text"] {
+            width: 97%;
+            padding: 8px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .upload {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 150px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: center;
+            background-color: #f9f9f9;
+            position: relative;
+        }
+
+        .upload-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+            color: black;
+            cursor: pointer;
+        }
+
+        .upload-label i {
+            font-size: 40px;
+            color: black;
+            margin-bottom: 10px;
+        }
+
+        #fileInput1,
+        #fileInput2 {
+            display: none;
+            /* Hide the default file input */
+        }
+
+        .file-name {
+            margin-top: 10px;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            color: #666;
+        }
+
+        button {
+            width: 150px;
+            height: 50px;
+            background-color: #EAC42D;
+            border-radius: 10px;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 20px;
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            cursor: pointer;
+        }
+
+        #button1 {
+            margin-left: 450px;
+            margin-right: -30px;
+            padding: 25px;
+        }
+
+        button:hover {
+            background-color: #d4a524;
+        }
+
+        /* Section Styles */
+        .section {
+            width: 100vw;
+            background-color: #ffffff;
+            /* White page background */
+            padding: 1rem 0;
+            display: flex;
+            justify-content: center;
+            /* Center content horizontally */
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            width: 85%;
+            background-color: #fff8e6;
+            /* Yellow background for the navbar */
+            border-radius: 15px;
+            /* Rounded corners */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+        }
+
+        /* Logo Styles */
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #000;
+            /* Black text */
+            margin: 0;
+        }
+
+        /* Menu Styles */
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Hide menu for smaller screens */
+        @media (max-width: 768px) {
+            .menu {
+                display: none;
+            }
+        }
+
+        /* Menu Item Styles */
+        .menu-item {
+            margin: 0 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #000;
+            /* Black text */
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            color: #f0c300;
+            /* Yellow text on hover */
+        }
+
+        /* Login Button Styles */
+        .login-button {
+            background-color: #000;
+            /* Black button */
+            color: #fff;
+            padding: 0.5rem 1.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 20px;
+            /* Rounded corners for button */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover {
+            background-color: #333;
+            /* Darker black on hover */
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <nav class="nav-container">
+            <!-- Logo -->
+            <h1 class="logo">intX</h1>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li class="menu-item">Home</li>
+                <li class="menu-item">Services</li>
+                <li class="menu-item">About Us</li>
+                <li class="menu-item">FAQ</li>
+            </ul>
+
+            <!-- Login Button -->
+            <button class="login-button">Log In</button>
+        </nav>
+    </section>
+    <p>Your <span id="span1">Journey</span> To <span id="span1">Success</span> Begins <span id="span1">Here...</span>
+    </p>
+    <fieldset>
+        <label for="jobDescription">Enter Your Job Description</label><br />
+        <input type="text" id="jobDescription" placeholder="Intern-Software Engineering"><br /><br />
+        <label for="uploadCV">Upload Your CV</label>
+        <div class="upload">
+            <label for="fileInput1" class="upload-label">
+                <i class="fa fa-upload"></i>
+                Drag & Drop Files Here
+            </label>
+            <input type="file" id="fileInput1" name="uploadedFile" required>
+            <span class="file-name" id="fileName1">No file selected</span>
+        </div><br />
+        <label for="uploadProjects">If You Have Done Any Projects</label>
+        <div class="upload">
+            <label for="fileInput2" class="upload-label">
+                <i class="fa fa-upload"></i>
+                Drag & Drop Files Here
+            </label>
+            <input type="file" id="fileInput2" name="uploadedFile" required>
+            <span class="file-name" id="fileName2">No file selected</span>
+        </div><br />
+        <div id="button1">
+            <button type="submit"onclick="window.location.href='choice.html'">
+                Next <i class="fa fa-arrow-right"></i>
+            </button>
+        </div>
+    </fieldset>
+
+    <script>
+        // JavaScript to display file name after upload
+        const fileInput1 = document.getElementById('fileInput1');
+        const fileName1 = document.getElementById('fileName1');
+
+        const fileInput2 = document.getElementById('fileInput2');
+        const fileName2 = document.getElementById('fileName2');
+
+        fileInput1.addEventListener('change', () => {
+            if (fileInput1.files.length > 0) {
+                fileName1.textContent = fileInput1.files[0].name;
+            } else {
+                fileName1.textContent = 'No file selected';
+            }
+        });
+
+        fileInput2.addEventListener('change', () => {
+            if (fileInput2.files.length > 0) {
+                fileName2.textContent = fileInput2.files[0].name;
+            } else {
+                fileName2.textContent = 'No file selected';
+            }
+        });
+
+        // JavaScript for handling button interactions
+
+        // Example: Add a click event listener to the login button
+        document.querySelector('.login-button').addEventListener('click', () => {
+            alert('Login button clicked!');
+        });
+
+    </script>
+</body>
+
+</html>

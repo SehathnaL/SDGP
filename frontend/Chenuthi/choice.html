@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Make Your Choice</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        p {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color: black;
+            font-size: 56px;
+            margin-top: 180px;
+            margin-left: 950px;
+            margin-bottom: 20px;
+
+        }
+
+        #span1 {
+            color: #EAC42D;
+        }
+
+        fieldset {
+            width: 600px;
+            height: 330px;
+            margin-top: -230px;
+            border-radius: 20px;
+            text-align: left;
+            padding: 50px;
+            margin-left: 90px;
+            justify-content: flex-start;
+            margin-bottom: 40px;
+            /* Space between buttons */
+            cursor: pointer;
+            /* Pointer cursor for button */
+            border: 4px solid #fff0b6;
+            /* Yellow border */
+            border-radius: 25px;
+            /* Rounded corners */
+            background-color: white;
+            /* Light grey background */
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+
+        }
+
+        label {
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            font-size: 36px;
+            line-height: 1.5;
+        }
+
+        button {
+            width: 98%;
+            height: 80px;
+            border: 4px solid #fff0b6;
+            background-color: #fffcea;
+            border: #ccc;
+            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            padding: 25px;
+            font-size: 30px;
+            border-radius: 20px;
+            margin-top: 20px;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            display: flex;
+            align-items: center;
+            box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.1);
+            /* Subtle shadow */
+            margin-bottom: 40px;
+            /* Space between buttons */
+            position: relative;
+        }
+
+        /* Change color on hover */
+        button:hover {
+            background-color: #ffebaf;
+            /* Yellow color on hover */
+            color: black;
+            /* White text on hover */
+        }
+
+        /* Change color on click */
+        button:active {
+            background-color: #ffebaf;
+            /* Yellow color on click */
+            color: black;
+            /* Black text on click */
+            border-color: #ffebaf;
+            /* Match border to background */
+        }
+
+        /* Section Styles */
+        .section {
+            width: 100vw;
+            height: 65px;
+            background-color: #ffffff;
+            padding: 2rem 0;
+            display: flex;
+            justify-content: center;
+            
+        }
+
+        /* Navigation Container */
+        .nav-container {
+            width: 85%;
+            background-color: #fff8e6;
+            border-radius: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            flex-wrap: wrap;
+            /* Allow menu items to wrap if space is tight */
+        }
+
+        /* Logo Styles */
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            color: #000;
+            margin: 0;
+        }
+
+        /* Menu Styles */
+        .menu {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            flex-grow: 1;
+            /* Make menu items take up available space */
+        }
+
+        /* Menu Item Styles */
+        .menu-item {
+            margin: 0 1.5rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #000;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover {
+            color: #f0c300;
+        }
+
+        /* Login Button Styles */
+        .login-button {
+            margin-top: 40px;
+            width: 150px;
+            height: 47px;
+            background-color: #000;
+            color: #fff;
+            padding: 0.5rem 3rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            position: absolute;
+            right: 2rem;
+        }
+
+        .login-button:hover {
+            background-color: #333;
+        }
+
+        /* Media Query for Smaller Screens */
+        @media (max-width: 768px) {
+            .menu {
+                display: block;
+                /* Show the menu on smaller screens */
+                text-align: center;
+                width: 100%;
+            }
+
+            .menu-item {
+                display: block;
+                margin: 0.5rem 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <section class="section">
+        <nav class="nav-container">
+            <!-- Logo -->
+            <h1 class="logo">intX</h1>
+
+            <!-- Menu Items -->
+            <ul class="menu">
+                <li class="menu-item">Home</li>
+                <li class="menu-item">Services</li>
+                <li class="menu-item">About Us</li>
+                <li class="menu-item">FAQ</li>
+            </ul>
+
+            <!-- Login Button -->
+            <button class="login-button">Log In</button>
+        </nav>
+    </section>
+    <p>Make <span id="span1">Your</span> Choice ✨ </p>
+    <fieldset>
+        <label>What Type Of Questions You Want To Be Asked ? </label>
+        <button onclick="window.location.href='virtualMeeting.html'">Based On My CV</button>
+        <button onclick="window.location.href='virtualMeeting.html'">Based On My Projects</button>
+    </fieldset>
+    <script>
+        // JavaScript for handling button interactions
+
+        // Example: Add a click event listener to the login button
+        document.querySelector('.login-button').addEventListener('click', () => {
+            alert('Login button clicked!');
+        });
+
+    </script>
+
+
+</body>
+
+</html>

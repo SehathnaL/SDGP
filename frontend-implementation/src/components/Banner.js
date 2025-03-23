@@ -3,13 +3,6 @@ import styled from "styled-components";
 
 import Button from "./Button";
 
-import img1 from "../assets/Nfts/bighead.svg";
-import img2 from "../assets/Nfts/bighead-1.svg";
-import img3 from "../assets/Nfts/bighead-2.svg";
-import img4 from "../assets/Nfts/bighead-3.svg";
-import img5 from "../assets/Nfts/bighead-4.svg";
-import img6 from "../assets/Nfts/bighead-5.svg";
-
 const Section = styled.section`
   margin-left:-20px;
   width: 100vw;
@@ -58,6 +51,7 @@ const ImgContainer = styled.div`
 const Title = styled.h1`
   font-size: ${(props) => props.theme.fontxxxl};
   color: ${(props) => props.theme.body};
+  font-family: 'Sora', sans-serif;
   padding: 1rem 2rem;
   z-index: 10;
   width: 40%;
