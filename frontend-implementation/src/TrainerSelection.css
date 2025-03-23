@@ -4,6 +4,11 @@
     justify-content: center;
     gap: 20px;
     padding-top: 20px;
+    margin-top: 150px;   
+}
+
+.trainer-page{
+    margin-top: 150px;
 }
 
 .trainer-card-content {
@@ -128,8 +133,11 @@ h1 {
     font-size: 56px;
     color: black;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 150px;
     animation: slideDown 0.8s ease-in-out;
+}
+#style1{
+    color: #EAC42D;
 }
 
 @keyframes slideDown {

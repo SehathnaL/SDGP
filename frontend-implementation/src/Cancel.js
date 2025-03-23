@@ -34,7 +34,7 @@ const styles = {
     alignItems: 'center',
     height: '100vh',
     backgroundColor: '#fff',
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'Sora, sans-serif',
     marginTop: '-50px',
     position: 'fixed',
     marginLeft: '380px',

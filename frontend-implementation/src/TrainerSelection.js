@@ -224,9 +224,9 @@ const TrainerSelection = () => {
     };
 
     return (
-        <div>
+        <div className="tariner-page">
             <h1>
-                Select <span>Your</span> Trainer ...
+                Select <span id="style1">Your</span> Trainer ...
             </h1>
             <div className="trainer-container1">
                 {trainers.map((trainer, index) => (

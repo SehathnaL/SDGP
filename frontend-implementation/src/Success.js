@@ -7,7 +7,8 @@ const Success = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         <h1 style={styles.heading}>Payment Successful!</h1>
-        <p style={styles.paragraph}>Thank you for your booking. You're one step closer to success!Please Upload YOur CV to Your Drive Before Continuing To The Google Calender</p>
+        <p style={styles.paragraph}>Thank you for your booking. You're one step closer to success!</p>
+        <p style={styles.warning}>Please Upload Your CV to Your Drive Before Scheduling Your Appointment</p>
         <a href={calendarUrl} style={styles.button} target="_blank" rel="noopener noreferrer">
           Book an Appointment
         </a>
@@ -22,16 +23,16 @@ const Success = () => {
 // CSS Styles (Inline)
 const styles = {
   container: {
-    width:'800px',
+    width: '800px',
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
     height: '100vh',
     backgroundColor: '#fff',
-    fontFamily: 'Arial, sans-serif',
-    marginTop:'-50px',
-    position:'fixed',
-    marginLeft:'380px',
+    fontFamily: 'Sora, sans-serif',
+    marginTop: '30px',
+    position: 'fixed',
+    marginLeft: '380px',
   },
   card: {
     backgroundColor: '#fff',
@@ -55,6 +56,11 @@ const styles = {
     marginBottom: '20px',
     lineHeight: '1.5',
   },
+  warning: {
+    color: "red",
+    fontSize: '1rem',
+    marginBottom: '20px',
+  },
   button: {
     border: '2px solid #EAC42D', // Added yellow border, increased width for visibility
     display: 'inline-block',
@@ -66,7 +72,7 @@ const styles = {
     fontWeight: 'bold',
     textDecoration: 'none',
     borderRadius: '40px',
-    transition: 'background-color 0.3s ease',
+    transition: 'background-color 0.3s ease, transform 0.2s ease',
   },
   buttonHover: {
     backgroundColor: '#c9a32a',
@@ -82,6 +88,7 @@ const styles = {
     cursor: 'pointer',
     transition: 'color 0.3s ease',
   },
+  
 };
 
 export default Success;
