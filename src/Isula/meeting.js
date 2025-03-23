@@ -3,7 +3,7 @@ import io from 'socket.io-client';
 import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { useReactMediaRecorder } from "react-media-recorder";
-
+import axios from 'axios';
 const MeetingPage = () => {
     const navigation = useNavigate();
     const socketRef = useRef(null);
@@ -12,6 +12,7 @@ const MeetingPage = () => {
     const webcamRef = useRef(null);
     const mediaRecorderRef = useRef(null);
     const audioChunksRef = useRef([]);
+    const [audioSrc, setAudioSrc] = useState(null);
     
     const [remoteStream, setRemoteStream] = useState(null);
     const [peerConnection, setPeerConnection] = useState(null);
@@ -26,6 +27,16 @@ const MeetingPage = () => {
     const [transcriptionInterval, setTranscriptionInterval] = useState(null);
 
     const { status, startRecording, stopRecording, mediaBlobUrl } = useReactMediaRecorder({ video: true, audio: true });
+
+
+    const [userInput, setUserInput] = useState("");
+    const [aiResponse, setAiResponse] = useState("");
+    // const [messages, setMessages] = useState([]);
+
+    const [firstAiResponse, setFirstAiResponse] = useState("");
+    const [isFirstResponse, setIsFirstResponse] = useState(false);
+    const [interview, setInterview] = useState(null);
+    const [cvId, setCvId] = useState(null);
 
     useEffect(() => {
         const initializeSocket = () => {
@@ -286,7 +297,8 @@ const MeetingPage = () => {
             
             const data = await response.json();
             console.log("Transcription result:", data);
-            
+            console.log("Transcription result data:", data.text);
+            sendMessage(data.text);
             // Process the transcription result
             if (data && data.text) {
                 const newText = data.text.trim();
@@ -296,11 +308,76 @@ const MeetingPage = () => {
                     // Optionally send transcript to server via socket
                     if (socketRef.current) {
                         socketRef.current.emit("transcript-update", newText);
+                        console.log("Transcript sent to server:", newText);
                     }
                 }
             }
         } catch (error) {
             console.error("Error with Whisper API:", error);
+        }
+    };
+    const synthesizeSpeech = async (text) => {
+        try {
+          const response = await axios.post("http://localhost:5000/api/voice", {
+            text,
+          });
+          console.log("Response from TTS API:", response.data);
+          if (!response.data.audioContent) {
+            console.error("No audio content received");
+            return;
+          }
+          const audio_Src = `data:audio/mp3;base64,${response.data.audioContent}`;
+          console.log("Audio source before setting:", audio_Src);
+          setAudioSrc(audio_Src);
+          console.log("Audio source after setting:", audioSrc);
+          return audio_Src;
+        } catch (error) {
+          console.error("Error synthesizing speech:", error); // Log errors
+        }
+    };
+
+
+    const sendMessage = async (userInput) => {
+        if (!userInput.trim()) return;
+    
+        const newMessage = { sender: "User", text: userInput };
+        // setMessages((prev) => [...prev, newMessage]);
+        // setUserInput("");
+    
+        try {
+            // Send the message to your backend API
+            const response = await fetch("http://localhost:5000/api/chat", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ userMessage: userInput }),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Error: ${response.statusText}`);
+            }
+    
+            // Parse the response from the backend
+            const data = await response.json();
+            console.log(data);
+    
+            // Update the AI's response state
+            setAiResponse(data.response);
+            // setMessages((prev) => [...prev, { sender: "AI", text: data.response }]);
+    
+            // Log the current messages (optional for debugging)
+            // console.log(messages);
+    
+            // Call the synthesizeSpeech function to send the message to Wavenet or any other TTS system
+            console.log("AI Response after synthesis:", data.response);
+            const res=await synthesizeSpeech(data.response);
+            console.log("my new", res);
+
+            const audio = new Audio(res);
+            // audio.loop = true;
+            audio.play().catch((error) => console.error("Error playing audio:", error));
+    
+        } catch (error) {
+            console.error("Error in chat session:", error);
         }
     };
     

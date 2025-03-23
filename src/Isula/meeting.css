@@ -95,9 +95,9 @@ body {
 /* Holographic Button Effect */
 .controls {
   position: fixed;
-  bottom: 2rem;
-  left: 50%;
-  transform: translateX(-50%);
+  bottom: 2rem; /* 2rem from the bottom of the viewport */
+  left: 50%; /* Center horizontally */
+  transform: translateX(-50%); /* Offset by half its width to truly center */
   display: flex;
   gap: 0.75rem;
   padding: 1.25rem;
@@ -107,6 +107,7 @@ body {
   border-radius: 1rem;
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  z-index: 9999; /* Ensure it stays above other content */
 }
 
 .controls button {
