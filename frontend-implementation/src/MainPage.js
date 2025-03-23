@@ -504,8 +504,6 @@ const MainPage = () => {
               </>
             )}
 
-            {/* Back button (except step 1) */}
-
           </div>
         </div>
       )}
