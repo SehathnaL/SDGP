@@ -235,6 +235,37 @@ const MainPage = () => {
     setIsUploading(false);
   };
 
+  const handleCloseModal2 = async () => {
+    if (sourceOption === "cv" && cvFile) {
+      // Send CV to backend
+      const formData = new FormData();
+      formData.append("cv", cvFile);
+      try {
+        await fetch('http://127.0.0.1:8000/upload_cv', {
+          method: 'POST',
+          body: formData,
+        });
+        alert("CV sent successfully!");
+      } catch (error) {
+        console.error("Error sending CV:", error);
+      }
+    } else if (sourceOption === "proposal" && proposalFile) {
+      // Send Project Proposal to backend
+      const formData = new FormData();
+      formData.append("proposal", proposalFile);
+      try {
+        await fetch('http://127.0.0.1:8000/upload_project', {
+          method: 'POST',
+          body: formData,
+        });
+        alert("Project Proposal sent successfully!");
+      } catch (error) {
+        console.error("Error sending Proposal:", error);
+      }
+    }
+  };
+
+
   const handleNextClick = () => setStep(prev => prev + 1);
 
   const handleBackClick = () => setStep(prev => prev - 1);
@@ -477,7 +508,7 @@ const MainPage = () => {
                   <div onClick={() => setSourceOption("proposal")} className={`option ${sourceOption === "proposal" ? "selected" : ""}`}>Project Proposal Based</div>
                 </div>
                 <button className="back-btn" onClick={handleBackClick}>Back</button>
-                <button className="finish-btn" onClick={handleCloseModal} disabled={!sourceOption}>
+                <button className="finish-btn" onClick={() => { handleCloseModal(); handleCloseModal2(); }} disabled={!sourceOption}>
                   Finish
                 </button>
               </>
