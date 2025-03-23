@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 // import "./index.css";
 import App from "./App";
 import "../node_modules/normalize.css/normalize.css";
+
 import { BrowserRouter } from "react-router-dom";
 
 // import reportWebVitals from "./reportWebVitals";

@@ -9,8 +9,7 @@ import Roadmap from "./Roadmap";
 
 const Section = styled.section`
   min-height: 100vh;
-  margin-left: -20px;
-  width: 1550px;
+  width: 100%;
   background-color: ${(props) => props.theme.text};
   display: flex;
   justify-content: center;
@@ -61,6 +60,7 @@ const Box = styled.div`
 
 const Title = styled.h2`
   font-size: ${(props) => props.theme.fontxxl};
+  text-align: left;
   text-transform: capitalize;
   color: ${(props) => props.theme.body};
   align-self: flex-start;
@@ -144,13 +144,13 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const scrollToRoadmap = () => {
+  const element = document.getElementById("Roadmap");
+  element.scrollIntoView({ behavior: "smooth" });
+};
+
 const About = () => {
-  const navigate = useNavigate(); // Initialize useNavigate hook
-
-  const handleButtonClick = () => {
-    navigate("/ Roadmap"); // Navigate to the Roadmap page
-  };
-
+  
   return (
     <Section id="about">
       <Container>
@@ -170,7 +170,7 @@ const About = () => {
           </SubTextLight>
           <ButtonContainer>
             <ThemeProvider theme={dark}>
-              <Button text="Get Started" onClick={handleButtonClick} /> {/* Updated to handle click */}
+            <Button text="Get Started" onClick={scrollToRoadmap} />
             </ThemeProvider>
           </ButtonContainer>
         </Box>
