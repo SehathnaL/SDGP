@@ -7,7 +7,7 @@ const Success = () => {
     <div style={styles.container}>
       <div style={styles.card}>
         <h1 style={styles.heading}>Payment Successful!</h1>
-        <p style={styles.paragraph}>Thank you for your booking. You're one step closer to success!</p>
+        <p style={styles.paragraph}>Thank you for your booking. You're one step closer to success!<br/>Please Upload YOur CV to Your Drive Before Scheduling Your Appointment</p>
         <a href={calendarUrl} style={styles.button} target="_blank" rel="noopener noreferrer">
           Book an Appointment
         </a>
