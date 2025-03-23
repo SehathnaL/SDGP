@@ -4,6 +4,7 @@ import Webcam from 'react-webcam';
 import { useNavigate } from 'react-router-dom';
 import { useReactMediaRecorder } from "react-media-recorder";
 import axios from 'axios';
+
 const MeetingPage = () => {
     const navigation = useNavigate();
     const socketRef = useRef(null);
