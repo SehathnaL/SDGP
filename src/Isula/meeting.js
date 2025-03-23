@@ -270,7 +270,7 @@ const MeetingPage = () => {
             formData.append('model', 'whisper-1');
             
             // Set your OpenAI API key in environment variables for security
-            // const apiKey = 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;
+            const apiKey = "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";
             
             // Send the audio to OpenAI Whisper API
             const response = await fetch(
@@ -315,7 +315,7 @@ const MeetingPage = () => {
 
     return (
         <div className='meeting-container'>
-            <div className="video-wrapper"> 
+            <div className="video-wrapper relative"> 
                 {isVideoOn ? (
                     <Webcam 
                         ref={webcamRef} 
@@ -336,50 +336,102 @@ const MeetingPage = () => {
                         Camera Off
                     </div>
                 )}
+                
+                {/* Recording indicator */}
+                {isRecording && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        backgroundColor: 'rgba(255, 0, 0, 0.7)',
+                        color: 'white',
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px'
+                    }}>
+                        <div style={{
+                            width: '12px',
+                            height: '12px',
+                            backgroundColor: 'red',
+                            borderRadius: '50%',
+                            animation: 'pulse 1.5s infinite'
+                        }}></div>
+                        Recording
+                    </div>
+                )}
+
+                {/* Add CSS for the pulsing animation */}
+                <style>
+                    {`
+                    @keyframes pulse {
+                        0% { opacity: 1; }
+                        50% { opacity: 0.5; }
+                        100% { opacity: 1; }
+                    }
+                    
+                    .relative {
+                        position: relative;
+                    }
+                    `}
+                </style>
             </div>
-            <div className="video-wrapper">
+            <div className="video-wrapper relative">
                 <img src="./avatar-meeting.png" alt="Avatar"/>
+                
+                {/* Recording indicator also on the second video */}
+                {isRecording && (
+                    <div style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        backgroundColor: 'rgba(255, 0, 0, 0.7)',
+                        color: 'white',
+                        padding: '5px 10px',
+                        borderRadius: '5px',
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '5px'
+                    }}>
+                        <div style={{
+                            width: '12px',
+                            height: '12px',
+                            backgroundColor: 'red',
+                            borderRadius: '50%',
+                            animation: 'pulse 1.5s infinite'
+                        }}></div>
+                        Recording
+                    </div>
+                )}
             </div>
             
-            {transcript && (
-                <div className="transcript-container" style={{
-                    padding: '10px',
-                    margin: '10px 0',
-                    backgroundColor: '#f0f0f0',
-                    borderRadius: '5px',
-                    maxHeight: '100px',
-                    overflowY: 'auto'
-                }}>
-                    <h3>Transcript:</h3>
-                    <p>{transcript}</p>
-                </div>
-            )}
                         
             <div className="controls">
-                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? '#c49168' : 'black' }} > 
+                <button onClick={toggleVideo} style={{ backgroundColor: isVideoOn ? 'rgba(255, 0, 0, 0.7)' : 'black' }} > 
                     <i className={`fa-solid ${isVideoOn ? "fa-video" : "fa-video-slash"}`}></i> {isVideoOn ? " Turn Off Video" : " Turn On Video"} 
                 </button>
                 <button 
-                    onClick={toggleAudio} 
-                    style={{ backgroundColor: isAudioOn ? '#c49168' : 'black' }}
-                >
-                    <i className={`fa-solid ${isAudioOn ? "fa-microphone" : "fa-microphone-slash"}`}></i> 
-                    {isAudioOn ? " Mute Mic" : " Unmute Mic"}
-                </button>
-                <button onClick={toggleFullScreenRecording} style={{ backgroundColor: isRecording ? 'black' : '#c49168' }}>
-                    <i className="fa-solid fa-circle"></i> {isRecording ? " Stop Recording" : " Start Recording"}
-                </button>
-                <button 
                     onClick={toggleTranscription}
-                    style={{ backgroundColor: isTranscribing ? 'black' : '#c49168' }}
+                    style={{ backgroundColor: isTranscribing ? 'rgba(255, 0, 0, 0.7)' : 'black' }}
                     disabled={!isAudioOn}
                 >
                     <i className={`fa-solid ${isTranscribing ? "fa-stop" : "fa-microphone-lines"}`}></i> 
                     {isTranscribing ? " Stop Transcribing" : " Transcribe"}
                 </button>
                 <button 
+                    onClick={toggleFullScreenRecording} 
+                    style={{ 
+                        backgroundColor: isRecording ? 'red' : 'black',
+                        animation: isRecording ? 'pulse 1.5s infinite' : 'none'
+                    }}
+                >
+                    <i className={`fa-solid ${isRecording ? "fa-square" : "fa-circle"}`}></i> 
+                    {isRecording ? " Stop Recording" : " Start Recording"}
+                </button>
+                <button 
                     onClick={endCall} 
-                    style={{ backgroundColor: '#c49168' }}
+                    style={{ backgroundColor: 'rgba(255, 0, 0, 0.7)' }}
                 >
                     <i className="fa-solid fa-phone-slash"></i> End
                 </button>
