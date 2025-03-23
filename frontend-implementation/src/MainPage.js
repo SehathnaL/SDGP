@@ -1,10 +1,10 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import styled from "styled-components"
-import "./MainPage.css"
-import image from "./Avatar.png"
-import Typewriter from "typewriter-effect"
+import { useState, useEffect, useRef } from "react";
+import styled from "styled-components";
+import "./MainPage.css";
+import image from "./Avatar.png";
+import Typewriter from "typewriter-effect";
 
 const StyledWrapper = styled.div`
   .btn {
@@ -24,10 +24,10 @@ const StyledWrapper = styled.div`
     background-image: linear-gradient(#212121, #212121),
       linear-gradient(
         137.48deg,
-rgba(0, 14, 72, 0.68) 10%,
-rgb(0, 0, 68) 45%,
-rgb(3, 16, 75) 67%,
-rgb(0, 9, 34) 87%
+        rgba(0, 14, 72, 0.68) 10%,
+        rgb(0, 0, 68) 45%,
+        rgb(3, 16, 75) 67%,
+        rgb(0, 9, 34) 87%
       );
     background-origin: border-box;
     background-clip: content-box, border-box;
@@ -68,11 +68,11 @@ rgb(0, 9, 34) 87%
   }
 
   .circle:nth-of-type(1) {
-    background:rgb(10, 0, 65);
+    background: rgb(10, 0, 65);
   }
 
   .circle:nth-of-type(2) {
-    background:rgb(7, 0, 80);
+    background: rgb(7, 0, 80);
   }
 
   .btn:hover #container-stars {
@@ -182,32 +182,33 @@ rgb(0, 9, 34) 87%
       transform: scale(0.75);
       box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
     }
-  }`
+  }
+`;
 
 const MainPage = () => {
   const titleText = "LEET'S BEGIN YOUR AI INTERVIEW SIMULATION: PRACTICE MAKES PERFECT!";
-  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [displayedTitle, setDisplayedTitle] = useState("");
   const [cursorVisible, setCursorVisible] = useState(true);
   const titleIndex = useRef(0);
 
   const [showModal, setShowModal] = useState(false);
-  const [jobTitle, setJobTitle] = useState('');
+  const [jobTitle, setJobTitle] = useState("");
   const [step, setStep] = useState(1);
   const [selection, setSelection] = useState(null);
   const [cvFile, setCvFile] = useState(null);
   const [proposalFile, setProposalFile] = useState(null);
-  const [sourceOption, setSourceOption] = useState('');
+  const [sourceOption, setSourceOption] = useState("");
   const [skills, setSkills] = useState([]);
-  const [newSkill, setNewSkill] = useState('');
-  const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
-  const [isUploading, setIsUploading] = useState(false); // Flag to track upload state
-  const [cvFileName, setCvFileName] = useState('');
-  const [proposalFileName, setProposalFileName] = useState('');
+  const [newSkill, setNewSkill] = useState("");
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [isUploading, setIsUploading] = useState(false);
+  const [cvFileName, setCvFileName] = useState("");
+  const [proposalFileName, setProposalFileName] = useState("");
 
   useEffect(() => {
     const typingInterval = setInterval(() => {
       if (titleIndex.current < titleText.length) {
-        setDisplayedTitle(prev => prev + titleText.charAt(titleIndex.current));
+        setDisplayedTitle((prev) => prev + titleText.charAt(titleIndex.current));
         titleIndex.current++;
       } else {
         clearInterval(typingInterval);
@@ -215,66 +216,68 @@ const MainPage = () => {
     }, 50);
 
     const cursorInterval = setInterval(() => {
-      setCursorVisible(prev => !prev);
+      setCursorVisible((prev) => !prev);
     }, 500);
 
- 
+    return () => {
+      clearInterval(typingInterval);
+      clearInterval(cursorInterval);
+    };
+  }, [titleText]);
 
-  const handleGetStarted = () => setShowModal(true)
+  const handleGetStarted = () => setShowModal(true);
   const handleCloseModal = () => {
-    setShowModal(false)
-    setJobTitle("")
-    setStep(1)
-    setSelection(null)
-    setCvFile(null)
-    setProposalFile(null)
-    setSourceOption("")
-    setSkills([])
-    setUploadProgress(0)
-    setIsUploading(false)
-  }
+    setShowModal(false);
+    setJobTitle("");
+    setStep(1);
+    setSelection(null);
+    setCvFile(null);
+    setProposalFile(null);
+    setSourceOption("");
+    setSkills([]);
+    setUploadProgress(0);
+    setIsUploading(false);
+  };
 
-
-  const handleNextClick = () => setStep((prev) => prev + 1)
-
-  const handleBackClick = () => setStep((prev) => prev - 1)
+  const handleNextClick = () => setStep((prev) => prev + 1);
+  const handleBackClick = () => setStep((prev) => prev - 1);
 
   const handleSkillAdd = () => {
     if (newSkill.trim() !== "" && !skills.includes(newSkill)) {
-      setSkills([...skills, newSkill])
-      setNewSkill("")
+      setSkills([...skills, newSkill]);
+      setNewSkill("");
     }
-  }
+  };
 
   const handleSkillRemove = (skill) => {
-    setSkills(skills.filter((s) => s !== skill))
-  }
+    setSkills(skills.filter((s) => s !== skill));
+  };
 
   const handleFileChange = (e, type) => {
-    const file = e.target.files[0]
+    const file = e.target.files[0];
     if (file) {
       if (type === "cv") {
-        setCvFile(file)
-        setCvFileName(file.name)
+        setCvFile(file);
+        setCvFileName(file.name);
       } else if (type === "proposal") {
-        setProposalFile(file)
-        setProposalFileName(file.name)
+        setProposalFile(file);
+        setProposalFileName(file.name);
       }
 
-      // Simulate file upload progress
-      setIsUploading(true)
-      let progress = 0
+      setIsUploading(true);
+      let progress = 0;
       const uploadInterval = setInterval(() => {
         if (progress < 100) {
-          progress += 10
-          setUploadProgress(progress)
+          progress += 10;
+          setUploadProgress(progress);
         } else {
-          clearInterval(uploadInterval)
-          setIsUploading(false)
+          clearInterval(uploadInterval);
+          setIsUploading(false);
         }
-      }, 500)
+      }, 500);
     }
-  }
+  };
+
   return (
     <div className="main-page">
       <div className="container">
@@ -291,7 +294,7 @@ const MainPage = () => {
                   .typeString("<span class='text-1'>PRACTICE MAKES PERFECT!</span>")
                   .pauseFor(2000)
                   .deleteAll()
-                  .start()
+                  .start();
               }}
             />
           </h1>
@@ -316,7 +319,7 @@ const MainPage = () => {
           </div>
         </div>
         <div className="image-section">
-          <img alt="An Interviewer" height="300" src={image} width="400" className='avatar' />
+          <img alt="An Interviewer" height="300" src={image} width="400" className="avatar" />
         </div>
       </div>
 
@@ -327,7 +330,6 @@ const MainPage = () => {
               &times;
             </span>
 
-            {/* Step 1 */}
             {step === 1 && (
               <>
                 <label className="text1">Enter Your Chosen Career Role :</label>
@@ -349,13 +351,13 @@ const MainPage = () => {
                 <button
                   className="next-btn1"
                   onClick={handleNextClick}
-                  disabled={!jobTitle || !selection} // Disable if jobTitle or selection is missing
+                  disabled={!jobTitle || !selection}
                 >
                   Next
                 </button>
               </>
             )}
-            {/* Step 2 (Upload CV) */}
+
             {step === 2 && selection === "cv" && (
               <>
                 <div>
@@ -393,7 +395,6 @@ const MainPage = () => {
                   </div>
                 </div>
 
-                {/* Upload progress */}
                 {isUploading && (
                   <div className="progress-container">
                     <div className="progress-bar">
@@ -411,7 +412,6 @@ const MainPage = () => {
               </>
             )}
 
-            {/* Step 3 (Upload Project Proposal) */}
             {step === 3 && selection === "cv" && (
               <>
                 <label className="title1">Upload your Project Proposal (Optional)</label>
@@ -446,7 +446,6 @@ const MainPage = () => {
                     style={{ display: "none" }}
                   />
                 </div>
-                {/* Upload progress */}
                 {isUploading && (
                   <div className="progress-container">
                     <div className="progress-bar">
@@ -464,7 +463,6 @@ const MainPage = () => {
               </>
             )}
 
-            {/* Step 4 (Source Option) */}
             {step === 4 && selection === "cv" && (
               <>
                 <label className="title1">What source do you want to be based on?</label>
@@ -496,29 +494,32 @@ const MainPage = () => {
             {step === 2 && selection === "no-cv" && (
               <>
                 <label>What are the skills you are confident at?</label>
-                <div className='skill'>
-                  <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} />
-                  <button onClick={handleSkillAdd} className='addskill'>+</button></div>
+                <div className="skill">
+                  <input type="text" value={newSkill} onChange={(e) => setNewSkill(e.target.value)} />
+                  <button onClick={handleSkillAdd} className="addskill">
+                    +
+                  </button>
+                </div>
                 <div className="skills-list">
-                  {skills.map(skill => (
+                  {skills.map((skill) => (
                     <div key={skill} className="skill-tag">
                       {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
                     </div>
                   ))}
                 </div>
-                <button className="back-btn" onClick={handleBackClick}>Back</button>
-                <button className="finish-btn" onClick={handleCloseModal} >
+                <button className="back-btn" onClick={handleBackClick}>
+                  Back
+                </button>
+                <button className="finish-btn" onClick={handleCloseModal}>
                   Finish
                 </button>
               </>
             )}
-            {/* Back button (except step 1) */}
           </div>
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 export default MainPage;
-
