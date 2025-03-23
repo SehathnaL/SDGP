@@ -38,6 +38,9 @@ const MeetingPage = () => {
     const [isFirstResponse, setIsFirstResponse] = useState(false);
     const [interview, setInterview] = useState(null);
     const [cvId, setCvId] = useState(null);
+    const [isScreenSharing, setIsScreenSharing] = useState(false);
+    const screenStreamRef = useRef(null);
+    const combinedStreamRef = useRef(null);
 
     useEffect(() => {
         const initializeSocket = () => {
@@ -175,27 +178,43 @@ const MeetingPage = () => {
 
     const toggleFullScreenRecording = async () => { 
         if (isRecording) {
+            // Stop the recording
             if (mediaRecorderRef.current) {
                 mediaRecorderRef.current.stop();
             }
+            
+            // Stop the screen sharing tracks
+            if (screenStreamRef.current) {
+                screenStreamRef.current.getTracks().forEach(track => {
+                    track.stop();
+                });
+                screenStreamRef.current = null;
+            }
+            
+            // Reset state
             setIsRecording(false);
+            setIsScreenSharing(false);
         } else {
             try {
-                // Capture the entire screen for recording only (not sharing)
+                // Capture the entire screen for recording
                 const screenStream = await navigator.mediaDevices.getDisplayMedia({
                     video: { mediaSource: "screen" }, // Captures full screen
                     audio: true // Captures system audio
                 });
-    
+                
+                // Save the screen stream reference for later cleanup
+                screenStreamRef.current = screenStream;
+                
+                // Create media recorder with the screen stream
                 mediaRecorderRef.current = new MediaRecorder(screenStream);
                 recordedChunksRef.current = [];
-    
+                
                 mediaRecorderRef.current.ondataavailable = event => {
                     if (event.data.size > 0) {
                         recordedChunksRef.current.push(event.data);
                     }
                 };
-    
+                
                 mediaRecorderRef.current.onstop = () => {
                     const blob = new Blob(recordedChunksRef.current, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
@@ -204,16 +223,19 @@ const MeetingPage = () => {
                     a.download = 'full-screen-recording.webm';
                     a.click();
                 };
-    
+                
                 mediaRecorderRef.current.start();
                 setIsRecording(true);
-    
-                // Stop recording if the user closes the screen capture
+                setIsScreenSharing(true);
+                
+                // Auto-stop recording and sharing when user ends screen share
                 screenStream.getVideoTracks()[0].onended = () => {
                     if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
                         mediaRecorderRef.current.stop();
-                        setIsRecording(false);
                     }
+                    setIsRecording(false);
+                    setIsScreenSharing(false);
+                    screenStreamRef.current = null;
                 };
             } catch (error) {
                 console.error("Error starting full-screen recording:", error);
@@ -282,7 +304,7 @@ const MeetingPage = () => {
             formData.append('model', 'whisper-1');
             
             // Set your OpenAI API key in environment variables for security
-            const apiKey = "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";
+            const apiKey = "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";
             
             // Send the audio to OpenAI Whisper API
             const response = await fetch(
