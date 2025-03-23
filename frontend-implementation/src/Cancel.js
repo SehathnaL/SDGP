@@ -34,8 +34,8 @@ const styles = {
     alignItems: 'center',
     height: '100vh',
     backgroundColor: '#fff',
-    fontFamily: 'Arial, sans-serif',
-    marginTop: '-50px',
+    fontFamily: 'Sora, sans-serif',
+    marginTop: '50px',
     position: 'fixed',
     marginLeft: '380px',
   },
@@ -50,6 +50,7 @@ const styles = {
     transition: 'transform 0.3s ease-in-out',
   },
   heading: {
+    marginTop:'10px',
     color: '#dc3545', // Red color for cancellation
     marginBottom: '20px',
     fontSize: '2.5rem',

@@ -5,6 +5,7 @@ import Button from "./Button";
 
 const Title = styled.h2`
   font-size: ${(props) => props.theme.fontxxl};
+  text-align: left;
   text-transformation: capitalize;
   width: 80%;
   color: ${(props) => props.theme.text};
@@ -67,6 +68,13 @@ const ButtonContainer = styled.div`
   }
 `;
 
+const scrollToAbout = () => {
+  const element = document.getElementById("about");
+  if (element) {
+    element.scrollIntoView({ behavior: "smooth" });
+  }
+};
+
 const TypeWriterText = () => {
   return (
     <>
@@ -87,7 +95,7 @@ const TypeWriterText = () => {
         />
       </Title>
       <ButtonContainer>
-        <Button text="Explore" link="#about" />
+      <Button text="Explore" onClick={scrollToAbout} />
       </ButtonContainer>
     </>
   );

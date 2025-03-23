@@ -20,7 +20,6 @@ const Section = styled.section`
 `;
 
 const Container = styled.div`
-  margin-left:200px
   width: 75%;
   margin: 2rem auto;
   display: flex;
@@ -68,7 +67,6 @@ const MenuItems = styled.ul`
   list-style: none;
   width: 50%;
   display: grid;
-  margin-left:520px;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: repeat(3, 1fr);
   grid-gap: 1rem;
@@ -118,15 +116,16 @@ const Bottom = styled.div`
 `;
 
 const Footer = () => {
+  
   const scrollTo = (id) => {
     let element = document.getElementById(id);
-
-    element.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-      inline: "nearest",
-    });
-  };
+    if (element) {
+        element.scrollIntoView({
+            behavior: "smooth", // Scroll smoothly
+            block: "start", // Align to the top of the page
+        });
+    }
+};
 
   return (
     <Section>
@@ -143,7 +142,7 @@ const Footer = () => {
               <Facebook />
             </a>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/intxapp/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -157,7 +156,7 @@ const Footer = () => {
               <Twitter />
             </a>
             <a
-              href="https://linkedin.com"
+              href="https://www.linkedin.com/company/intxapp/"
               target="_blank"
               rel="noopener noreferrer"
             >
@@ -168,9 +167,7 @@ const Footer = () => {
         <MenuItems>
           <Item onClick={() => scrollTo("home")}>Home</Item>
           <Item onClick={() => scrollTo("about")}>About</Item>
-          <Item onClick={() => scrollTo("roadmap")}>Roadmap</Item>
-          <Item onClick={() => scrollTo("showcase")}>Showcase</Item>
-          <Item onClick={() => scrollTo("team")}>Team</Item>
+          <Item onClick={() => scrollTo("Roadmap")}>Services</Item>
           <Item onClick={() => scrollTo("faq")}>Faq</Item>
         </MenuItems>
       </Container>

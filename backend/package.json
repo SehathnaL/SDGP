@@ -2,6 +2,12 @@
   "name": "backend",
   "version": "1.0.0",
   "main": "index.js",
+<<<<<<< HEAD
+  "directories": {
+    "test": "test"
+  },
+=======
+>>>>>>> a09e5a366ffcbd7527da9c3c61246c4a22044297
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,14 +16,21 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+<<<<<<< HEAD
+=======
     "@google/generative-ai": "^0.24.0",
+>>>>>>> a09e5a366ffcbd7527da9c3c61246c4a22044297
     "axios": "^1.8.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+<<<<<<< HEAD
+    "socket.io": "^4.8.1"
+=======
     "mongodb": "6.15",
     "mongoose": "^8.12.1",
     "socket.io": "^4.8.1",
     "uuid": "^11.1.0"
+>>>>>>> a09e5a366ffcbd7527da9c3c61246c4a22044297
   }
 }
