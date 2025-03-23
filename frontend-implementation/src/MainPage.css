@@ -1,23 +1,12 @@
-@import url("https://fonts.googleapis.com/css2?family=Akaya+Telivigala&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Sora:wght@300;&display=swap");
-
-body {
-    font-family: "Sora", sans-serif;
-    margin: 0;
-    padding: 0;
-}
-
 .main-page {
-
-    background-color: #fffefe;
+    background-color: #ffffff;
+    font-family: 'Roboto', sans-serif;
+    padding: 80px 24px;
+    height: 700px;
     font-family: "Sora", sans-serif;
-    padding: 0px 24px;
-    min-height: 530px;
-    overflow: hidden; /* Prevent scrollbars */
-    /* font-family: Arial, Helvetica, sans-serif; */
+    margin-top: -270px;
 
 }
-
 .container {
     max-width: 1200px;
     margin: 0 auto;
