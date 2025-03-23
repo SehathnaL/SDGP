@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import "./TrainerSelection.css";
 import { loadStripe } from '@stripe/stripe-js';
 import styled from 'styled-components';
+import ScrollToTop from "./components/ScrollToTop";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -223,9 +224,9 @@ const TrainerSelection = () => {
     };
 
     return (
-        <div>
+        <div className="tariner-page">
             <h1>
-                Select <span>Your</span> Trainer ...
+                Select <span id="style1">Your</span> Trainer ...
             </h1>
             <div className="trainer-container1">
                 {trainers.map((trainer, index) => (
@@ -238,6 +239,7 @@ const TrainerSelection = () => {
                 onClose={closeModal}
                 proceedToCheckout={proceedToCheckout}
             />
+            <ScrollToTop/>
         </div>
     );
 };

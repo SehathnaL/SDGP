@@ -185,19 +185,40 @@ rgb(0, 9, 34) 87%
   }`
 
 const MainPage = () => {
-  const [showModal, setShowModal] = useState(false)
-  const [jobTitle, setJobTitle] = useState("")
-  const [step, setStep] = useState(1)
-  const [selection, setSelection] = useState(null)
-  const [cvFile, setCvFile] = useState(null)
-  const [proposalFile, setProposalFile] = useState(null)
-  const [sourceOption, setSourceOption] = useState("")
-  const [skills, setSkills] = useState([])
-  const [newSkill, setNewSkill] = useState("")
-  const [uploadProgress, setUploadProgress] = useState(0) // Track upload progress
-  const [isUploading, setIsUploading] = useState(false) // Flag to track upload state
-  const [cvFileName, setCvFileName] = useState("")
-  const [proposalFileName, setProposalFileName] = useState("")
+  const titleText = "LEET'S BEGIN YOUR AI INTERVIEW SIMULATION: PRACTICE MAKES PERFECT!";
+  const [displayedTitle, setDisplayedTitle] = useState('');
+  const [cursorVisible, setCursorVisible] = useState(true);
+  const titleIndex = useRef(0);
+
+  const [showModal, setShowModal] = useState(false);
+  const [jobTitle, setJobTitle] = useState('');
+  const [step, setStep] = useState(1);
+  const [selection, setSelection] = useState(null);
+  const [cvFile, setCvFile] = useState(null);
+  const [proposalFile, setProposalFile] = useState(null);
+  const [sourceOption, setSourceOption] = useState('');
+  const [skills, setSkills] = useState([]);
+  const [newSkill, setNewSkill] = useState('');
+  const [uploadProgress, setUploadProgress] = useState(0); // Track upload progress
+  const [isUploading, setIsUploading] = useState(false); // Flag to track upload state
+  const [cvFileName, setCvFileName] = useState('');
+  const [proposalFileName, setProposalFileName] = useState('');
+
+  useEffect(() => {
+    const typingInterval = setInterval(() => {
+      if (titleIndex.current < titleText.length) {
+        setDisplayedTitle(prev => prev + titleText.charAt(titleIndex.current));
+        titleIndex.current++;
+      } else {
+        clearInterval(typingInterval);
+      }
+    }, 50);
+
+    const cursorInterval = setInterval(() => {
+      setCursorVisible(prev => !prev);
+    }, 500);
+
+ 
 
   const handleGetStarted = () => setShowModal(true)
   const handleCloseModal = () => {
@@ -212,6 +233,7 @@ const MainPage = () => {
     setUploadProgress(0)
     setIsUploading(false)
   }
+
 
   const handleNextClick = () => setStep((prev) => prev + 1)
 
@@ -294,7 +316,7 @@ const MainPage = () => {
           </div>
         </div>
         <div className="image-section">
-          <img alt="An Interviewer" height="300" src={image || "/placeholder.svg"} width="400" className="avatar" />
+          <img alt="An Interviewer" height="300" src={image} width="400" className='avatar' />
         </div>
       </div>
 
@@ -471,32 +493,25 @@ const MainPage = () => {
               </>
             )}
 
-            {/* Step 2 (No CV) */}
             {step === 2 && selection === "no-cv" && (
               <>
                 <label>What are the skills you are confident at?</label>
-                <div className="skill">
-                  <input type="text" value={newSkill} onChange={(e) => setNewSkill(e.target.value)} />
-                  <button onClick={handleSkillAdd} className="addskill">
-                    +
-                  </button>
-                </div>
+                <div className='skill'>
+                  <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} />
+                  <button onClick={handleSkillAdd} className='addskill'>+</button></div>
                 <div className="skills-list">
-                  {skills.map((skill) => (
+                  {skills.map(skill => (
                     <div key={skill} className="skill-tag">
                       {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
                     </div>
                   ))}
                 </div>
-                <button className="back-btn" onClick={handleBackClick}>
-                  Back
-                </button>
-                <button className="finish-btn" onClick={handleCloseModal}>
+                <button className="back-btn" onClick={handleBackClick}>Back</button>
+                <button className="finish-btn" onClick={handleCloseModal} >
                   Finish
                 </button>
               </>
             )}
-
             {/* Back button (except step 1) */}
           </div>
         </div>

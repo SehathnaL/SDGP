@@ -4,6 +4,11 @@
     justify-content: center;
     gap: 20px;
     padding-top: 20px;
+    margin-top: 150px;   
+}
+
+.trainer-page{
+    margin-top: 150px;
 }
 
 .trainer-card-content {
@@ -108,7 +113,7 @@
     font-size: 48px;
     text-align: left;
     margin-left: 35px;
-    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-family: "Sora", sans-serif;
     color: #000000;
     font-weight: bold;
 }
@@ -124,12 +129,15 @@ body {
 }
 
 h1 {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-family: "Sora", sans-serif;
     font-size: 56px;
     color: black;
     text-align: center;
-    margin-top: 50px;
+    margin-top: 150px;
     animation: slideDown 0.8s ease-in-out;
+}
+#style1{
+    color: #EAC42D;
 }
 
 @keyframes slideDown {

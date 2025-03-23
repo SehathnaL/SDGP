@@ -8,12 +8,14 @@ body {
 }
 
 .main-page {
+
     background-color: #fffefe;
     font-family: "Sora", sans-serif;
     padding: 0px 24px;
     min-height: 530px;
     overflow: hidden; /* Prevent scrollbars */
     /* font-family: Arial, Helvetica, sans-serif; */
+
 }
 
 .container {
@@ -114,6 +116,7 @@ body {
     width: 2px;
     background-color: #374151;
     margin-left: 2px;
+    margin-top: -20px;
     animation: blink 1s step-end infinite;
 }
 
@@ -148,7 +151,7 @@ body {
 }
 
 .modal-content {
-    /* font-family: Arial, Helvetica, sans-serif; */
+    font-family: "Sora", sans-serif;
     background-color: #fefefe;
     margin: 15% auto;
     padding: 35px;
@@ -216,7 +219,6 @@ body {
     transform: translateY(-2px);
     
 }
-
 
 .option-select {
     font-size: 15px;
@@ -415,7 +417,6 @@ label{
     color: #002f61;
     margin-top: 25px;
 }
-
 
 .skill {
     display: flex;
