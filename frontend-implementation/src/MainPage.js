@@ -503,7 +503,6 @@ const MainPage = () => {
                 </button>
               </>
             )}
-
           </div>
         </div>
       )}
