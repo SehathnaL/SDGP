@@ -182,7 +182,7 @@ rgb(0, 9, 34) 87%
   }`;
 
 const MainPage = () => {
-  const titleText = "LET'S BEGIN YOUR AI INTERVIEW SIMULATION: PRACTICE MAKES PERFECT!";
+  const titleText = "LEET'S BEGIN YOUR AI INTERVIEW SIMULATION: PRACTICE MAKES PERFECT!";
   const [displayedTitle, setDisplayedTitle] = useState('');
   const [cursorVisible, setCursorVisible] = useState(true);
   const titleIndex = useRef(0);
@@ -302,7 +302,7 @@ const MainPage = () => {
           </div>
         </div>
         <div className="image-section">
-          <img alt="An Interviewer" height="300" src={image} width="400"className='avatar' />
+          <img alt="An Interviewer" height="300" src={image} width="400" className='avatar' />
         </div>
       </div>
 
@@ -486,21 +486,21 @@ const MainPage = () => {
             {/* Step 2 (No CV) */}
             {step === 2 && selection === "no-cv" && (
               <>
-                  <label>What are the skills you are confident at?</label>
-                  <div className='skill'>
-                    <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} />
-                    <button onClick={handleSkillAdd} className='addskill'>+</button></div>
-                  <div className="skills-list">
-                    {skills.map(skill => (
-                      <div key={skill} className="skill-tag">
-                        {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
-                      </div>
-                    ))}
-                  </div>
-                  <button className="back-btn" onClick={handleBackClick}>Back</button>
-                  <button className="finish-btn" onClick={handleCloseModal} >
-                    Finish
-                  </button>
+                <label>What are the skills you are confident at?</label>
+                <div className='skill'>
+                  <input type="text" value={newSkill} onChange={e => setNewSkill(e.target.value)} />
+                  <button onClick={handleSkillAdd} className='addskill'>+</button></div>
+                <div className="skills-list">
+                  {skills.map(skill => (
+                    <div key={skill} className="skill-tag">
+                      {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
+                    </div>
+                  ))}
+                </div>
+                <button className="back-btn" onClick={handleBackClick}>Back</button>
+                <button className="finish-btn" onClick={handleCloseModal} >
+                  Finish
+                </button>
               </>
             )}
 
