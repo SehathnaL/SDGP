@@ -114,7 +114,6 @@ const LoginPage = () => {
             navigate("/login");
         }, 3000);
     };
-
     return (
         <div className={`container ${!isLogin ? 'active' : ''}`}>
             {isForgotPassword ? (
