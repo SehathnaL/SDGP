@@ -4,6 +4,7 @@ import "./TrainerSelection.css";
 import { loadStripe } from '@stripe/stripe-js';
 import styled from 'styled-components';
 import ScrollToTop from "./components/ScrollToTop";
+import Navigation from "./components/Navigation";
 
 const stripePromise = loadStripe(process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY);
 
@@ -225,6 +226,7 @@ const TrainerSelection = () => {
 
     return (
         <div className="tariner-page">
+          <Navigation/>
             <h1>
                 Select <span id="style1">Your</span> Trainer ...
             </h1>

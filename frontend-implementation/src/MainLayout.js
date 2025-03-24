@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 import { light } from "./styles/Themes"; 
 import GlobalStyles from "./styles/GlobalStyles";
-
+import Navigation from "./components/Navigation";
 import Footer from "./components/Footer";
 import ScrollToTop from "./components/ScrollToTop";
 import Home from './components/sections/Home';
@@ -16,6 +16,7 @@ const MainLayout = () => {
   return (
     <>
       <GlobalStyles />
+      <Navigation/>
       <ThemeProvider theme={light}>
         
         <main>
