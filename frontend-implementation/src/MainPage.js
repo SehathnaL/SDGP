@@ -5,6 +5,7 @@ import styled from "styled-components";
 import "./MainPage.css";
 import image from "./Avatar.png";
 import Typewriter from "typewriter-effect";
+import Navigation from "./components/Navigation";
 
 const StyledWrapper = styled.div`
   .btn {
@@ -279,92 +280,147 @@ const MainPage = () => {
   };
 
   return (
-    <div className="main-page">
-      <div className="container">
-        <div className="text-section">
-          <h1 className="title">
-            LET'S BEGIN YOUR AI INTERVIEW SIMULATION:
-            <Typewriter
-              options={{
-                autoStart: true,
-                loop: true,
-              }}
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString("<span class='text-1'>PRACTICE MAKES PERFECT!</span>")
-                  .pauseFor(2000)
-                  .deleteAll()
-                  .start();
-              }}
-            />
-          </h1>
-          <p className="description">
-            <b>Are You Ready to Ace Your Interview?</b> Before you begin, make sure your CV is up-to-date. Find a quiet
-            space, dress professionally, and prepare to engage in a realistic interview experience tailored to your
-            background with your AI avatar!
-          </p>
-          <div className="buttons">
-            <StyledWrapper>
-              <button type="button" className="btn" onClick={handleGetStarted}>
-                <strong>GET STARTED</strong>
-                <div id="container-stars">
-                  <div id="stars" />
-                </div>
-                <div id="glow">
-                  <div className="circle" />
-                  <div className="circle" />
-                </div>
-              </button>
-            </StyledWrapper>
+    <div className="nav">
+      <Navigation/>
+      <div className="main-page">
+        <div className="container12">
+          <div className="text-section">
+            <h1 className="title">
+              LET'S BEGIN YOUR AI INTERVIEW SIMULATION:
+              <Typewriter
+                options={{
+                  autoStart: true,
+                  loop: true,
+                }}
+                onInit={(typewriter) => {
+                  typewriter
+                    .typeString("<span class='text-1'>PRACTICE MAKES PERFECT!</span>")
+                    .pauseFor(2000)
+                    .deleteAll()
+                    .start();
+                }}
+              />
+            </h1>
+            <p className="description">
+              <b>Are You Ready to Ace Your Interview?</b> Before you begin, make sure your CV is up-to-date. Find a quiet
+              space, dress professionally, and prepare to engage in a realistic interview experience tailored to your
+              background with your AI avatar!
+            </p>
+            <div className="buttons">
+              <StyledWrapper>
+                <button type="button" className="btn" onClick={handleGetStarted}>
+                  <strong>GET STARTED</strong>
+                  <div id="container-stars">
+                    <div id="stars" />
+                  </div>
+                  <div id="glow">
+                    <div className="circle" />
+                    <div className="circle" />
+                  </div>
+                </button>
+              </StyledWrapper>
+            </div>
+          </div>
+          <div className="image-section">
+            <img alt="An Interviewer" height="300" src={image} width="400" className="avatar" />
           </div>
         </div>
-        <div className="image-section">
-          <img alt="An Interviewer" height="300" src={image} width="400" className="avatar" />
-        </div>
-      </div>
 
-      {showModal && (
-        <div className="modal">
-          <div className="modal-content">
-            <span className="close" onClick={handleCloseModal}>
-              &times;
-            </span>
+        {showModal && (
+          <div className="modal">
+            <div className="modal-content">
+              <span className="close" onClick={handleCloseModal}>
+                &times;
+              </span>
 
-            {step === 1 && (
-              <>
-                <label className="text1">Enter Your Chosen Career Role :</label>
-                <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
-                <label className="text1">Choose How You Want To Continue :</label>
-                <div className="option-select">
-                  <div onClick={() => setSelection("cv")} className={`option ${selection === "cv" ? "selected" : ""}`}>
-                    Continue with CV & Project Proposal
+              {step === 1 && (
+                <>
+                  <label className="text1">Enter Your Chosen Career Role :</label>
+                  <input type="text" value={jobTitle} onChange={(e) => setJobTitle(e.target.value)} required />
+                  <label className="text1">Choose How You Want To Continue :</label>
+                  <div className="option-select">
+                    <div onClick={() => setSelection("cv")} className={`option ${selection === "cv" ? "selected" : ""}`}>
+                      Continue with CV & Project Proposal
+                    </div>
                   </div>
-                </div>
-                <div className="option-select">
-                  <div
-                    onClick={() => setSelection("no-cv")}
-                    className={`option ${selection === "no-cv" ? "selected" : ""}`}
+                  <div className="option-select">
+                    <div
+                      onClick={() => setSelection("no-cv")}
+                      className={`option ${selection === "no-cv" ? "selected" : ""}`}
+                    >
+                      Continue Without Project Proposal
+                    </div>
+                  </div>
+                  <button
+                    className="next-btn1"
+                    onClick={handleNextClick}
+                    disabled={!jobTitle || !selection}
                   >
-                    Continue Without Project Proposal
-                  </div>
-                </div>
-                <button
-                  className="next-btn1"
-                  onClick={handleNextClick}
-                  disabled={!jobTitle || !selection}
-                >
-                  Next
-                </button>
-              </>
-            )}
+                    Next
+                  </button>
+                </>
+              )}
 
-            {step === 2 && selection === "cv" && (
-              <>
-                <div>
-                  <label className="title1">Upload your CV</label>
+              {step === 2 && selection === "cv" && (
+                <>
+                  <div>
+                    <label className="title1">Upload your CV</label>
+                    <div
+                      className="upload-box"
+                      onClick={() => document.getElementById("cv-upload").click()}
+                      style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
+                    >
+                      <svg
+                        fill="#000000"
+                        version="1.1"
+                        id="Capa_1"
+                        xmlns="http://www.w3.org/2000/svg"
+                        xmlnsXlink="http://www.w3.org/1999/xlink"
+                        viewBox="0 0 342.219 342.219"
+                        xmlSpace="preserve"
+                        style={{ width: "24px", height: "24px", marginRight: "10px" }}
+                      >
+                        <g>
+                          <path d="M328.914,0.002H13.305C5.957,0.002,0,5.959,0,13.307V328.91c0,7.35,5.958,13.307,13.305,13.307h315.609 c7.348,0,13.305-5.957,13.305-13.307V13.306C342.219,5.959,336.262,0.002,328.914,0.002z M315.609,315.605h-289V26.611h289 V315.605z"></path>
+                          <path d="M180.52,107.507c-4.988-4.99-13.825-4.99-18.813,0L110.815,158.4c-5.197,5.197-5.197,13.618,0,18.814 c5.197,5.196,13.623,5.196,18.814,0l28.179-28.182v111.273c0,7.348,5.958,13.305,13.305,13.305 c7.348,0,13.305-5.957,13.305-13.305V149.033l28.184,28.182c2.596,2.6,6.002,3.898,9.406,3.898c3.402,0,6.812-1.299,9.406-3.898 c5.197-5.197,5.197-13.617,0-18.814L180.52,107.507z"></path>
+                          <path d="M65.629,81.195h210.963c7.348,0,13.305-5.957,13.305-13.305c0-7.348-5.957-13.305-13.305-13.305H65.629 c-7.348,0-13.305,5.957-13.305,13.305C52.324,75.238,58.281,81.195,65.629,81.195z"></path>
+                        </g>
+                      </svg>
+                      <p className="upload-text" style={{ margin: 0 }}>
+                        {cvFileName ? `File Selected: ${cvFileName}` : "Drag and drop or browse your files"}
+                      </p>
+                      <input
+                        type="file"
+                        id="cv-upload"
+                        onChange={(e) => handleFileChange(e, "cv")}
+                        style={{ display: "none" }}
+                      />
+                    </div>
+                  </div>
+
+                  {isUploading && (
+                    <div className="progress-container">
+                      <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+                      </div>
+                      <p className="progress-text">Uploading... {uploadProgress}%</p>
+                    </div>
+                  )}
+                  <button className="back-btn" onClick={handleBackClick}>
+                    Back
+                  </button>
+                  <button className="next-btn" onClick={handleNextClick} disabled={!cvFile}>
+                    Next
+                  </button>
+                </>
+              )}
+
+              {step === 3 && selection === "cv" && (
+                <>
+                  <label className="title1">Upload your Project Proposal (Optional)</label>
                   <div
                     className="upload-box"
-                    onClick={() => document.getElementById("cv-upload").click()}
+                    onClick={() => document.getElementById("proposal-upload").click()}
                     style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
                   >
                     <svg
@@ -384,142 +440,89 @@ const MainPage = () => {
                       </g>
                     </svg>
                     <p className="upload-text" style={{ margin: 0 }}>
-                      {cvFileName ? `File Selected: ${cvFileName}` : "Drag and drop or browse your files"}
+                      {proposalFileName ? `File Selected: ${proposalFileName}` : "Drag and drop or browse your files"}
                     </p>
                     <input
                       type="file"
-                      id="cv-upload"
-                      onChange={(e) => handleFileChange(e, "cv")}
+                      id="proposal-upload"
+                      onChange={(e) => handleFileChange(e, "proposal")}
                       style={{ display: "none" }}
                     />
                   </div>
-                </div>
-
-                {isUploading && (
-                  <div className="progress-container">
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+                  {isUploading && (
+                    <div className="progress-container">
+                      <div className="progress-bar">
+                        <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
+                      </div>
+                      <p className="progress-text">Uploading... {uploadProgress}%</p>
                     </div>
-                    <p className="progress-text">Uploading... {uploadProgress}%</p>
-                  </div>
-                )}
-                <button className="back-btn" onClick={handleBackClick}>
-                  Back
-                </button>
-                <button className="next-btn" onClick={handleNextClick} disabled={!cvFile}>
-                  Next
-                </button>
-              </>
-            )}
-
-            {step === 3 && selection === "cv" && (
-              <>
-                <label className="title1">Upload your Project Proposal (Optional)</label>
-                <div
-                  className="upload-box"
-                  onClick={() => document.getElementById("proposal-upload").click()}
-                  style={{ display: "flex", alignItems: "center", cursor: "pointer" }}
-                >
-                  <svg
-                    fill="#000000"
-                    version="1.1"
-                    id="Capa_1"
-                    xmlns="http://www.w3.org/2000/svg"
-                    xmlnsXlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 342.219 342.219"
-                    xmlSpace="preserve"
-                    style={{ width: "24px", height: "24px", marginRight: "10px" }}
-                  >
-                    <g>
-                      <path d="M328.914,0.002H13.305C5.957,0.002,0,5.959,0,13.307V328.91c0,7.35,5.958,13.307,13.305,13.307h315.609 c7.348,0,13.305-5.957,13.305-13.307V13.306C342.219,5.959,336.262,0.002,328.914,0.002z M315.609,315.605h-289V26.611h289 V315.605z"></path>
-                      <path d="M180.52,107.507c-4.988-4.99-13.825-4.99-18.813,0L110.815,158.4c-5.197,5.197-5.197,13.618,0,18.814 c5.197,5.196,13.623,5.196,18.814,0l28.179-28.182v111.273c0,7.348,5.958,13.305,13.305,13.305 c7.348,0,13.305-5.957,13.305-13.305V149.033l28.184,28.182c2.596,2.6,6.002,3.898,9.406,3.898c3.402,0,6.812-1.299,9.406-3.898 c5.197-5.197,5.197-13.617,0-18.814L180.52,107.507z"></path>
-                      <path d="M65.629,81.195h210.963c7.348,0,13.305-5.957,13.305-13.305c0-7.348-5.957-13.305-13.305-13.305H65.629 c-7.348,0-13.305,5.957-13.305,13.305C52.324,75.238,58.281,81.195,65.629,81.195z"></path>
-                    </g>
-                  </svg>
-                  <p className="upload-text" style={{ margin: 0 }}>
-                    {proposalFileName ? `File Selected: ${proposalFileName}` : "Drag and drop or browse your files"}
-                  </p>
-                  <input
-                    type="file"
-                    id="proposal-upload"
-                    onChange={(e) => handleFileChange(e, "proposal")}
-                    style={{ display: "none" }}
-                  />
-                </div>
-                {isUploading && (
-                  <div className="progress-container">
-                    <div className="progress-bar">
-                      <div className="progress-fill" style={{ width: `${uploadProgress}%` }}></div>
-                    </div>
-                    <p className="progress-text">Uploading... {uploadProgress}%</p>
-                  </div>
-                )}
-                <button className="back-btn" onClick={handleBackClick}>
-                  Back
-                </button>
-                <button className="next-btn" onClick={handleNextClick}>
-                  Next
-                </button>
-              </>
-            )}
-
-            {step === 4 && selection === "cv" && (
-              <>
-                <label className="title1">What source do you want to be based on?</label>
-                <div className="option-select">
-                  <div
-                    onClick={() => setSourceOption("cv")}
-                    className={`option ${sourceOption === "cv" ? "selected" : ""}`}
-                  >
-                    CV Based
-                  </div>
-                </div>
-                <div className="option-select">
-                  <div
-                    onClick={() => setSourceOption("proposal")}
-                    className={`option ${sourceOption === "proposal" ? "selected" : ""}`}
-                  >
-                    Project Proposal Based
-                  </div>
-                </div>
-                <button className="back-btn" onClick={handleBackClick}>
-                  Back
-                </button>
-                <button className="finish-btn" onClick={handleCloseModal} disabled={!sourceOption}>
-                  Finish
-                </button>
-              </>
-            )}
-
-            {step === 2 && selection === "no-cv" && (
-              <>
-                <label>What are the skills you are confident at?</label>
-                <div className="skill">
-                  <input type="text" value={newSkill} onChange={(e) => setNewSkill(e.target.value)} />
-                  <button onClick={handleSkillAdd} className="addskill">
-                    +
+                  )}
+                  <button className="back-btn" onClick={handleBackClick}>
+                    Back
                   </button>
-                </div>
-                <div className="skills-list">
-                  {skills.map((skill) => (
-                    <div key={skill} className="skill-tag">
-                      {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
+                  <button className="next-btn" onClick={handleNextClick}>
+                    Next
+                  </button>
+                </>
+              )}
+
+              {step === 4 && selection === "cv" && (
+                <>
+                  <label className="title1">What source do you want to be based on?</label>
+                  <div className="option-select">
+                    <div
+                      onClick={() => setSourceOption("cv")}
+                      className={`option ${sourceOption === "cv" ? "selected" : ""}`}
+                    >
+                      CV Based
                     </div>
-                  ))}
-                </div>
-                <button className="back-btn" onClick={handleBackClick}>
-                  Back
-                </button>
-                <button className="finish-btn" onClick={handleCloseModal}>
-                  Finish
-                </button>
-              </>
-            )}
+                  </div>
+                  <div className="option-select">
+                    <div
+                      onClick={() => setSourceOption("proposal")}
+                      className={`option ${sourceOption === "proposal" ? "selected" : ""}`}
+                    >
+                      Project Proposal Based
+                    </div>
+                  </div>
+                  <button className="back-btn" onClick={handleBackClick}>
+                    Back
+                  </button>
+                  <button className="finish-btn" onClick={handleCloseModal} disabled={!sourceOption}>
+                    Finish
+                  </button>
+                </>
+              )}
+
+              {step === 2 && selection === "no-cv" && (
+                <>
+                  <label>What are the skills you are confident at?</label>
+                  <div className="skill">
+                    <input type="text" value={newSkill} onChange={(e) => setNewSkill(e.target.value)} />
+                    <button onClick={handleSkillAdd} className="addskill">
+                      +
+                    </button>
+                  </div>
+                  <div className="skills-list">
+                    {skills.map((skill) => (
+                      <div key={skill} className="skill-tag">
+                        {skill} <span onClick={() => handleSkillRemove(skill)}>x</span>
+                      </div>
+                    ))}
+                  </div>
+                  <button className="back-btn" onClick={handleBackClick}>
+                    Back
+                  </button>
+                  <button className="finish-btn" onClick={handleCloseModal}>
+                    Finish
+                  </button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        )}
+      </div></div>
+      );
 };
 
-export default MainPage;
+      export default MainPage;

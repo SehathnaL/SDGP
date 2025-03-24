@@ -9,13 +9,15 @@ import MainLayout from "./MainLayout";
 import Navigation from "./components/Navigation";
 import TrainerSelection from "./TrainerSelection";
 import Feedback from "./components/sections/Feedback";
+import LoginPage from "./LoginPage";
 
 function App() {
   return (
     <Router>
-      <Navigation/>
+
       <Routes>
         <Route path="/" element={<MainLayout />} />
+        <Route path="/sign-up" element={<LoginPage/>}/>
         <Route path="/upload-cv" element={<MainPage />} /> {/* Add this line */}
         < Route path="/trainer-selection" element={<TrainerSelection/>}/>
         <Route path="/make-your-choice" element={<MakeYourChoicePage />} />
