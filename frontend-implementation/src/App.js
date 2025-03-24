@@ -12,6 +12,7 @@ import Feedback from "./components/sections/Feedback";
 import MeetingPage from "./meeting";
 import "./meeting.css"
 
+
 function App() {
   return (
     <Router>
@@ -26,6 +27,7 @@ function App() {
         {/* feedback route */}
       <Route path="/feedback" element={<Feedback />} />
       <Route path="/meeting" element={< MeetingPage/>} />
+      <Route path="/feedback" element={<Feedback/>}/>
 
 
       </Routes>
