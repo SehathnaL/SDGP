@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect, useRef } from "react";
 import styled from "styled-components";
 import "./MainPage.css";
@@ -281,7 +279,7 @@ const MainPage = () => {
 
   return (
     <div className="nav">
-      <Navigation/>
+      <Navigation/>ZZZ
       <div className="main-page">
         <div className="container12">
           <div className="text-section">
@@ -524,5 +522,4 @@ const MainPage = () => {
       </div></div>
       );
 };
-
-      export default MainPage;
+export default MainPage;
