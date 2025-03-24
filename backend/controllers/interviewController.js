@@ -5,6 +5,9 @@ const Interview = require('../models/interview');
 const saveInterview = async (aiPrompt, UserResponse, aiFeedback) => {
 
     try{
+        if (!aiPrompt || aiPrompt.trim() === "") {
+            throw new Error("aiPrompt is required but received empty value.");
+        }
         let interview = await Interview.findOne(); 
         
         if(!interview){

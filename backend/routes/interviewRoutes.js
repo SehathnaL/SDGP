@@ -2,8 +2,11 @@ const express = require("express");
 const { sendMessage } = require("../config/geminiModel");
 const { saveInterview } = require("../controllers/interviewController");
 
-const router = express.Router();
+const Interview = require('../models/interview');
 
+
+const router = express.Router();
+let f_response
 router.post("/process_cv", async (req, res) => {
   try {
     const cvData = req.body;
@@ -64,6 +67,7 @@ router.get("/first_resp", async (req, res) => {
       return res.status(404).json({ response: "No response yet" });
     }
     res.json(f_response);
+    console.log("passed")
   } catch (error) {
     console.error("Error in /first_resp:", error);
     res.status(500).json({ error: "Internal server error" });
@@ -105,5 +109,64 @@ router.post("/feedback", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
+
+router.get("/interview", async (req, res) => {
+  try {
+    // Sample response (remove if database is working fine)
+    const sampleInterviews = [
+      {
+        _id: "12345",
+        candidateName: "John Doe",
+        overallScore: 85,
+        skills: [
+          { name: "Communication", value: 90 },
+          { name: "Problem-Solving", value: 80 },
+          { name: "Technical Knowledge", value: 85 },
+        ],
+        questions: [
+          {
+            id: 1,
+            question: "Tell me about yourself.",
+            answer: "I am a software engineer with experience in full-stack development.",
+            feedback: "Good introduction. Try to highlight key achievements.",
+          },
+          {
+            id: 2,
+            question: "What are your strengths?",
+            answer: "I am highly analytical and detail-oriented.",
+            feedback: "Great, but provide a real-world example.",
+          },
+        ],
+      },
+      {
+        _id: "67890",
+        candidateName: "Jane Smith",
+        overallScore: 78,
+        skills: [
+          { name: "Leadership", value: 85 },
+          { name: "Adaptability", value: 80 },
+        ],
+        questions: [
+          {
+            id: 1,
+            question: "Describe a challenging project you worked on.",
+            answer: "I led a team to migrate a legacy system to the cloud.",
+            feedback: "Good answer, but add technical details on migration challenges.",
+          },
+        ],
+      },
+    ];
+
+    res.json(sampleInterviews);
+  } catch (error) {
+    console.error("Error fetching interview:", error);
+    res.status(500).json({ message: "Server error", error });
+  }
+});
+
+
+
+
+
 
 module.exports = router;

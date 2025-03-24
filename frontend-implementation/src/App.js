@@ -9,6 +9,9 @@ import MainLayout from "./MainLayout";
 import Navigation from "./components/Navigation";
 import TrainerSelection from "./TrainerSelection";
 import Feedback from "./components/sections/Feedback";
+import MeetingPage from "./meeting";
+import "./meeting.css"
+
 
 function App() {
   return (
@@ -23,6 +26,10 @@ function App() {
         <Route path="/payment-cancel" element={<Cancel />} />
         {/* feedback route */}
       <Route path="/feedback" element={<Feedback />} />
+      <Route path="/meeting" element={< MeetingPage/>} />
+      <Route path="/feedback" element={<Feedback/>}/>
+
+
       </Routes>
     </Router>
   );
