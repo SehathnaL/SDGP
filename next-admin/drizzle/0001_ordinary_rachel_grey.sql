@@ -1,1 +1,0 @@
-ALTER TABLE "mockInterview" DROP COLUMN "jsonMockResp";
